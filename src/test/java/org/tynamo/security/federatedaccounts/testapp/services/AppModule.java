@@ -65,8 +65,8 @@ public class AppModule {
 
 		configuration.add(SecuritySymbols.SHOULD_LOAD_INI_FROM_CONFIG_PATH, "true");
 
-		configuration.add(FacebookOauth.FACEBOOK_CLIENTID, "119507274749030");
-		configuration.add(FacebookOauth.FACEBOOK_CLIENTSECRET, "d8b3b7dc6d5b6ddaebd68549002d643d");
+		configuration.add(FacebookOauth.FACEBOOK_CLIENTID, "someclientid");
+		configuration.add(FacebookOauth.FACEBOOK_CLIENTSECRET, "someclientsecret");
 
 	}
 
