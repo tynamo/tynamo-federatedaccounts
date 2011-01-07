@@ -1,0 +1,6 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+	<t:security.guest>
+		<a id="fbauthenticationlink" style="padding-top:0px;padding-left:0px;padding-right:0px;height:auto" href="#" onclick="openFacebookAuthorizationWindow('https://graph.facebook.com/oauth/authorize?client_id&#61;${facebookClientId}&amp;redirect_uri&#61;${oauthRedirectLink}&amp;scope&#61;${facebookPermissions}');" class="fb_button fb_button_medium">  <span id="fb_login_text" class="fb_button_text">Login</span> </a> 
+	</t:security.guest>
+</t:container>

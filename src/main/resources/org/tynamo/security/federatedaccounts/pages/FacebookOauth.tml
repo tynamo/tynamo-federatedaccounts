@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Facebook authentication</title>
+</head>
+<body>
+<div class="title">
+	<h1>Facebook authentication</h1>
+</div>
+<t:FlashMessager t:id="flashMessager"/>
+<script type="text/javascript">
+function authenticationExecuted(success) {
+	if (success) {
+		if (window.opener != null) window.opener.location.reload(true);
+		window.close();
+	}
+}
+</script>
+</body>
+</html>
