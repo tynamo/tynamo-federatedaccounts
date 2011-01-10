@@ -30,6 +30,12 @@
 			<!-- 1.6 was released but available, in Maven repo. 1.6.1 is mavenized and will be released shortly -->
 			<version>1.6</version>
 		</dependency>		
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.1</version>
+			<scope>compile</scope>
+		</dependency>		
 
 		<dependency>
 			<groupId>org.tynamo</groupId>
@@ -57,11 +63,13 @@
 			<groupId>org.apache.tapestry</groupId>
 			<artifactId>tapestry-hibernate</artifactId>
 			<version>${tapestry-release-version}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.tapestry</groupId>
 			<artifactId>tapestry-hibernate-core</artifactId>
 			<version>${tapestry-release-version}</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
