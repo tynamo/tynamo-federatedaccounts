@@ -23,4 +23,7 @@ public class FacebookOauthRedirectBase {
 		return "http://" + hostName + linkSource.createPageRenderLink(autocommit ? CommitFacebookOauth.class : FacebookOauth.class).toURI();
 	}
 
+	public String getSuccessLink() {
+		return "http://" + hostName;
+	}
 }

@@ -11,8 +11,12 @@
 <t:FlashMessager t:id="flashMessager"/>
 <script type="text/javascript">
 function authenticationExecuted(success) {
+	var successLink = '${successLink}';
 	if (success) {
-		if (window.opener != null) window.opener.location.reload(true);
+		if (window.opener != null) {
+			if (successLink == '') window.opener.location.reload(true);
+			else window.opener.location.href = successLink;
+		}
 		window.close();
 	}
 }
