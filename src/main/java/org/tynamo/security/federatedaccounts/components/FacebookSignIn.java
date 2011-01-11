@@ -4,13 +4,11 @@ import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
-import org.apache.tapestry5.services.PageRenderLinkSource;
-import org.tynamo.security.federatedaccounts.HostSymbols;
-import org.tynamo.security.federatedaccounts.pages.CommitFacebookOauth;
+import org.tynamo.security.federatedaccounts.base.FacebookOauthRedirectBase;
 import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
 
 @Import(library = "FacebookSignIn.js", stylesheet = "fb-button.css")
-public class FacebookSignIn {
+public class FacebookSignIn extends FacebookOauthRedirectBase {
 
 	@SuppressWarnings("unused")
 	@Inject
@@ -23,19 +21,4 @@ public class FacebookSignIn {
 	@Symbol(FacebookOauth.FACEBOOK_PERMISSIONS)
 	@Property
 	private String facebookPermissions;
-
-	@Inject
-	@Symbol(HostSymbols.BASEURI)
-	private String baseUri;
-
-	@Inject
-	@Symbol(HostSymbols.COMMITAFTER_OAUTH)
-	private boolean autocommit;
-
-	@Inject
-	private PageRenderLinkSource linkSource;
-
-	public String getOauthRedirectLink() {
-		return baseUri + linkSource.createPageRenderLink(autocommit ? CommitFacebookOauth.class : FacebookOauth.class).toAbsoluteURI();
-	}
 }

@@ -16,11 +16,10 @@ import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.slf4j.Logger;
-import org.tynamo.security.federatedaccounts.HostSymbols;
 import org.tynamo.security.federatedaccounts.components.FlashMessager;
 import org.tynamo.security.federatedaccounts.facebook.FacebookConnectToken;
 
-public abstract class AbstractFacebookOauth {
+public abstract class AbstractFacebookOauth extends FacebookOauthRedirectBase {
 	public static final String FACEBOOK_CLIENTID = "facebook.clientid";
 	public static final String FACEBOOK_CLIENTSECRET = "facebook.clientsecret";
 	public static final String FACEBOOK_PERMISSIONS = "facebook.permissions";
@@ -32,10 +31,6 @@ public abstract class AbstractFacebookOauth {
 	@Inject
 	@Symbol(FACEBOOK_CLIENTSECRET)
 	private String clientSecret;
-
-	@Inject
-	@Symbol(HostSymbols.BASEURI)
-	private String baseUri;
 
 	@Inject
 	private Logger logger;
@@ -70,8 +65,7 @@ public abstract class AbstractFacebookOauth {
 		GetMethod get = new GetMethod(accessTokenUri);
 		NameValuePair[] queryString = new NameValuePair[4];
 		queryString[0] = new NameValuePair("client_id", clientId);
-		queryString[1] = new NameValuePair("redirect_uri", baseUri
-				+ linkSource.createPageRenderLink(AbstractFacebookOauth.class).toAbsoluteURI());
+		queryString[1] = new NameValuePair("redirect_uri", getOauthRedirectLink());
 		queryString[2] = new NameValuePair("client_secret", clientSecret);
 		queryString[3] = new NameValuePair("code", code);
 		get.setQueryString(queryString);

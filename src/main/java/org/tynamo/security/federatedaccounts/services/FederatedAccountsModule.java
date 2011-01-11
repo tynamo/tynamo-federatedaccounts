@@ -41,7 +41,6 @@ public class FederatedAccountsModule {
 		}
 		if (hostname == null) hostname = "localhost";
 		configuration.add(HostSymbols.HOSTNAME, hostname);
-		configuration.add(HostSymbols.BASEURI, "http://" + hostname);
 		configuration.add(HostSymbols.COMMITAFTER_OAUTH, "true");
 		configuration.add(FacebookOauth.FACEBOOK_PERMISSIONS, "");
 	}

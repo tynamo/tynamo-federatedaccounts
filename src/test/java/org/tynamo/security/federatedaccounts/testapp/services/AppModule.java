@@ -28,6 +28,8 @@ import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.tynamo.security.FilterChainDefinition;
 import org.tynamo.security.SecuritySymbols;
 import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
+import org.tynamo.security.federatedaccounts.services.DefaultHibernateFederatedAccountServiceImpl;
+import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountsModule;
 import org.tynamo.security.services.SecurityModule;
 import org.tynamo.shiro.extension.realm.text.ExtendedPropertiesRealm;
@@ -40,7 +42,7 @@ import org.tynamo.shiro.extension.realm.text.ExtendedPropertiesRealm;
 public class AppModule {
 
 	public static void bind(ServiceBinder binder) {
-
+		binder.bind(FederatedAccountService.class, DefaultHibernateFederatedAccountServiceImpl.class);
 	}
 
 	public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration) {
