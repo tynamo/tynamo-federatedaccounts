@@ -34,8 +34,7 @@
 		<dependency>
 			<groupId>com.google.code.restfb</groupId>
 			<artifactId>restfb</artifactId>
-			<!-- 1.6 was released but not available in Maven repo. 1.6.1 is mavenized and will be released shortly -->
-			<version>1.6</version>
+			<version>1.6.1</version>
 		</dependency>		
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
