@@ -32,7 +32,7 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.google.code.restfb</groupId>
+			<groupId>com.restfb</groupId>
 			<artifactId>restfb</artifactId>
 			<version>1.6.1</version>
 		</dependency>		
