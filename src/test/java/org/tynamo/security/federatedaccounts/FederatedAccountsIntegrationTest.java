@@ -25,7 +25,6 @@ import java.io.IOException;
 
 import org.mortbay.jetty.webapp.WebAppContext;
 import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeGroups;
 import org.testng.annotations.Test;
 import org.tynamo.test.AbstractContainerTest;
 
@@ -54,7 +53,7 @@ public class FederatedAccountsIntegrationTest extends AbstractContainerTest {
 		return context;
 	}
 
-	@BeforeGroups(groups = "notLoggedIn")
+	// @BeforeGroups(groups = "notLoggedIn")
 	public void checkLoggedIn() throws Exception {
 		openBase();
 
@@ -65,28 +64,28 @@ public class FederatedAccountsIntegrationTest extends AbstractContainerTest {
 
 	// ----------------------------------------
 
-	@Test(dependsOnGroups = { "notLoggedIn" })
-	public void testLoginClick() throws Exception {
-		clickOnBasePage("tynamoLoginLink");
-		assertLoginPage();
-	}
-
-	@Test(dependsOnMethods = "testLoginClick")
-	public void testLogin() throws Exception {
-		loginAction();
+	// @Test(dependsOnGroups = { "notLoggedIn" })
+	@Test
+	public void signInLocalUser() throws Exception {
 		openBase();
+		signIn("user", "user");
 		assertAuthenticated();
 	}
 
-	// ----------------------------------------
+	// @Test(dependsOnMethods = "testLoginClick")
+	// public void testLogin() throws Exception {
+	// loginAction();
+	// openBase();
+	// assertAuthenticated();
+	// }
+	//
+	// @Test(dependsOnGroups = { "loggedIn" })
+	// public void testLogout() throws Exception {
+	// clickOnBasePage("tynamoLogoutLink");
+	// assertNotAuthenticated();
+	// }
 
-	@Test(dependsOnGroups = { "loggedIn" })
-	public void testLogout() throws Exception {
-		clickOnBasePage("tynamoLogoutLink");
-		assertNotAuthenticated();
-	}
-
-	protected void assertLoginPage() {
+	protected void assertLoginPage(HtmlPage page) {
 		assertNotNull(page.getElementById("tynamoLogin"), "Page doesn't contain login field. Not a login page.");
 		assertEquals("password", getAttribute("tynamoPassword", "type"), "Page doesn't contain password field. Not a login page.");
 		assertEquals("checkbox", getAttribute("tynamoRememberMe", "type"), "Page doesn't contain rememberMe field. Not a login page.");
@@ -129,18 +128,18 @@ public class FederatedAccountsIntegrationTest extends AbstractContainerTest {
 		assertEquals(getText("status"), STATUS_NOT_AUTH);
 	}
 
-	protected void loginAction() throws IOException {
-		type("tynamoLogin", "psycho");
-		type("tynamoPassword", "psycho");
-		click("tynamoEnter");
+	protected void signIn(String username, String password) throws IOException {
+		type("tynamoLogin", username);
+		type("tynamoPassword", password);
+		page = click("tynamoEnter");
 	}
 
 	private void type(String id, String value) {
 		page.getForms().get(0).<HtmlInput> getInputByName(id).setValueAttribute(value);
 	}
 
-	private void click(String id) throws IOException {
-		page = clickButton(page, id);
+	private HtmlPage click(String id) throws IOException {
+		return clickButton(page, id);
 	}
 
 	private String getText(String id) {

@@ -18,12 +18,14 @@
  */
 package org.tynamo.security.federatedaccounts.testapp.services;
 
+import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.SymbolConstants;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
+import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.tynamo.security.FilterChainDefinition;
 import org.tynamo.security.SecuritySymbols;
@@ -31,18 +33,20 @@ import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
 import org.tynamo.security.federatedaccounts.services.DefaultHibernateFederatedAccountServiceImpl;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountsModule;
+import org.tynamo.security.federatedaccounts.testapp.entities.User;
 import org.tynamo.security.services.SecurityModule;
-import org.tynamo.shiro.extension.realm.text.ExtendedPropertiesRealm;
+import org.tynamo.seedentity.hibernate.services.SeedEntity;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry, it's a good place to configure and extend
  * Tapestry, or to place your own service definitions.
  */
-@SubModule(value = { SecurityModule.class, FederatedAccountsModule.class })
+@SubModule(value = { SecurityModule.class, SeedEntity.class, FederatedAccountsModule.class })
 public class AppModule {
 
 	public static void bind(ServiceBinder binder) {
 		binder.bind(FederatedAccountService.class, DefaultHibernateFederatedAccountServiceImpl.class);
+		binder.bind(AuthorizingRealm.class, UserRealm.class).withId(UserRealm.class.getSimpleName());
 	}
 
 	public static void contributeApplicationDefaults(MappedConfiguration<String, String> configuration) {
@@ -72,9 +76,24 @@ public class AppModule {
 
 	}
 
-	public static void contributeWebSecurityManager(Configuration<Realm> configuration) {
-		ExtendedPropertiesRealm realm = new ExtendedPropertiesRealm("classpath:shiro-users.properties");
-		configuration.add(realm);
+	public static void contributeWebSecurityManager(Configuration<Realm> configuration, @InjectService("UserRealm") AuthorizingRealm userRealm) {
+		// FacebookRealm is automatically contributed as long as federatedsecurity is on the classpath
+		configuration.add(userRealm);
+	}
+
+	public static void contributeSeedEntity(OrderedConfiguration<Object> configuration) {
+		User localUser = new User();
+		localUser.setUsername("user");
+		localUser.setFirstName("Local");
+		localUser.setLastName("User");
+		localUser.setPassword("user");
+		configuration.add("localuser", localUser);
+		User fakeFederatedUser = new User();
+		fakeFederatedUser.setUsername("fbuser");
+		fakeFederatedUser.setFirstName("Facebook");
+		fakeFederatedUser.setLastName("User");
+		fakeFederatedUser.setFacebookUserId(0L);
+		configuration.add("fakeuser", fakeFederatedUser);
 	}
 
 	public static void contributeSecurityRequestFilter(OrderedConfiguration<FilterChainDefinition> configuration) {
