@@ -13,7 +13,6 @@ import org.apache.tapestry5.services.LibraryMapping;
 import org.tynamo.security.federatedaccounts.HostSymbols;
 import org.tynamo.security.federatedaccounts.facebook.FacebookRealm;
 import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
-import org.tynamo.security.services.SecurityModule;
 
 public class FederatedAccountsModule {
 	private static final String PATH_PREFIX = "federated";
@@ -22,7 +21,7 @@ public class FederatedAccountsModule {
 	static {
 		Properties moduleProperties = new Properties();
 		try {
-			moduleProperties.load(SecurityModule.class.getResourceAsStream("module.properties"));
+			moduleProperties.load(FederatedAccountsModule.class.getResourceAsStream("module.properties"));
 			version = moduleProperties.getProperty("module.version");
 		} catch (IOException e) {
 			// ignore
