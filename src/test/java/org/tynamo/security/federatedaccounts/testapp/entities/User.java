@@ -204,7 +204,19 @@ public class User implements FederatedAccount {
 
 	@Override
 	public boolean federate(String realmName, Object remotePrincipal, Object remoteAccount) {
-		// TODO Auto-generated method stub
+		if (remoteAccount instanceof com.restfb.types.User) {
+			// remotePrincipal is null, this is a federated account update
+			if (remotePrincipal == null) {
+				// update federated/overlapping properties
+			} else {
+				// newly created account but oviously you could also check if (local) id is null
+				// If you don't allow auto-federation and didn't implement a custom FederatedAccountService,
+				// you could throw an exception here or initialize the account in locked state
+				com.restfb.types.User fbUser = (com.restfb.types.User) remoteAccount;
+				facebookUserId = Long.valueOf(fbUser.getId());
+				// initialize other federated/overlapping properties
+			}
+		}
 		return false;
 	}
 
