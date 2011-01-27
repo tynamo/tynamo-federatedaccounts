@@ -63,6 +63,8 @@ public class FacebookRealm extends AuthenticatingRealm {
 		// throw new AccountException("Unknown user id format. Report this problem to support");
 		// }
 
+		// FIXME remotePrincipal needs to be configurable?
+
 		return federatedAccountService.federate(FederatedAccount.Type.facebook.name(), facebookUser.getId(), authenticationToken, facebookUser);
 		// Account federatedAccount = federatedAccountService.findById(FederatedAccount.Type.facebook,
 		// facebookUser.getId());
