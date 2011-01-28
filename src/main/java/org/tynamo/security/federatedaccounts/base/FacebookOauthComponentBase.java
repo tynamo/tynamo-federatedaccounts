@@ -7,7 +7,7 @@ import org.tynamo.security.federatedaccounts.HostSymbols;
 import org.tynamo.security.federatedaccounts.pages.CommitFacebookOauth;
 import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
 
-public class FacebookOauthRedirectBase {
+public class FacebookOauthComponentBase {
 	@Inject
 	@Symbol(HostSymbols.HOSTNAME)
 	private String hostName;
@@ -18,22 +18,22 @@ public class FacebookOauthRedirectBase {
 
 	@Inject
 	@Symbol(FacebookOauth.FACEBOOK_CLIENTID)
-	private String facebookClientId;
+	private String oauthClientId;
 
-	public String getFacebookClientId() {
-		return facebookClientId;
+	public String getOauthClientId() {
+		return oauthClientId;
 	}
 
 	@Inject
 	@Symbol(FacebookOauth.FACEBOOK_CLIENTSECRET)
-	private String facebookClientSecret;
+	private String oauthClientSecret;
 
-	public String getFacebookClientSecret() {
-		return facebookClientSecret;
+	public String getOauthClientSecret() {
+		return oauthClientSecret;
 	}
 
-	public boolean isConfigured() {
-		return !"".equals(facebookClientId) && !"".equals(facebookClientSecret);
+	public boolean isOauthConfigured() {
+		return !"".equals(oauthClientId) && !"".equals(oauthClientSecret);
 	}
 
 	@Inject

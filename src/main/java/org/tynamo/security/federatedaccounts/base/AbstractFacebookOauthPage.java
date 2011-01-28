@@ -32,7 +32,7 @@ import org.tynamo.security.federatedaccounts.HostSymbols;
 import org.tynamo.security.federatedaccounts.components.FlashMessager;
 import org.tynamo.security.federatedaccounts.facebook.FacebookConnectToken;
 
-public abstract class AbstractFacebookOauth extends FacebookOauthRedirectBase {
+public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBase {
 	public static final String FACEBOOK_CLIENTID = "facebook.clientid";
 	public static final String FACEBOOK_CLIENTSECRET = "facebook.clientsecret";
 	public static final String FACEBOOK_PERMISSIONS = "facebook.permissions";
@@ -73,9 +73,9 @@ public abstract class AbstractFacebookOauth extends FacebookOauthRedirectBase {
 		// logger.info("access token uri " + accessTokenUri);
 
 		List<NameValuePair> qparams = new ArrayList<NameValuePair>();
-		qparams.add(new BasicNameValuePair("client_id", getFacebookClientId()));
+		qparams.add(new BasicNameValuePair("client_id", getOauthClientId()));
 		qparams.add(new BasicNameValuePair("redirect_uri", getOauthRedirectLink()));
-		qparams.add(new BasicNameValuePair("client_secret", getFacebookClientSecret()));
+		qparams.add(new BasicNameValuePair("client_secret", getOauthClientSecret()));
 		qparams.add(new BasicNameValuePair("code", code));
 		HttpGet get = null;
 		String accessToken = "";
