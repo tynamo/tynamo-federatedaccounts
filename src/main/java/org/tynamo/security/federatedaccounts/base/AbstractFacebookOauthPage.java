@@ -33,10 +33,6 @@ import org.tynamo.security.federatedaccounts.components.FlashMessager;
 import org.tynamo.security.federatedaccounts.facebook.FacebookConnectToken;
 
 public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBase {
-	public static final String FACEBOOK_CLIENTID = "facebook.clientid";
-	public static final String FACEBOOK_CLIENTSECRET = "facebook.clientsecret";
-	public static final String FACEBOOK_PERMISSIONS = "facebook.permissions";
-
 	@Inject
 	@Symbol(HostSymbols.HTTPCLIENT_ON_GAE)
 	private boolean httpClientOnGae;

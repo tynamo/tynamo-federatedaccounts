@@ -4,6 +4,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.tynamo.security.federatedaccounts.HostSymbols;
+import org.tynamo.security.federatedaccounts.facebook.FacebookRealm;
 import org.tynamo.security.federatedaccounts.pages.CommitFacebookOauth;
 import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
 
@@ -17,7 +18,7 @@ public class FacebookOauthComponentBase {
 	private boolean autocommit;
 
 	@Inject
-	@Symbol(FacebookOauth.FACEBOOK_CLIENTID)
+	@Symbol(FacebookRealm.FACEBOOK_CLIENTID)
 	private String oauthClientId;
 
 	public String getOauthClientId() {
@@ -25,7 +26,7 @@ public class FacebookOauthComponentBase {
 	}
 
 	@Inject
-	@Symbol(FacebookOauth.FACEBOOK_CLIENTSECRET)
+	@Symbol(FacebookRealm.FACEBOOK_CLIENTSECRET)
 	private String oauthClientSecret;
 
 	protected String getOauthClientSecret() {

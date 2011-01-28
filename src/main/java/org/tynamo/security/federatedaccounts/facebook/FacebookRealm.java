@@ -13,6 +13,8 @@ import org.apache.shiro.authz.Permission;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.tapestry5.ioc.annotations.Inject;
+import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
@@ -27,15 +29,29 @@ import com.restfb.types.User;
  * A {@link org.apache.shiro.realm.Realm} that authenticates with Facebook.
  */
 public class FacebookRealm extends AuthenticatingRealm {
+	public static final String FACEBOOK_CLIENTID = "facebook.clientid";
+	public static final String FACEBOOK_CLIENTSECRET = "facebook.clientsecret";
+	public static final String FACEBOOK_PERMISSIONS = "facebook.permissions";
+	public static final String FACEBOOK_PRINCIPAL = "facebook.principal";
+
 	private Logger logger;
+
+	public static enum PrincipalProperty {
+		id, email, name
+	};
+
+	private PrincipalProperty principalProperty;
 
 	private FederatedAccountService federatedAccountService;
 
-	public FacebookRealm(Logger logger, FederatedAccountService federatedAccountService) {
+	public FacebookRealm(Logger logger, FederatedAccountService federatedAccountService,
+			@Inject @Symbol(FacebookRealm.FACEBOOK_PRINCIPAL) String principalPropertyName) {
 		super(new MemoryConstrainedCacheManager());
 		this.federatedAccountService = federatedAccountService;
 		this.logger = logger;
-		setName("facebook");
+		// Let this throw IllegalArgumentException if value is not supported
+		this.principalProperty = PrincipalProperty.valueOf(principalPropertyName);
+		setName(FederatedAccount.Type.facebook.name());
 		setAuthenticationTokenClass(FacebookConnectToken.class);
 	}
 
@@ -63,25 +79,17 @@ public class FacebookRealm extends AuthenticatingRealm {
 		// throw new AccountException("Unknown user id format. Report this problem to support");
 		// }
 
-		// FIXME remotePrincipal needs to be configurable?
+		String principalValue = null;
+		switch (principalProperty) {
+		case id:
+			principalValue = facebookUser.getId();
+		case email:
+			principalValue = facebookUser.getEmail();
+		case name:
+			principalValue = facebookUser.getName();
+		}
 
-		return federatedAccountService.federate(FederatedAccount.Type.facebook.name(), facebookUser.getId(), authenticationToken, facebookUser);
-		// Account federatedAccount = federatedAccountService.findById(FederatedAccount.Type.facebook,
-		// facebookUser.getId());
-		// if (federatedAccountService.isSynchLocalAccount()) {
-		// if (federatedAccount == null) federatedAccount =
-		// federatedAccountService.createLocalAccount(FederatedAccount.Type.facebook,
-		// facebookUser);
-		// else federatedAccountService.updateLocalAccount(FederatedAccount.Type.facebook, federatedAccount, facebookUser);
-		// }
-
-		// {
-		// try {
-		// session.update(user);
-		// } catch (Exception e) {
-		// logger.warn("Will try again next time. Couldn't update facebook user account because of: ", e);
-		// }
-		// }
+		return federatedAccountService.federate(FederatedAccount.Type.facebook.name(), principalValue, authenticationToken, facebookUser);
 
 		// if (federatedAccount.isAccountLocked()) { throw new LockedAccountException("Facebook federated account ["
 		// + federatedAccount.getUsername() + "] is locked."); }

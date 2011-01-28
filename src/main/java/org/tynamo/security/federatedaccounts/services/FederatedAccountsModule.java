@@ -10,7 +10,6 @@ import org.apache.tapestry5.services.LibraryMapping;
 import org.tynamo.common.ModuleProperties;
 import org.tynamo.security.federatedaccounts.HostSymbols;
 import org.tynamo.security.federatedaccounts.facebook.FacebookRealm;
-import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
 
 public class FederatedAccountsModule {
 	private static final String PATH_PREFIX = "federated";
@@ -30,10 +29,10 @@ public class FederatedAccountsModule {
 		configuration.add(HostSymbols.HOSTNAME, hostname);
 		configuration.add(HostSymbols.COMMITAFTER_OAUTH, "true");
 		configuration.add(HostSymbols.HTTPCLIENT_ON_GAE, "false");
-		configuration.add(FacebookOauth.FACEBOOK_PERMISSIONS, "");
-
-		configuration.add(FacebookOauth.FACEBOOK_CLIENTID, "");
-		configuration.add(FacebookOauth.FACEBOOK_CLIENTSECRET, "");
+		configuration.add(FacebookRealm.FACEBOOK_PRINCIPAL, FacebookRealm.PrincipalProperty.id.name());
+		configuration.add(FacebookRealm.FACEBOOK_PERMISSIONS, "");
+		configuration.add(FacebookRealm.FACEBOOK_CLIENTID, "");
+		configuration.add(FacebookRealm.FACEBOOK_CLIENTSECRET, "");
 	}
 
 	public static void contributeComponentClassResolver(Configuration<LibraryMapping> configuration) {

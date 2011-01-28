@@ -29,7 +29,6 @@ import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.tynamo.security.FilterChainDefinition;
 import org.tynamo.security.SecuritySymbols;
-import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
 import org.tynamo.security.federatedaccounts.services.DefaultHibernateFederatedAccountServiceImpl;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountsModule;
@@ -70,10 +69,6 @@ public class AppModule {
 		configuration.add(SymbolConstants.APPLICATION_VERSION, "0.0.1-SNAPSHOT");
 
 		configuration.add(SecuritySymbols.SHOULD_LOAD_INI_FROM_CONFIG_PATH, "true");
-
-		configuration.add(FacebookOauth.FACEBOOK_CLIENTID, "someclientid");
-		configuration.add(FacebookOauth.FACEBOOK_CLIENTSECRET, "someclientsecret");
-
 	}
 
 	public static void contributeWebSecurityManager(Configuration<Realm> configuration, @InjectService("UserRealm") AuthorizingRealm userRealm) {
