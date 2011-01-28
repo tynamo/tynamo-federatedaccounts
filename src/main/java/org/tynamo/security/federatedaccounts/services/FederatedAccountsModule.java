@@ -1,8 +1,5 @@
 package org.tynamo.security.federatedaccounts.services;
 
-import java.io.IOException;
-import java.util.Properties;
-
 import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.ioc.Configuration;
@@ -10,23 +7,14 @@ import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.services.LibraryMapping;
+import org.tynamo.common.ModuleProperties;
 import org.tynamo.security.federatedaccounts.HostSymbols;
 import org.tynamo.security.federatedaccounts.facebook.FacebookRealm;
 import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
 
 public class FederatedAccountsModule {
 	private static final String PATH_PREFIX = "federated";
-	private static String version = "unversioned";
-
-	static {
-		Properties moduleProperties = new Properties();
-		try {
-			moduleProperties.load(FederatedAccountsModule.class.getResourceAsStream("module.properties"));
-			version = moduleProperties.getProperty("module.version");
-		} catch (IOException e) {
-			// ignore
-		}
-	}
+	private static String version = ModuleProperties.getVersion(FederatedAccountsModule.class);
 
 	public static void bind(ServiceBinder binder) {
 		binder.bind(AuthenticatingRealm.class, FacebookRealm.class).withId(FacebookRealm.class.getSimpleName());
