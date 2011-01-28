@@ -28,7 +28,7 @@ public class FacebookOauthComponentBase {
 	@Symbol(FacebookOauth.FACEBOOK_CLIENTSECRET)
 	private String oauthClientSecret;
 
-	public String getOauthClientSecret() {
+	protected String getOauthClientSecret() {
 		return oauthClientSecret;
 	}
 
