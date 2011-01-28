@@ -9,16 +9,10 @@ import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
 
 @Import(library = "FacebookSignIn.js", stylesheet = "fb-button.css")
 public class FacebookSignIn extends FacebookOauthRedirectBase {
-
-	@SuppressWarnings("unused")
-	@Inject
-	@Symbol(FacebookOauth.FACEBOOK_CLIENTID)
-	@Property
-	private String facebookClientId;
-
 	@SuppressWarnings("unused")
 	@Inject
 	@Symbol(FacebookOauth.FACEBOOK_PERMISSIONS)
 	@Property
 	private String facebookPermissions;
+
 }

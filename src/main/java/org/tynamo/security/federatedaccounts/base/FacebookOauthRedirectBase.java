@@ -17,6 +17,26 @@ public class FacebookOauthRedirectBase {
 	private boolean autocommit;
 
 	@Inject
+	@Symbol(FacebookOauth.FACEBOOK_CLIENTID)
+	private String facebookClientId;
+
+	public String getFacebookClientId() {
+		return facebookClientId;
+	}
+
+	@Inject
+	@Symbol(FacebookOauth.FACEBOOK_CLIENTSECRET)
+	private String facebookClientSecret;
+
+	public String getFacebookClientSecret() {
+		return facebookClientSecret;
+	}
+
+	public boolean isConfigured() {
+		return !"".equals(facebookClientId) && !"".equals(facebookClientSecret);
+	}
+
+	@Inject
 	private PageRenderLinkSource linkSource;
 
 	public String getOauthRedirectLink() {

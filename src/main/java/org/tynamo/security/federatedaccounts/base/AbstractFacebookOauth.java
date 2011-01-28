@@ -38,14 +38,6 @@ public abstract class AbstractFacebookOauth extends FacebookOauthRedirectBase {
 	public static final String FACEBOOK_PERMISSIONS = "facebook.permissions";
 
 	@Inject
-	@Symbol(FACEBOOK_CLIENTID)
-	private String clientId;
-
-	@Inject
-	@Symbol(FACEBOOK_CLIENTSECRET)
-	private String clientSecret;
-
-	@Inject
 	@Symbol(HostSymbols.HTTPCLIENT_ON_GAE)
 	private boolean httpClientOnGae;
 
@@ -81,9 +73,9 @@ public abstract class AbstractFacebookOauth extends FacebookOauthRedirectBase {
 		// logger.info("access token uri " + accessTokenUri);
 
 		List<NameValuePair> qparams = new ArrayList<NameValuePair>();
-		qparams.add(new BasicNameValuePair("client_id", clientId));
+		qparams.add(new BasicNameValuePair("client_id", getFacebookClientId()));
 		qparams.add(new BasicNameValuePair("redirect_uri", getOauthRedirectLink()));
-		qparams.add(new BasicNameValuePair("client_secret", clientSecret));
+		qparams.add(new BasicNameValuePair("client_secret", getFacebookClientSecret()));
 		qparams.add(new BasicNameValuePair("code", code));
 		HttpGet get = null;
 		String accessToken = "";
