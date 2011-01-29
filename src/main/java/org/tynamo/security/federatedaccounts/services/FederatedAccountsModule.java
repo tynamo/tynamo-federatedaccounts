@@ -4,12 +4,16 @@ import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.services.LibraryMapping;
 import org.tynamo.common.ModuleProperties;
+import org.tynamo.security.FilterChainDefinition;
 import org.tynamo.security.federatedaccounts.HostSymbols;
 import org.tynamo.security.federatedaccounts.facebook.FacebookRealm;
+import org.tynamo.security.federatedaccounts.pages.CommitFacebookOauth;
+import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
 
 public class FederatedAccountsModule {
 	private static final String PATH_PREFIX = "federated";
@@ -46,6 +50,15 @@ public class FederatedAccountsModule {
 	public static void contributeWebSecurityManager(Configuration<Realm> configuration,
 			@InjectService("FacebookRealm") AuthenticatingRealm facebookRealm) {
 		configuration.add(facebookRealm);
+	}
+
+	public static void contributeSecurityRequestFilter(OrderedConfiguration<FilterChainDefinition> configuration) {
+		// TODO can there possibly be security implications for this, document properly
+		// We can't use linksource here because we are not in request lifecycle
+		configuration.add("facebookoauth", new FilterChainDefinition("/" + FacebookOauth.class.getSimpleName().toLowerCase(), "anon"),
+				"before:*");
+		configuration.add("commitfacebookoauth", new FilterChainDefinition("/" + CommitFacebookOauth.class.getSimpleName().toLowerCase(),
+				"anon"), "before:*");
 	}
 
 }
