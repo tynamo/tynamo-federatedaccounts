@@ -17,6 +17,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount;
+import org.tynamo.security.federatedaccounts.oauth.FacebookAccessToken;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
 
 import com.restfb.DefaultFacebookClient;
@@ -52,12 +53,13 @@ public class FacebookRealm extends AuthenticatingRealm {
 		// Let this throw IllegalArgumentException if value is not supported
 		this.principalProperty = PrincipalProperty.valueOf(principalPropertyName);
 		setName(FederatedAccount.Type.facebook.name());
-		setAuthenticationTokenClass(FacebookConnectToken.class);
+		setAuthenticationTokenClass(FacebookAccessToken.class);
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-		FacebookConnectToken token = (FacebookConnectToken) authenticationToken;
+		FacebookAccessToken token = (FacebookAccessToken) authenticationToken;
 
 		FacebookClient facebookClient = new DefaultFacebookClient(authenticationToken.getCredentials().toString());
 		User facebookUser;
@@ -89,8 +91,10 @@ public class FacebookRealm extends AuthenticatingRealm {
 			principalValue = facebookUser.getName();
 		}
 
-		return federatedAccountService.federate(FederatedAccount.Type.facebook.name(), principalValue, authenticationToken, facebookUser);
-
+		AuthenticationInfo authenticationInfo = federatedAccountService.federate(FederatedAccount.Type.facebook.name(), principalValue,
+				authenticationToken, facebookUser);
+		authenticationInfo.getPrincipals().fromRealm(FederatedAccount.Type.facebook.name()).add(authenticationToken);
+		return authenticationInfo;
 		// if (federatedAccount.isAccountLocked()) { throw new LockedAccountException("Facebook federated account ["
 		// + federatedAccount.getUsername() + "] is locked."); }
 		// if (federatedAccount.isCredentialsExpired()) {

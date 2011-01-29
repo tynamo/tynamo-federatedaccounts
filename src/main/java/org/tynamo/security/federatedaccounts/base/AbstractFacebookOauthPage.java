@@ -30,7 +30,7 @@ import org.esxx.js.protocol.GAEConnectionManager;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.HostSymbols;
 import org.tynamo.security.federatedaccounts.components.FlashMessager;
-import org.tynamo.security.federatedaccounts.facebook.FacebookConnectToken;
+import org.tynamo.security.federatedaccounts.oauth.FacebookAccessToken;
 
 public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBase {
 	@Inject
@@ -114,7 +114,7 @@ public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBa
 
 		try {
 			if (!accessToken.startsWith("access_token")) throw new IllegalArgumentException();
-			// access_tokein is of form:
+			// access_token is of form:
 			// access_token=119507274749030|2.1AptZFp9__qW3k2PuG4bVA__.3600.1274914800-539598633|9aTyryhVl8vnn3ulLy2w6Txo92E.&expires=4059
 			accessToken = accessToken.substring(accessToken.indexOf("=") + 1);
 			expires = Integer.valueOf(accessToken.substring(accessToken.lastIndexOf("=") + 1));
@@ -126,7 +126,7 @@ public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBa
 		}
 
 		try {
-			SecurityUtils.getSubject().login(new FacebookConnectToken(code, accessToken));
+			SecurityUtils.getSubject().login(new FacebookAccessToken(accessToken, expires));
 			flashMessager.setSuccessMessage("User successfully authenticated");
 			fbAuthenticated = true;
 		} catch (AuthenticationException e) {
