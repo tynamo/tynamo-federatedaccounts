@@ -10,10 +10,6 @@ public class OauthAccessToken implements AuthenticationToken {
 
 	private Date expiration;
 
-	public OauthAccessToken(String token, long expiration) {
-		this(token, new Date(expiration));
-	}
-
 	public OauthAccessToken(String accessToken, Date expiration) {
 		this.token = accessToken;
 		this.expiration = expiration;

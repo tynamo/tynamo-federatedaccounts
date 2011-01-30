@@ -75,7 +75,7 @@ public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBa
 		qparams.add(new BasicNameValuePair("code", code));
 		HttpGet get = null;
 		String accessToken = "";
-		int expires = 0;
+		long expires = 0L;
 		try {
 			URI uri = URIUtils
 					.createURI("https", "graph.facebook.com", -1, "/oauth/access_token", URLEncodedUtils.format(qparams, "UTF-8"), null);
@@ -117,7 +117,7 @@ public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBa
 			// access_token is of form:
 			// access_token=119507274749030|2.1AptZFp9__qW3k2PuG4bVA__.3600.1274914800-539598633|9aTyryhVl8vnn3ulLy2w6Txo92E.&expires=4059
 			accessToken = accessToken.substring(accessToken.indexOf("=") + 1);
-			expires = Integer.valueOf(accessToken.substring(accessToken.lastIndexOf("=") + 1));
+			expires = Long.valueOf(accessToken.substring(accessToken.lastIndexOf("=") + 1));
 			accessToken = accessToken.substring(0, accessToken.indexOf("&expires"));
 		} catch (Exception e) {
 			logger.error("access_token wasn't of right format");
