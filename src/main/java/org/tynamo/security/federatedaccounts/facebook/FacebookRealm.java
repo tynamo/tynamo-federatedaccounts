@@ -56,12 +56,11 @@ public class FacebookRealm extends AuthenticatingRealm {
 		setAuthenticationTokenClass(FacebookAccessToken.class);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 		FacebookAccessToken token = (FacebookAccessToken) authenticationToken;
 
-		FacebookClient facebookClient = new DefaultFacebookClient(authenticationToken.getCredentials().toString());
+		FacebookClient facebookClient = new DefaultFacebookClient(authenticationToken.getPrincipal().toString());
 		User facebookUser;
 		try {
 			facebookUser = facebookClient.fetchObject("me", User.class);
@@ -93,7 +92,8 @@ public class FacebookRealm extends AuthenticatingRealm {
 
 		AuthenticationInfo authenticationInfo = federatedAccountService.federate(FederatedAccount.Type.facebook.name(), principalValue,
 				authenticationToken, facebookUser);
-		authenticationInfo.getPrincipals().fromRealm(FederatedAccount.Type.facebook.name()).add(authenticationToken);
+		// returned principalcollection is immutable
+		// authenticationInfo.getPrincipals().fromRealm(FederatedAccount.Type.facebook.name()).add(authenticationToken);
 		return authenticationInfo;
 		// if (federatedAccount.isAccountLocked()) { throw new LockedAccountException("Facebook federated account ["
 		// + federatedAccount.getUsername() + "] is locked."); }
@@ -104,14 +104,6 @@ public class FacebookRealm extends AuthenticatingRealm {
 		// return new SimpleAuthenticationInfo(federatedAccount.getUsername(), token.getCredentials(), getName());
 
 		// return federatedAccount;
-	}
-
-	public static final class FacebookSymbols {
-
-		public static final String FACEBOOK_SECRET = "test";
-		public static final String FACEBOOK_API_KEY = "test";
-		public static final String FACEBOOK_CANVAS_URL = "test";
-
 	}
 
 	/**

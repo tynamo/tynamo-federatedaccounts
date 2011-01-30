@@ -133,7 +133,7 @@ public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBa
 			logger.error("Using access token " + accessToken + "\nCould not sign in a Facebook federated user because of: ", e);
 			// FIXME Deal with other account exception types like expired and
 			// locked
-			flashMessager.setFailureMessage("A Facebook federated user cannot be signed in, report this to support " + e.getMessage());
+			flashMessager.setFailureMessage("A Facebook federated user cannot be signed in, report this to support.\n " + e.getMessage());
 		}
 	}
 

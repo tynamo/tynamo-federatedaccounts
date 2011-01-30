@@ -8,6 +8,7 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.ExpiredCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.tynamo.security.federatedaccounts.FederatedAccount;
@@ -72,7 +73,11 @@ public class DefaultHibernateFederatedAccountServiceImpl implements FederatedAcc
 			String msg = "The credentials for federated account [" + remotePrincipal + "] are expired";
 			throw new ExpiredCredentialsException(msg);
 		}
+		SimplePrincipalCollection principalCollection = new SimplePrincipalCollection(remotePrincipal, realmName);
+		principalCollection.add(authenticationToken, realmName);
+		return new SimpleAuthenticationInfo(principalCollection, authenticationToken.getCredentials());
 
-		return new SimpleAuthenticationInfo(remotePrincipal, authenticationToken.getCredentials(), realmName);
+		// SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(remotePrincipal,
+		// authenticationToken.getCredentials(), realmName);
 	}
 }
