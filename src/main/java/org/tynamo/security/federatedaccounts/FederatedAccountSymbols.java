@@ -1,7 +1,7 @@
 package org.tynamo.security.federatedaccounts;
 
-public class HostSymbols {
-	public static final String HOSTNAME = "hostname";
+public class FederatedAccountSymbols {
+	public static final String SUCCESSURL = "federatedaccounts.successurl";
 
 	public static final String COMMITAFTER_OAUTH = "federatedaccounts.commitafteroauth";
 

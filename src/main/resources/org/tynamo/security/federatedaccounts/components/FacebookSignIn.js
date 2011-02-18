@@ -1,5 +1,4 @@
-function openFacebookAuthorizationWindow(url) 
-{
+function openFacebookAuthorizationWindow(url) {
 	var width  = 800;
 	var height = 400;
 	var left   = (screen.width  - width)/2;
@@ -16,4 +15,12 @@ function openFacebookAuthorizationWindow(url)
 	fbAuthWindow=window.open(url,'FBauthentication', params);
 	if (window.focus) fbAuthWindow.focus();
 	return false;
+}
+
+function openFacebookAuthorizationInline(url) {
+	var oauthIFrame = $('oauthInlineFrame');
+	var parentDiv = oauthIFrame.up('div');
+	
+	if (typeof(parentdiv) != undefined) parentDiv.setStyle({width: '800px', height : '400px', display : 'block'});
+	oauthIFrame.src = url;
 }

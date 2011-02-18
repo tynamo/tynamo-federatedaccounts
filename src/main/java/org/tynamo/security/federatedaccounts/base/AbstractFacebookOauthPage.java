@@ -21,21 +21,28 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Environmental;
+import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
+import org.apache.tapestry5.services.BaseURLSource;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.esxx.js.protocol.GAEConnectionManager;
 import org.slf4j.Logger;
-import org.tynamo.security.federatedaccounts.HostSymbols;
+import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.components.FlashMessager;
 import org.tynamo.security.federatedaccounts.oauth.FacebookAccessToken;
+import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBase {
 	@Inject
-	@Symbol(HostSymbols.HTTPCLIENT_ON_GAE)
+	@Symbol(FederatedAccountSymbols.HTTPCLIENT_ON_GAE)
 	private boolean httpClientOnGae;
+
+	@Inject
+	@Symbol(FederatedAccountSymbols.SUCCESSURL)
+	private String successUrl;
 
 	@Inject
 	private Logger logger;
@@ -51,7 +58,15 @@ public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBa
 
 	private boolean fbAuthenticated;
 
-	protected void onActivate() throws MalformedURLException {
+	@Property
+	private WindowMode windowMode;
+
+	protected void onActivate(String windowMode) throws MalformedURLException {
+		try {
+			this.windowMode = WindowMode.valueOf(windowMode);
+		} catch (IllegalArgumentException e) {
+		}
+
 		String code = request.getParameter("code");
 		if (code == null) {
 			flashMessager.setFailureMessage("No Oauth authentication code provided");
@@ -137,10 +152,17 @@ public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBa
 		}
 	}
 
+	@Inject
+	private BaseURLSource baseURLSource;
+
+	public String getSuccessLink() {
+		return "".equals(successUrl) ? "" : baseURLSource.getBaseURL(request.isSecure()) + successUrl;
+	}
+
 	@Environmental
 	private JavaScriptSupport javaScriptSupport;
 
 	protected void afterRender() {
-		if (fbAuthenticated) javaScriptSupport.addScript("authenticationExecuted(true);");
+		if (fbAuthenticated) javaScriptSupport.addScript("onAuthenticationSuccess('" + getSuccessLink() + "', '" + windowMode.name() + "');");
 	}
 }

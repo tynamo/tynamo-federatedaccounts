@@ -9,7 +9,7 @@ public class CommitFacebookOauth extends AbstractFacebookOauthPage {
 
 	@CommitAfter
 	@Override
-	protected void onActivate() throws MalformedURLException {
-		super.onActivate();
+	protected void onActivate(String windowMode) throws MalformedURLException {
+		super.onActivate(windowMode);
 	}
 }

@@ -7,7 +7,7 @@ import org.tynamo.security.federatedaccounts.base.AbstractFacebookOauthPage;
 public class FacebookOauth extends AbstractFacebookOauthPage {
 
 	@Override
-	protected void onActivate() throws MalformedURLException {
-		super.onActivate();
+	protected void onActivate(String windowMode) throws MalformedURLException {
+		super.onActivate(windowMode);
 	}
 }

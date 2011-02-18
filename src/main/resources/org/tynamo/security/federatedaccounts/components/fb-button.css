@@ -191,3 +191,16 @@ a.fb_button_small:active,
 a.fb_button_small_rtl:active {
   background-position: right -458px;
 }
+
+/**
+ * End of Facebook Copyrights. 
+ * The following are additional styles for Tynamo's Facebook components, copyright Tynamo project.
+ *
+*/
+
+.fb_container {
+	padding-top:0px;
+	padding-left:0px;
+	padding-right:0px;
+	height:auto;
+}
