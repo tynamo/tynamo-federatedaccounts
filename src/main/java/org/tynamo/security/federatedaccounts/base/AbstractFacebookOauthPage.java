@@ -61,9 +61,9 @@ public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBa
 	@Property
 	private WindowMode windowMode;
 
-	protected void onActivate(String windowMode) throws MalformedURLException {
+	protected void onActivate(String windowModeText) throws MalformedURLException {
 		try {
-			this.windowMode = WindowMode.valueOf(windowMode);
+			windowMode = WindowMode.valueOf(windowModeText);
 		} catch (IllegalArgumentException e) {
 		}
 
@@ -85,7 +85,7 @@ public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBa
 
 		List<NameValuePair> qparams = new ArrayList<NameValuePair>();
 		qparams.add(new BasicNameValuePair("client_id", getOauthClientId()));
-		qparams.add(new BasicNameValuePair("redirect_uri", getOauthRedirectLink()));
+		qparams.add(new BasicNameValuePair("redirect_uri", getOauthRedirectLink(windowMode)));
 		qparams.add(new BasicNameValuePair("client_secret", getOauthClientSecret()));
 		qparams.add(new BasicNameValuePair("code", code));
 		HttpGet get = null;

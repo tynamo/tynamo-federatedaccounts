@@ -7,6 +7,7 @@ import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.facebook.FacebookRealm;
 import org.tynamo.security.federatedaccounts.pages.CommitFacebookOauth;
 import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
+import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 public class FacebookOauthComponentBase {
 	@Inject
@@ -40,9 +41,9 @@ public class FacebookOauthComponentBase {
 	@Inject
 	private PageRenderLinkSource linkSource;
 
-	public String getOauthRedirectLink() {
-		// return "http://" + hostName + linkSource.createPageRenderLink(autocommit ? CommitFacebookOauth.class :
-		// FacebookOauth.class).toURI();
-		return linkSource.createPageRenderLink(autocommit ? CommitFacebookOauth.class : FacebookOauth.class).toAbsoluteURI();
+	// Final since signin and oauth *must* share the same implementation (or at least use the same link)
+	protected final String getOauthRedirectLink(WindowMode windowMode) {
+		return linkSource.createPageRenderLinkWithContext(autocommit ? CommitFacebookOauth.class : FacebookOauth.class, windowMode)
+				.toAbsoluteURI();
 	}
 }

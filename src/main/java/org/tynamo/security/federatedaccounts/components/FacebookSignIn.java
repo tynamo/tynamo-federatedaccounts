@@ -25,24 +25,14 @@ public class FacebookSignIn extends FacebookOauthComponentBase {
 	}
 
 	public String getOauthAuthorizationLink() {
-		// return "https://graph.facebook.com/oauth/authorize?client_id&#61;" + getOauthClientId() +
-		// "&amp;redirect_uri&#61;"
-		// + getOauthRedirectLink() + "&amp;scope&#61;" + facebookPermissions;
 		StringBuilder sb = new StringBuilder();
-		sb.append("https://graph.facebook.com/oauth/authorize?client_id&#61;");
+		sb.append("https://graph.facebook.com/oauth/authorize?client_id=");
 		sb.append(getOauthClientId());
-		sb.append("&amp;redirect_uri&#61;");
-		sb.append(getOauthRedirectLink());
-		sb.append("&amp;scope&#61;");
+		sb.append("&redirect_uri=");
+		sb.append(getOauthRedirectLink(windowMode));
+		sb.append("&scope=");
 		sb.append(facebookPermissions);
 
-		// return sb.toString();
-		return getOauthRedirectLink();
+		return sb.toString();
 	}
-
-	@Override
-	public String getOauthRedirectLink() {
-		return super.getOauthRedirectLink() + '/' + windowMode;
-	}
-
 }
