@@ -19,8 +19,5 @@ function openFacebookAuthorizationWindow(url) {
 
 function openFacebookAuthorizationInline(url) {
 	var oauthIFrame = $('oauthInlineFrame');
-	var parentDiv = oauthIFrame.up('div');
-	
-	if (typeof(parentdiv) != undefined) parentDiv.setStyle({width: '800px', height : '400px', display : 'block'});
 	oauthIFrame.src = url;
 }

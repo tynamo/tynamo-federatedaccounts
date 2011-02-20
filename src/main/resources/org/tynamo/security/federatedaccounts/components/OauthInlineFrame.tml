@@ -1,6 +1,29 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 <t:any element="div" style="width:0px;height:0px;display:none" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
-		<iframe id="oauthInlineFrame" width="100%" height="100%">
-		Sorry, functionality not available since your browser doesn't support iframes.
-		</iframe>
+	<script type="text/javascript">
+		var oauthInlineFrameResizer;
+		function onOauthInlineFrameLoad() {
+			if (oauthInlineFrameResizer != null) {
+				clearTimeout(oauthInlineFrameResizer);
+				oauthInlineFrameResizer = null;
+				return;
+			}
+			try {
+				var url = $('oauthInlineFrame').contentWindow.location.href;
+			}
+			catch (err) {
+				oauthInlineFrameResizer = setTimeout('resizeOauthInlineFrameParent()', 100);
+			}
+		}
+		function resizeOauthInlineFrameParent() {
+			if (oauthInlineFrameResizer == null) return;
+			var parentDiv = $('oauthInlineFrame').up('div');
+			
+			if (typeof(parentdiv) != undefined) parentDiv.setStyle({width: '800px', height : '400px', display : 'block'});
+			oauthInlineFrameResizer = null;
+		}
+	</script>		
+	<iframe id="oauthInlineFrame" onload="onOauthInlineFrameLoad();" style="border:0px;width:100%;height:100%">
+	Sorry, functionality not available since your browser doesn't support iframes.
+	</iframe>
 </t:any>

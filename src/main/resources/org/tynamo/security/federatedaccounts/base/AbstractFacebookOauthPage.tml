@@ -23,9 +23,16 @@ function onAuthenticationSuccess(successLink, windowMode) {
 			window.close();
 			break;
 		case 'inline' :
-			closeInlineOauthWindow();
-			if (successLink == '') window.parent.location.reload(true);
-			else window.parent.location.href = successLink;
+			if (window.top == window.self) {
+				// same as self, we are not in iframe anymore
+				if (successLink == '') window.history.go(-2);
+				else window.location.href = successLink;
+			}
+			else {
+				closeInlineOauthWindow();
+				if (successLink == '') window.parent.location.reload(true);
+				else window.parent.location.href = successLink;
+			}
 			break;
 		case 'self' : 
 			if (successLink == '') window.history.go(-2);
