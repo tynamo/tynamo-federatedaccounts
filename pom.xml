@@ -1,4 +1,5 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.tynamo.security</groupId>
@@ -13,11 +14,11 @@
 		<artifactId>tynamo-parent</artifactId>
 		<version>0.0.6</version>
 	</parent>
-	
+
 	<properties>
 		<tapestry-release-version>5.2.4</tapestry-release-version>
 	</properties>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>com.h2database</groupId>
@@ -35,13 +36,13 @@
 			<groupId>com.restfb</groupId>
 			<artifactId>restfb</artifactId>
 			<version>1.6.1</version>
-		</dependency>		
+		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
-			<version>4.1-beta1</version>
+			<version>4.1</version>
 			<scope>compile</scope>
-		</dependency>		
+		</dependency>
 
 		<dependency>
 			<groupId>org.tynamo</groupId>
@@ -74,7 +75,7 @@
 			<version>${tapestry-release-version}</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<!--  tapestry-hibernate modules are really optional as well 
 		-->
 		<dependency>
@@ -100,12 +101,12 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.6.1</version> 
+			<version>1.6.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.1</version> 
+			<version>1.6.1</version>
 		</dependency>
 
 		<dependency>
