@@ -39,7 +39,7 @@ public class FacebookRealm extends AuthenticatingRealm {
 
 	public static enum PrincipalProperty {
 		id, email, name
-	};
+	}
 
 	private PrincipalProperty principalProperty;
 
@@ -82,12 +82,12 @@ public class FacebookRealm extends AuthenticatingRealm {
 
 		String principalValue = null;
 		switch (principalProperty) {
-		case id:
-			principalValue = facebookUser.getId();
-		case email:
-			principalValue = facebookUser.getEmail();
-		case name:
-			principalValue = facebookUser.getName();
+			case id: principalValue = facebookUser.getId();
+				break;
+			case email: principalValue = facebookUser.getEmail();
+				break;
+			case name: principalValue = facebookUser.getName();
+				break;
 		}
 
 		AuthenticationInfo authenticationInfo = federatedAccountService.federate(FederatedAccount.Type.facebook.name(), principalValue,
