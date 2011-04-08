@@ -1,5 +1,6 @@
 package org.tynamo.security.federatedaccounts.components;
 
+import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
@@ -11,10 +12,19 @@ import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 @Import(library = "FacebookSignIn.js", stylesheet = "fb-button.css")
 public class FacebookSignIn extends FacebookOauthComponentBase {
+
 	@Inject
 	@Symbol(FacebookRealm.FACEBOOK_PERMISSIONS)
 	@Property
 	private String facebookPermissions;
+
+	@Parameter(defaultPrefix = BindingConstants.LITERAL, value = "800")
+	@Property
+	private Integer width;
+
+	@Parameter(defaultPrefix = BindingConstants.LITERAL, value = "400")
+	@Property
+	private Integer height;
 
 	@Parameter(value = "blank", required = false, defaultPrefix = "literal")
 	private WindowMode windowMode;
@@ -30,6 +40,7 @@ public class FacebookSignIn extends FacebookOauthComponentBase {
 		sb.append(getOauthClientId());
 		sb.append("&redirect_uri=");
 		sb.append(getOauthRedirectLink(windowMode));
+		sb.append("&display=popup");
 		sb.append("&scope=");
 		sb.append(facebookPermissions);
 

@@ -1,6 +1,5 @@
-function openFacebookAuthorizationWindow(url) {
-	var width  = 800;
-	var height = 400;
+function openFacebookAuthorizationWindow(url, width, height) {
+
 	var left   = (screen.width  - width)/2;
 	var top    = (screen.height - height)/2;
 	var params = 'width='+width+', height='+height;
