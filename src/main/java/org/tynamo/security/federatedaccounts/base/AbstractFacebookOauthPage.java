@@ -29,10 +29,11 @@ import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.esxx.js.protocol.GAEConnectionManager;
+import org.scribe.model.Token;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.components.FlashMessager;
-import org.tynamo.security.federatedaccounts.oauth.FacebookAccessToken;
+import org.tynamo.security.federatedaccounts.oauth.FacebookAuthenticationToken;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBase {
@@ -89,7 +90,8 @@ public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBa
 		qparams.add(new BasicNameValuePair("client_secret", getOauthClientSecret()));
 		qparams.add(new BasicNameValuePair("code", code));
 		HttpGet get = null;
-		String accessToken = "";
+		String rawResponse = "";
+		Token token = null;
 		long expires = 0L;
 		try {
 			URI uri = URIUtils
@@ -117,7 +119,7 @@ public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBa
 			HttpEntity entity = response.getEntity();
 			if (entity != null) {
 				long len = entity.getContentLength();
-				if (len != -1 && len < 2048) accessToken = EntityUtils.toString(entity);
+				if (len != -1 && len < 2048) rawResponse = EntityUtils.toString(entity);
 			}
 		} catch (Exception e) {
 			logger.error("Facebook access_token request failed because of:", e);
@@ -128,12 +130,13 @@ public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBa
 		}
 
 		try {
-			if (!accessToken.startsWith("access_token")) throw new IllegalArgumentException();
+			if (!rawResponse.startsWith("access_token")) throw new IllegalArgumentException();
 			// access_token is of form:
 			// access_token=119507274749030|2.1AptZFp9__qW3k2PuG4bVA__.3600.1274914800-539598633|9aTyryhVl8vnn3ulLy2w6Txo92E.&expires=4059
-			accessToken = accessToken.substring(accessToken.indexOf("=") + 1);
+			String accessToken = rawResponse.substring(rawResponse.indexOf("=") + 1);
 			expires = Long.valueOf(accessToken.substring(accessToken.lastIndexOf("=") + 1));
 			accessToken = accessToken.substring(0, accessToken.indexOf("&expires"));
+			token = new Token(accessToken, "", rawResponse);
 		} catch (Exception e) {
 			logger.error("access_token wasn't of right format");
 			flashMessager.setFailureMessage("Facebook access_token wasn't of right format");
@@ -141,11 +144,11 @@ public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBa
 		}
 
 		try {
-			SecurityUtils.getSubject().login(new FacebookAccessToken(accessToken, expires));
+			SecurityUtils.getSubject().login(new FacebookAuthenticationToken(token, expires));
 			flashMessager.setSuccessMessage("User successfully authenticated");
 			fbAuthenticated = true;
 		} catch (AuthenticationException e) {
-			logger.error("Using access token " + accessToken + "\nCould not sign in a Facebook federated user because of: ", e);
+			logger.error("Using access token " + token.getToken() + "\nCould not sign in a Facebook federated user because of: ", e);
 			// FIXME Deal with other account exception types like expired and
 			// locked
 			flashMessager.setFailureMessage("A Facebook federated user cannot be signed in, report this to support.\n " + e.getMessage());

@@ -24,6 +24,7 @@ public class FederatedAccountsModule {
 
 	public static void bind(ServiceBinder binder) {
 		binder.bind(AuthenticatingRealm.class, FacebookRealm.class).withId(FacebookRealm.class.getSimpleName());
+		binder.bind(OAuthServicetLocator.class);
 	}
 
 	public static void contributeFactoryDefaults(MappedConfiguration<String, String> configuration) {

@@ -1,41 +1,32 @@
-package org.tynamo.security.federatedaccounts.facebook;
+package org.tynamo.security.federatedaccounts.realms;
 
-import java.util.Collection;
-import java.util.List;
-
-import org.apache.shiro.authc.AccountException;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.AuthenticationInfo;
-import org.apache.shiro.authc.AuthenticationToken;
-import org.apache.shiro.authc.IncorrectCredentialsException;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.ioc.annotations.Symbol;
+import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.scribe.model.OAuthRequest;
+import org.scribe.model.Verb;
 import org.slf4j.Logger;
-import org.tynamo.security.federatedaccounts.FederatedAccount;
-import org.tynamo.security.federatedaccounts.oauth.FacebookAuthenticationToken;
+import org.tynamo.security.federatedaccounts.oauth.Google20Service;
+import org.tynamo.security.federatedaccounts.oauth.GoogleAuthenticationToken;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
 
-import com.restfb.DefaultFacebookClient;
-import com.restfb.FacebookClient;
-import com.restfb.exception.FacebookException;
-import com.restfb.types.User;
+import java.util.Collection;
+import java.util.List;
+
+import static org.tynamo.security.federatedaccounts.FederatedAccount.Type.google;
 
 /**
- * <p>
- * A {@link org.apache.shiro.realm.Realm} that authenticates with Facebook.
+ * <p/>
+ * A {@link org.apache.shiro.realm.Realm} that authenticates with Google.
  */
-public class FacebookRealm extends AuthenticatingRealm {
-	public static final String FACEBOOK_CLIENTID = "facebook.clientid";
-	public static final String FACEBOOK_CLIENTSECRET = "facebook.clientsecret";
-	public static final String FACEBOOK_PERMISSIONS = "facebook.permissions";
-	public static final String FACEBOOK_PRINCIPAL = "facebook.principal";
+public class GoogleRealm extends AuthenticatingRealm {
 
 	private Logger logger;
+	private Google20Service service;
 
 	public static enum PrincipalProperty {
 		id, email, name
@@ -45,40 +36,36 @@ public class FacebookRealm extends AuthenticatingRealm {
 
 	private FederatedAccountService federatedAccountService;
 
-	public FacebookRealm(Logger logger, FederatedAccountService federatedAccountService,
-			@Inject @Symbol(FacebookRealm.FACEBOOK_PRINCIPAL) String principalPropertyName) {
+	public GoogleRealm(Logger logger, FederatedAccountService federatedAccountService, Google20Service service) {
+
 		super(new MemoryConstrainedCacheManager());
 		this.federatedAccountService = federatedAccountService;
 		this.logger = logger;
+		this.service = service;
+
+		String principalPropertyName = "id";
+
 		// Let this throw IllegalArgumentException if value is not supported
 		this.principalProperty = PrincipalProperty.valueOf(principalPropertyName);
-		setName(FederatedAccount.Type.facebook.name());
-		setAuthenticationTokenClass(FacebookAuthenticationToken.class);
+
+		setName(google.name());
+		setAuthenticationTokenClass(GoogleAuthenticationToken.class);
 	}
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-		FacebookAuthenticationToken token = (FacebookAuthenticationToken) authenticationToken;
 
-		FacebookClient facebookClient = new DefaultFacebookClient(authenticationToken.getPrincipal().toString());
-		User facebookUser;
-		try {
-			facebookUser = facebookClient.fetchObject("me", User.class);
-		} catch (FacebookException e) {
-			logger.error(e.getMessage(), e);
-			throw new IncorrectCredentialsException("Facebook security verification failed, terminating authentication request", e);
-		}
+		GoogleAuthenticationToken token = (GoogleAuthenticationToken) authenticationToken;
+/*
+		OAuthRequest request = new OAuthRequest(Verb.GET, "https://www.google.com/m8/feeds/contacts/default/full");
+		service.signRequest(token.getToken(), request);
+		request.send().getBody();
+*/
+
 		// Null username is invalid, throw an exception if so - indicates that user hasn't granted the right
 		// permissions (and/or we haven't asked for it)
+/*
 		if (facebookUser == null) throw new AccountException("Null Facebook user is not allowed by this realm.");
-		// long facebookUserId;
-		// try {
-		// facebookUserId = Long.valueOf(facebookUser.getId());
-		// } catch (NumberFormatException e) {
-		// logger.error("Facebook implementation has changed, returned id '" + facebookUser.getId() +
-		// "' cannot be cast to Long");
-		// throw new AccountException("Unknown user id format. Report this problem to support");
-		// }
 
 		String principalValue = null;
 		switch (principalProperty) {
@@ -89,21 +76,14 @@ public class FacebookRealm extends AuthenticatingRealm {
 			case name: principalValue = facebookUser.getName();
 				break;
 		}
+*/
 
-		AuthenticationInfo authenticationInfo = federatedAccountService.federate(FederatedAccount.Type.facebook.name(), principalValue,
-				authenticationToken, facebookUser);
-		// returned principalcollection is immutable
-		// authenticationInfo.getPrincipals().fromRealm(FederatedAccount.Type.facebook.name()).add(authenticationToken);
-		return authenticationInfo;
-		// if (federatedAccount.isAccountLocked()) { throw new LockedAccountException("Facebook federated account ["
-		// + federatedAccount.getUsername() + "] is locked."); }
-		// if (federatedAccount.isCredentialsExpired()) {
-		// String msg = "The credentials for account [" + facebookUser.getId() + "] are expired";
-		// throw new ExpiredCredentialsException(msg);
-		// }
-		// return new SimpleAuthenticationInfo(federatedAccount.getUsername(), token.getCredentials(), getName());
+//		return federatedAccountService.federate(google.name(), principalValue, authenticationToken, facebookUser);
 
-		// return federatedAccount;
+		SimplePrincipalCollection principalCollection = new SimplePrincipalCollection(authenticationToken.getPrincipal(), google.name());
+		principalCollection.add(authenticationToken, google.name());
+		return new SimpleAuthenticationInfo(principalCollection, authenticationToken.getCredentials());
+
 	}
 
 	/**

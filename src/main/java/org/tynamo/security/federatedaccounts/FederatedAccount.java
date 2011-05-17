@@ -1,9 +1,10 @@
 package org.tynamo.security.federatedaccounts;
 
 public interface FederatedAccount {
+
 	public enum Type {
-		facebook
-	};
+		facebook, google, twitter
+	}
 
 	public boolean isAccountLocked();
 
