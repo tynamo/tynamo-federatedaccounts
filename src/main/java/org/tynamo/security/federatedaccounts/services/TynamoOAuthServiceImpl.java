@@ -5,7 +5,7 @@ import org.scribe.model.OAuthRequest;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
-import org.tynamo.security.federatedaccounts.AuthenticationTokenBuilder;
+import org.tynamo.security.federatedaccounts.oauth.AuthenticationTokenBuilder;
 
 public class TynamoOAuthServiceImpl implements TynamoOAuthService {
 

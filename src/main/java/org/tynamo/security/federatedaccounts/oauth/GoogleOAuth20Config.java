@@ -6,7 +6,6 @@ public class GoogleOAuth20Config extends TynamoOAuthConfig {
 
 	private final static String defaultScope = "https://www.google.com/m8/feeds/";
 
-
 	public GoogleOAuth20Config(String apiName, String key, String secret, PageRenderLinkSource linkSource) {
 		super(apiName, key, secret, defaultScope, linkSource);
 	}

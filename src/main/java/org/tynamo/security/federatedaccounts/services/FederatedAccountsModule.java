@@ -13,7 +13,7 @@ import org.apache.tapestry5.services.LibraryMapping;
 import org.tynamo.common.ModuleProperties;
 import org.tynamo.security.FilterChainDefinition;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
-import org.tynamo.security.federatedaccounts.facebook.FacebookRealm;
+import org.tynamo.security.federatedaccounts.realms.FacebookRealm;
 import org.tynamo.security.federatedaccounts.pages.CommitFacebookOauth;
 import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
 import org.tynamo.security.federatedaccounts.util.WindowMode;

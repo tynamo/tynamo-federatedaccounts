@@ -2,7 +2,7 @@ package org.tynamo.security.federatedaccounts.pages;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.tapestry5.annotations.Property;
+import org.apache.tapestry5.annotations.SessionState;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Request;
 import org.scribe.model.Token;
@@ -22,21 +22,42 @@ public class Callback {
 	@Inject
 	private OAuthServicetLocator locator;
 
-	@Property
-	private String print;
+	@SessionState(create = false)
+	private Token requestToken;
+
+	private boolean requestTokenExists;
 
 	Object onActivate(String api) {
 
 		TynamoOAuthService service = locator.getService(api);
 
-		String code = request.getParameter("code");
+		String code = null;
+
+		if ("1.0".equals(service.getVersion())) {
+
+			code = request.getParameter("oauth_verifier");
+
+			if (!requestTokenExists) {
+				logger.error("No RequestToken SSO (Session State Object)");
+				return null;
+			}
+
+
+		} else if ("2.0".equals(service.getVersion())) {
+
+			code = request.getParameter("code");
+
+		} else {
+			logger.error("Unsupported OAuth version");
+		}
+
 		if (code == null) {
-			logger.error("No Oauth authentication code provided");
+			logger.error("No OAuth authentication code provided");
 			return null;
 		}
 
 		Verifier verifier = new Verifier(code);
-		Token accessToken = service.getAccessToken(null, verifier);
+		Token accessToken = service.getAccessToken(requestToken, verifier);
 
 		try {
 			SecurityUtils.getSubject().login(service.getAuthenticationToken(accessToken));

@@ -7,11 +7,9 @@ import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
-import org.scribe.model.OAuthRequest;
-import org.scribe.model.Verb;
 import org.slf4j.Logger;
-import org.tynamo.security.federatedaccounts.oauth.Google20Service;
-import org.tynamo.security.federatedaccounts.oauth.GoogleAuthenticationToken;
+import org.tynamo.security.federatedaccounts.oauth.scribe.Google20Service;
+import org.tynamo.security.federatedaccounts.oauth.tokens.GoogleAuthenticationToken;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
 
 import java.util.Collection;

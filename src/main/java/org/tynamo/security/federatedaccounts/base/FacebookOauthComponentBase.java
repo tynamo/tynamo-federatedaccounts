@@ -4,7 +4,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
-import org.tynamo.security.federatedaccounts.facebook.FacebookRealm;
+import org.tynamo.security.federatedaccounts.realms.FacebookRealm;
 import org.tynamo.security.federatedaccounts.pages.CommitFacebookOauth;
 import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
 import org.tynamo.security.federatedaccounts.util.WindowMode;

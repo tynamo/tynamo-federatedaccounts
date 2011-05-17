@@ -1,25 +1,22 @@
-package org.tynamo.security.federatedaccounts.oauth;
+package org.tynamo.security.federatedaccounts.oauth.scribe;
 
-import org.apache.shiro.authc.AuthenticationToken;
 import org.scribe.model.*;
-import org.tynamo.security.federatedaccounts.services.TynamoOAuthService;
+import org.scribe.oauth.OAuthService;
 
-public class Google20Service implements TynamoOAuthService {
-	private static final String API_NAME = "google";
+/**
+ * Scribe's OAuth20ServiceImpl does not support extra parameters like "grant_type", nor "Authorization" header, both of
+ * which are required in order to communicate with the Google OAuth 2.0 implementation.
+ *
+ */
+public class Google20Service implements OAuthService {
+
 	private static final String VERSION = "2.0";
 
 	private final Google20Api api = new Google20Api();
 	private final OAuthConfig config;
-	private final Class callbackPageClass;
 
-	public Google20Service(GoogleOAuth20Config config, Class callbackPageClass) {
+	public Google20Service(OAuthConfig config) {
 		this.config = config;
-		this.callbackPageClass = callbackPageClass;
-	}
-
-	@Override
-	public String getApiName() {
-		return API_NAME;
 	}
 
 	@Override
@@ -57,13 +54,4 @@ public class Google20Service implements TynamoOAuthService {
 		return api.getAuthorizationUrl(config);
 	}
 
-	@Override
-	public AuthenticationToken getAuthenticationToken(Token accessToken) {
-		return new GoogleAuthenticationToken(accessToken, 3920);
-	}
-
-	@Override
-	public Object callback() {
-		return callbackPageClass;
-	}
 }

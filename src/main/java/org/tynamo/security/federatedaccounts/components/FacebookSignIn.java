@@ -7,7 +7,7 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.tynamo.security.federatedaccounts.base.FacebookOauthComponentBase;
-import org.tynamo.security.federatedaccounts.facebook.FacebookRealm;
+import org.tynamo.security.federatedaccounts.realms.FacebookRealm;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 @Import(library = "FacebookSignIn.js", stylesheet = "fb-button.css")

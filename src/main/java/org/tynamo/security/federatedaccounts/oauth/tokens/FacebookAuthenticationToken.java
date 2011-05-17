@@ -1,4 +1,4 @@
-package org.tynamo.security.federatedaccounts.oauth;
+package org.tynamo.security.federatedaccounts.oauth.tokens;
 
 import org.scribe.model.Token;
 
