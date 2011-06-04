@@ -4,19 +4,19 @@ import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
-import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.services.Coercion;
 import org.apache.tapestry5.ioc.services.CoercionTuple;
 import org.apache.tapestry5.services.LibraryMapping;
 import org.tynamo.common.ModuleProperties;
-import org.tynamo.security.FilterChainDefinition;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
-import org.tynamo.security.federatedaccounts.realms.FacebookRealm;
 import org.tynamo.security.federatedaccounts.pages.CommitFacebookOauth;
 import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
+import org.tynamo.security.federatedaccounts.realms.FacebookRealm;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
+import org.tynamo.security.services.SecurityFilterChainFactory;
+import org.tynamo.security.services.impl.SecurityFilterChain;
 
 public class FederatedAccountsModule {
 	private static final String PATH_PREFIX = "federated";
@@ -50,15 +50,14 @@ public class FederatedAccountsModule {
 		configuration.add(facebookRealm);
 	}
 
-	public static void contributeSecurityRequestFilter(OrderedConfiguration<FilterChainDefinition> configuration) {
-		// TODO can there possibly be security implications for this, document properly
-		// We can't use linksource here because we are not in request lifecycle
-		configuration.add("facebookoauth", new FilterChainDefinition("/" + PATH_PREFIX + "/"
-				+ FacebookOauth.class.getSimpleName().toLowerCase(), "anon"), "before:*");
-		configuration.add("commitfacebookoauth", new FilterChainDefinition("/" + PATH_PREFIX + "/"
-				+ CommitFacebookOauth.class.getSimpleName().toLowerCase(), "anon"), "before:*");
-	}
-
+	public static void contributeSecurityConfiguration(Configuration<SecurityFilterChain> configuration,
+			SecurityFilterChainFactory factory) {
+		configuration.add(factory.createChain("/" + PATH_PREFIX + "/"
+				+ FacebookOauth.class.getSimpleName().toLowerCase()).add(factory.anon()).build());
+		configuration.add(factory.createChain("/" + PATH_PREFIX + "/"
+				+ CommitFacebookOauth.class.getSimpleName().toLowerCase()).add(factory.anon()).build());
+	}	
+	
 	public void contributeTypeCoercer(Configuration<CoercionTuple<String, WindowMode>> configuration) {
 		configuration.add(new CoercionTuple<String, WindowMode>(String.class, WindowMode.class, new Coercion<String, WindowMode>() {
 			public WindowMode coerce(String input) {
