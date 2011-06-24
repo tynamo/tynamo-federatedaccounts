@@ -58,9 +58,10 @@ public class FacebookRealm extends AuthenticatingRealm {
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
-		FacebookAuthenticationToken token = (FacebookAuthenticationToken) authenticationToken;
 
-		FacebookClient facebookClient = new DefaultFacebookClient(authenticationToken.getPrincipal().toString());
+		FacebookAuthenticationToken facebookAuthenticationToken = (FacebookAuthenticationToken) authenticationToken;
+		FacebookClient facebookClient = new DefaultFacebookClient(facebookAuthenticationToken.getToken().getToken());
+
 		User facebookUser;
 		try {
 			facebookUser = facebookClient.fetchObject("me", User.class);
