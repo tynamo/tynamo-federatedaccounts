@@ -102,7 +102,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-<!-- 
+<!-- tapestry-security pulls in shiro that depends on a slf4j-api 1.5.8, but tapestry needs 1.6 -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -113,7 +113,6 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.6.1</version>
 		</dependency>
- -->
 
 		<dependency>
 			<groupId>org.tynamo</groupId>
