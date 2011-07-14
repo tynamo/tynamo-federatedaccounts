@@ -175,7 +175,7 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<Tapestry-Module-Classes>org.tynamo.security.federatedaccounts.services.FederatedAccountsModule
+							<Tapestry-Module-Classes>org.tynamo.security.federatedaccounts.facebook.services.FederatedAccountsModule
 							</Tapestry-Module-Classes>
 						</manifestEntries>
 					</archive>
