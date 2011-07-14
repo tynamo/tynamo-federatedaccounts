@@ -23,7 +23,7 @@ import static org.testng.Assert.assertNotNull;
 
 import java.io.IOException;
 
-import org.mortbay.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.webapp.WebAppContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.tynamo.test.AbstractContainerTest;
