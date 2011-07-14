@@ -2,11 +2,11 @@ package org.tynamo.security.federatedaccounts.services;
 
 import org.apache.tapestry5.ioc.ObjectLocator;
 
-public class OAuthServicetLocatorImpl implements OAuthServicetLocator {
+public class OAuthServiceLocatorImpl implements OAuthServiceLocator {
 
 	private ObjectLocator locator;
 
-	public OAuthServicetLocatorImpl(ObjectLocator locator) {
+	public OAuthServiceLocatorImpl(ObjectLocator locator) {
 		this.locator = locator;
 	}
 

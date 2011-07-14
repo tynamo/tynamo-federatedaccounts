@@ -7,7 +7,7 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SessionState;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.scribe.model.Token;
-import org.tynamo.security.federatedaccounts.services.OAuthServicetLocator;
+import org.tynamo.security.federatedaccounts.services.OAuthServiceLocator;
 import org.tynamo.security.federatedaccounts.services.TynamoOAuthService;
 
 /**
@@ -25,7 +25,7 @@ public class OAuthLink {
 	private String provider;
 
 	@Inject
-	private OAuthServicetLocator locator;
+	private OAuthServiceLocator locator;
 
 	@SessionState(create = false)
 	private Token requestToken;

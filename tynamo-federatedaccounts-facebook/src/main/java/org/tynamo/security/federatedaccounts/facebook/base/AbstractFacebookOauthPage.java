@@ -1,4 +1,4 @@
-package org.tynamo.security.federatedaccounts.base;
+package org.tynamo.security.federatedaccounts.facebook.base;
 
 import java.net.MalformedURLException;
 import java.net.URI;

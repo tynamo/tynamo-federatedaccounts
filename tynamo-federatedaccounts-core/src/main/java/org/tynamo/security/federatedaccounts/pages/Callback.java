@@ -8,7 +8,7 @@ import org.apache.tapestry5.services.Request;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.slf4j.Logger;
-import org.tynamo.security.federatedaccounts.services.OAuthServicetLocator;
+import org.tynamo.security.federatedaccounts.services.OAuthServiceLocator;
 import org.tynamo.security.federatedaccounts.services.TynamoOAuthService;
 
 public class Callback {
@@ -20,7 +20,7 @@ public class Callback {
 	private Request request;
 
 	@Inject
-	private OAuthServicetLocator locator;
+	private OAuthServiceLocator locator;
 
 	@SessionState(create = false)
 	private Token requestToken;

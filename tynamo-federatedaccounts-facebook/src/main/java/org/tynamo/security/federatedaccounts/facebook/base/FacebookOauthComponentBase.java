@@ -1,12 +1,12 @@
-package org.tynamo.security.federatedaccounts.base;
+package org.tynamo.security.federatedaccounts.facebook.base;
 
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
-import org.tynamo.security.federatedaccounts.realms.FacebookRealm;
-import org.tynamo.security.federatedaccounts.pages.CommitFacebookOauth;
-import org.tynamo.security.federatedaccounts.pages.FacebookOauth;
+import org.tynamo.security.federatedaccounts.facebook.pages.CommitFacebookOauth;
+import org.tynamo.security.federatedaccounts.facebook.pages.FacebookOauth;
+import org.tynamo.security.federatedaccounts.facebook.services.FacebookRealm;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 public class FacebookOauthComponentBase {

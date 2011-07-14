@@ -1,8 +1,8 @@
-package org.tynamo.security.federatedaccounts.pages;
+package org.tynamo.security.federatedaccounts.facebook.pages;
 
 import java.net.MalformedURLException;
 
-import org.tynamo.security.federatedaccounts.base.AbstractFacebookOauthPage;
+import org.tynamo.security.federatedaccounts.facebook.base.AbstractFacebookOauthPage;
 
 public class FacebookOauth extends AbstractFacebookOauthPage {
 

@@ -1,4 +1,4 @@
-package org.tynamo.security.federatedaccounts.realms;
+package org.tynamo.security.federatedaccounts.facebook.services;
 
 import java.util.Collection;
 import java.util.List;
