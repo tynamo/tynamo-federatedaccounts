@@ -168,7 +168,7 @@
 				<configuration>
 					<archive>
 						<manifestEntries>
-							<Tapestry-Module-Classes>org.tynamo.security.federatedaccounts.twitter.services.FederatedAccountsModule
+							<Tapestry-Module-Classes>org.tynamo.security.federatedaccounts.twitter.services.TwitterFederatedAccountsModule
 							</Tapestry-Module-Classes>
 						</manifestEntries>
 					</archive>
