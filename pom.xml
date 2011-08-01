@@ -35,6 +35,7 @@
 	<modules>
 		<module>tynamo-federatedaccounts-core</module>
 		<module>tynamo-federatedaccounts-facebook</module>
+		<module>tynamo-federatedaccounts-twitter</module>
 	</modules>
 	
 	<dependencyManagement>
@@ -47,7 +48,7 @@
 			<dependency>
 				<groupId>com.h2database</groupId>
 				<artifactId>h2</artifactId>
-				<version>1.3.157</version>
+				<version>1.3.158</version>
 				<scope>test</scope>
 			</dependency>
 			<dependency>

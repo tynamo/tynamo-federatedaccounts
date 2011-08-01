@@ -1,4 +1,4 @@
-package org.tynamo.security.federatedaccounts.facebook.base;
+package org.tynamo.security.federatedaccounts.twitter.base;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -32,10 +32,10 @@ import org.esxx.js.protocol.GAEConnectionManager;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.components.FlashMessager;
-import org.tynamo.security.federatedaccounts.facebook.FacebookAccessToken;
+import org.tynamo.security.federatedaccounts.twitter.TwitterAuthenticationToken;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
-public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBase {
+public abstract class AbstractTwitterOauthPage extends TwitterOauthComponentBase {
 	@Inject
 	@Symbol(FederatedAccountSymbols.HTTPCLIENT_ON_GAE)
 	private boolean httpClientOnGae;
@@ -141,12 +141,11 @@ public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBa
 		}
 
 		try {
-			SecurityUtils.getSubject().login(new FacebookAccessToken(accessToken, expires));
+			SecurityUtils.getSubject().login(new TwitterAuthenticationToken(accessToken, expires));
 			flashMessager.setSuccessMessage("User successfully authenticated");
 			fbAuthenticated = true;
 		} catch (AuthenticationException e) {
-			logger.error("Using access token " + accessToken + "\nCould not sign in a Facebook federated user because of: ",
-				e);
+			logger.error("Using access token " + accessToken + "\nCould not sign in a Facebook federated user because of: ", e);
 			// FIXME Deal with other account exception types like expired and
 			// locked
 			flashMessager.setFailureMessage("A Facebook federated user cannot be signed in, report this to support.\n " + e.getMessage());

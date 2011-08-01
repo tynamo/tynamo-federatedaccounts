@@ -1,26 +1,25 @@
 package org.tynamo.security.federatedaccounts.oauth.tokens;
 
-import org.apache.shiro.authc.AuthenticationToken;
-import org.scribe.model.Token;
-
 import java.util.Date;
 
-public class OauthAuthenticationToken implements AuthenticationToken {
+import org.apache.shiro.authc.AuthenticationToken;
 
-	private static final long serialVersionUID = 0L;
-	private Token token;
+public class OauthAccessToken implements AuthenticationToken {
+
+	private static final long serialVersionUID = 1L;
+	private String token;
 	private Date expiration;
 
-	public OauthAuthenticationToken(Token accessToken, long expiresInSeconds) {
+	public OauthAccessToken(String accessToken, long expiresInSeconds) {
 		this(accessToken, new Date(System.currentTimeMillis() + expiresInSeconds * 1000L));
 	}
 
-	public OauthAuthenticationToken(Token accessToken, Date expiration) {
+	public OauthAccessToken(String accessToken, Date expiration) {
 		this.token = accessToken;
 		this.expiration = expiration;
 	}
 
-	public Token getToken() {
+	public String getToken() {
 		return token;
 	}
 
@@ -29,7 +28,7 @@ public class OauthAuthenticationToken implements AuthenticationToken {
 	}
 
 	public String toString() {
-		return token.getToken();
+		return token;
 	}
 
 	/**
