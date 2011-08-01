@@ -33,7 +33,7 @@ import org.scribe.model.Token;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.components.FlashMessager;
-import org.tynamo.security.federatedaccounts.oauth.tokens.FacebookAuthenticationToken;
+import org.tynamo.security.federatedaccounts.facebook.FacebookAuthenticationToken;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 public abstract class AbstractFacebookOauthPage extends FacebookOauthComponentBase {

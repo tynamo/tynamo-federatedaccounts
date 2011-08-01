@@ -17,7 +17,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount;
-import org.tynamo.security.federatedaccounts.oauth.tokens.FacebookAuthenticationToken;
+import org.tynamo.security.federatedaccounts.facebook.FacebookAuthenticationToken;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
 
 import com.restfb.DefaultFacebookClient;
