@@ -125,13 +125,6 @@
 			</exclusions>
 			 -->
 		</dependency>
-
-		<dependency>
-			<groupId>org.scribe</groupId>
-			<artifactId>scribe</artifactId>
-			<version>1.2.0</version>
-		</dependency>
-
 	</dependencies>
 
 	<scm>
