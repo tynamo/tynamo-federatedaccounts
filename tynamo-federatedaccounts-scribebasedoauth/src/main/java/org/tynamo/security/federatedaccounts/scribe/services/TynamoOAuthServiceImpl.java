@@ -1,11 +1,11 @@
-package org.tynamo.security.federatedaccounts.services;
+package org.tynamo.security.federatedaccounts.scribe.services;
 
 import org.apache.shiro.authc.AuthenticationToken;
 import org.scribe.model.OAuthRequest;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
-import org.tynamo.security.federatedaccounts.oauth.AuthenticationTokenBuilder;
+import org.tynamo.security.federatedaccounts.scribe.AuthenticationTokenBuilder;
 
 public class TynamoOAuthServiceImpl implements TynamoOAuthService {
 

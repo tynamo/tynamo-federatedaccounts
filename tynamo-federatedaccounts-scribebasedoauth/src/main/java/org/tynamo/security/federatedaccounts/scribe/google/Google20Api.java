@@ -1,4 +1,4 @@
-package org.tynamo.security.federatedaccounts.oauth.scribe;
+package org.tynamo.security.federatedaccounts.scribe.google;
 
 import org.scribe.builder.api.DefaultApi20;
 import org.scribe.extractors.AccessTokenExtractor;

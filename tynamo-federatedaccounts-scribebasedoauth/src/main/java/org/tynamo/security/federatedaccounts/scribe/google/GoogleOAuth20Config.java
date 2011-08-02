@@ -1,6 +1,7 @@
-package org.tynamo.security.federatedaccounts.oauth;
+package org.tynamo.security.federatedaccounts.scribe.google;
 
 import org.apache.tapestry5.services.PageRenderLinkSource;
+import org.tynamo.security.federatedaccounts.scribe.TynamoOAuthConfig;
 
 public class GoogleOAuth20Config extends TynamoOAuthConfig {
 

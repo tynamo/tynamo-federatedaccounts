@@ -2,6 +2,10 @@ package org.tynamo.security.federatedaccounts.components;
 
 import org.apache.tapestry5.annotations.Persist;
 
+/**
+ * To be replaced with T5.3 alerts
+ */
+@Deprecated
 public class FlashMessager {
 	@Persist("flash")
 	private String successMessage;

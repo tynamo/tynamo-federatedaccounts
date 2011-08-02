@@ -1,6 +1,14 @@
-package org.tynamo.security.federatedaccounts.realms;
+package org.tynamo.security.federatedaccounts.scribe.google;
 
-import org.apache.shiro.authc.*;
+import static org.tynamo.security.federatedaccounts.FederatedAccount.Type.google;
+
+import java.util.Collection;
+import java.util.List;
+
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authz.AuthorizationException;
 import org.apache.shiro.authz.Permission;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
@@ -8,14 +16,7 @@ import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.slf4j.Logger;
-import org.tynamo.security.federatedaccounts.oauth.scribe.Google20Service;
-import org.tynamo.security.federatedaccounts.oauth.tokens.GoogleAuthenticationToken;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
-
-import java.util.Collection;
-import java.util.List;
-
-import static org.tynamo.security.federatedaccounts.FederatedAccount.Type.google;
 
 /**
  * <p/>

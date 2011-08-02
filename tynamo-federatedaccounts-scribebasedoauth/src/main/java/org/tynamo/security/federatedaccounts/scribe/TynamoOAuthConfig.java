@@ -1,8 +1,8 @@
-package org.tynamo.security.federatedaccounts.oauth;
+package org.tynamo.security.federatedaccounts.scribe;
 
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.scribe.model.OAuthConfig;
-import org.tynamo.security.federatedaccounts.pages.Callback;
+import org.tynamo.security.federatedaccounts.scribe.pages.Callback;
 
 public class TynamoOAuthConfig extends OAuthConfig {
 	private PageRenderLinkSource linkSource;

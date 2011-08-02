@@ -15,7 +15,6 @@ public class FederatedAccountsModule {
 	private static String version = ModuleProperties.getVersion(FederatedAccountsModule.class);
 
 	public static void bind(ServiceBinder binder) {
-		binder.bind(OAuthServiceLocator.class);
 	}
 
 	public static void contributeFactoryDefaults(MappedConfiguration<String, String> configuration) {

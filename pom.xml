@@ -35,6 +35,7 @@
 	<modules>
 		<module>tynamo-federatedaccounts-core</module>
 		<module>tynamo-federatedaccounts-facebook</module>
+		<module>tynamo-federatedaccounts-scribebasedoauth</module>
 		<module>tynamo-federatedaccounts-twitter</module>
 	</modules>
 	

@@ -1,4 +1,4 @@
-package org.tynamo.security.federatedaccounts.oauth.scribe;
+package org.tynamo.security.federatedaccounts.scribe.google;
 
 import org.scribe.model.*;
 import org.scribe.oauth.OAuthService;
