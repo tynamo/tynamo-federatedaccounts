@@ -14,7 +14,7 @@ import org.tynamo.security.services.SecurityFilterChainFactory;
 import org.tynamo.security.services.impl.SecurityFilterChain;
 
 public class FacebookFederatedAccountsModule {
-	private static final String PATH_PREFIX = "federated";
+	private static final String PATH_PREFIX = "facebook";
 	private static String version = ModuleProperties.getVersion(FacebookFederatedAccountsModule.class);
 
 	public static void bind(ServiceBinder binder) {
@@ -29,11 +29,11 @@ public class FacebookFederatedAccountsModule {
 	}
 
 	public static void contributeComponentClassResolver(Configuration<LibraryMapping> configuration) {
-		configuration.add(new LibraryMapping(PATH_PREFIX, "org.tynamo.security.federatedaccounts"));
+		configuration.add(new LibraryMapping(PATH_PREFIX, "org.tynamo.security.federatedaccounts.facebook"));
 	}
 
 	public static void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration) {
-		configuration.add(PATH_PREFIX + "-" + version, "org/tynamo/security/federatedaccounts");
+		configuration.add(PATH_PREFIX + "-" + version, "org/tynamo/security/federatedaccounts/facebook");
 	}
 
 	public static void contributeWebSecurityManager(Configuration<Realm> configuration,
