@@ -1,18 +1,12 @@
 package org.tynamo.security.federatedaccounts.facebook.services;
 
-import java.util.Collection;
-import java.util.List;
-
 import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authz.AuthorizationException;
-import org.apache.shiro.authz.Permission;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.realm.AuthenticatingRealm;
-import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.slf4j.Logger;
@@ -105,105 +99,4 @@ public class FacebookRealm extends AuthenticatingRealm {
 
 		// return federatedAccount;
 	}
-
-	/**
-	 * FIXME The following operations should all be removed - https://issues.apache.org/jira/browse/SHIRO-231 requires
-	 * AuthenticatingRealm to implement Authorizer, which is wrong. Remove when upgrading Shiro dependency to 1.2
-	 */
-	@Override
-	public boolean isPermitted(PrincipalCollection principals, String permission) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isPermitted(PrincipalCollection subjectPrincipal, Permission permission) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean[] isPermitted(PrincipalCollection subjectPrincipal, String... permissions) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean[] isPermitted(PrincipalCollection subjectPrincipal, List<Permission> permissions) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean isPermittedAll(PrincipalCollection subjectPrincipal, String... permissions) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean isPermittedAll(PrincipalCollection subjectPrincipal, Collection<Permission> permissions) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void checkPermission(PrincipalCollection subjectPrincipal, String permission) throws AuthorizationException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void checkPermission(PrincipalCollection subjectPrincipal, Permission permission) throws AuthorizationException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void checkPermissions(PrincipalCollection subjectPrincipal, String... permissions) throws AuthorizationException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void checkPermissions(PrincipalCollection subjectPrincipal, Collection<Permission> permissions) throws AuthorizationException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean hasRole(PrincipalCollection subjectPrincipal, String roleIdentifier) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean[] hasRoles(PrincipalCollection subjectPrincipal, List<String> roleIdentifiers) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public boolean hasAllRoles(PrincipalCollection subjectPrincipal, Collection<String> roleIdentifiers) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void checkRole(PrincipalCollection subjectPrincipal, String roleIdentifier) throws AuthorizationException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void checkRoles(PrincipalCollection subjectPrincipal, Collection<String> roleIdentifiers) throws AuthorizationException {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void checkRoles(PrincipalCollection subjectPrincipal, String... roleIdentifiers) throws AuthorizationException {
-		// TODO Auto-generated method stub
-
-	}
-
 }
