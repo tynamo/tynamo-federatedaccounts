@@ -14,7 +14,7 @@
 	</parent>
 
 	<properties>
-		<tapestry-release-version>5.3.0</tapestry-release-version>
+		<tapestry-release-version>5.3.1</tapestry-release-version>
 	</properties>
 
 	<dependencies>
@@ -48,7 +48,7 @@
 		<dependency>
 			<groupId>org.tynamo</groupId>
 			<artifactId>tapestry-security</artifactId>
-			<version>0.4.0</version>
+			<version>0.4.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.tynamo.gae</groupId>
