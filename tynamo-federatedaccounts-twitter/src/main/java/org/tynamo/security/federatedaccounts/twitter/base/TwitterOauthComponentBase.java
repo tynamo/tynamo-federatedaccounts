@@ -9,6 +9,8 @@ import org.tynamo.security.federatedaccounts.twitter.pages.TwitterOauth;
 import org.tynamo.security.federatedaccounts.twitter.services.TwitterRealm;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
+import twitter4j.TwitterFactory;
+
 public class TwitterOauthComponentBase {
 	@Inject
 	@Symbol(FederatedAccountSymbols.COMMITAFTER_OAUTH)
@@ -41,9 +43,16 @@ public class TwitterOauthComponentBase {
 	@Inject
 	private PageRenderLinkSource linkSource;
 
+	@Inject
+	private TwitterFactory twitterFactory;
+
+	protected TwitterFactory getTwitterFactory() {
+		return twitterFactory;
+	}
+
 	// Final since signin and oauth *must* share the same implementation (or at least use the same link)
 	protected final String getOauthRedirectLink(WindowMode windowMode) {
-		return linkSource.createPageRenderLinkWithContext(autocommit ? CommitTwitterOauth.class : TwitterOauth.class, windowMode)
-				.toAbsoluteURI();
+		return linkSource.createPageRenderLinkWithContext(autocommit ? CommitTwitterOauth.class : TwitterOauth.class,
+			windowMode).toAbsoluteURI();
 	}
 }

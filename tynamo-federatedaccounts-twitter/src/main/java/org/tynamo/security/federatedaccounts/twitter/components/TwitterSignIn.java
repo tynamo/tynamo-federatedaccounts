@@ -2,6 +2,7 @@ package org.tynamo.security.federatedaccounts.twitter.components;
 
 import org.apache.tapestry5.Asset;
 import org.apache.tapestry5.BindingConstants;
+import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
@@ -9,6 +10,9 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.AssetSource;
 import org.tynamo.security.federatedaccounts.twitter.base.TwitterOauthComponentBase;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
+
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
 
 @Import(library = "TwitterSignIn.js")
 public class TwitterSignIn extends TwitterOauthComponentBase {
@@ -36,7 +40,7 @@ public class TwitterSignIn extends TwitterOauthComponentBase {
 	@Property
 	private Integer height;
 
-	@Parameter(value = "blank", required = false, defaultPrefix = "literal")
+	@Parameter(value = "darker", required = false, defaultPrefix = "literal")
 	private ButtonStyle buttonStyle;
 
 	@Parameter(value = "blank", required = false, defaultPrefix = "literal")
@@ -45,8 +49,11 @@ public class TwitterSignIn extends TwitterOauthComponentBase {
 	@Inject
 	private AssetSource assetSource;
 
+	@Inject
+	private ComponentResources componentResources;
+
 	public Asset getSignInImage() {
-		return assetSource.getClasspathAsset(buttonStyle.toString());
+		return assetSource.getAsset(componentResources.getBaseResource(), buttonStyle.toString(), null);
 	}
 
 	public boolean isWindowMode(String mode) {
@@ -54,16 +61,9 @@ public class TwitterSignIn extends TwitterOauthComponentBase {
 		return windowMode.equals(WindowMode.valueOf(mode));
 	}
 
-	public String getOauthAuthorizationLink() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("https://graph.facebook.com/oauth/authorize?client_id=");
-		sb.append(getOauthClientId());
-		sb.append("&redirect_uri=");
-		sb.append(getOauthRedirectLink(windowMode));
-		sb.append("&display=popup");
-		sb.append("&scope=");
-		// sb.append(facebookPermissions);
-
-		return sb.toString();
+	public String getOauthAuthorizationLink() throws TwitterException {
+		Twitter twitter = getTwitterFactory().getInstance();
+		twitter.setOAuthConsumer(getOauthClientId(), getOauthClientSecret());
+		return twitter.getOAuthRequestToken().getAuthorizationURL();
 	}
 }

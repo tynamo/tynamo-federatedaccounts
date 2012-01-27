@@ -14,6 +14,8 @@ import org.tynamo.security.federatedaccounts.twitter.pages.TwitterOauth;
 import org.tynamo.security.services.SecurityFilterChainFactory;
 import org.tynamo.security.services.impl.SecurityFilterChain;
 
+import twitter4j.TwitterFactory;
+
 public class TwitterFederatedAccountsModule {
 	private static final String PATH_PREFIX = "twitter";
 	// this is a child module, use the same version as for the parent
@@ -49,5 +51,9 @@ public class TwitterFederatedAccountsModule {
 		configuration.add(factory
 			.createChain("/" + PATH_PREFIX + "/" + CommitTwitterOauth.class.getSimpleName().toLowerCase())
 			.add(factory.anon()).build());
+	}
+
+	public static TwitterFactory build() {
+		return new TwitterFactory();
 	}
 }
