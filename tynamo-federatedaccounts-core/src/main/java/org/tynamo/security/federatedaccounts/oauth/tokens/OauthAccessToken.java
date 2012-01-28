@@ -11,7 +11,7 @@ public class OauthAccessToken implements AuthenticationToken {
 	private Date expiration;
 
 	public OauthAccessToken(String accessToken, long expiresInSeconds) {
-		this(accessToken, new Date(System.currentTimeMillis() + expiresInSeconds * 1000L));
+		this(accessToken, expiresInSeconds < 0 ? null : new Date(System.currentTimeMillis() + expiresInSeconds * 1000L));
 	}
 
 	public OauthAccessToken(String accessToken, Date expiration) {
