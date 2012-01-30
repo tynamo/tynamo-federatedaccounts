@@ -1,7 +1,11 @@
 package org.tynamo.security.federatedaccounts.twitter.base;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
+import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.Property;
@@ -20,6 +24,7 @@ import org.tynamo.security.federatedaccounts.util.WindowMode;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.auth.AccessToken;
+import twitter4j.auth.RequestToken;
 
 public abstract class AbstractTwitterOauthPage extends TwitterOauthComponentBase {
 	@Inject
@@ -47,21 +52,35 @@ public abstract class AbstractTwitterOauthPage extends TwitterOauthComponentBase
 	@Property
 	private WindowMode windowMode;
 
-	protected void onActivate(String windowModeText) throws TwitterException {
-		try {
-			windowMode = WindowMode.valueOf(windowModeText);
-		} catch (IllegalArgumentException e) {
-		}
+	protected Object onActivate(EventContext eventContext) throws TwitterException, MalformedURLException {
+		if (eventContext.getCount() > 0) {
+			try {
+				String windowModeText = eventContext.get(String.class, 0);
+				windowMode = WindowMode.valueOf(windowModeText);
+			} catch (IllegalArgumentException e) {
+			}
 
+			if (eventContext.getCount() > 1) {
+				String action = eventContext.get(String.class, 1);
+				if ("request_token".equals(action)) {
+					Twitter twitter = getTwitterFactory().getInstance();
+					twitter.setOAuthConsumer(getOauthClientId(), getOauthClientSecret());
+					return new URL(twitter.getOAuthRequestToken(getOauthRedirectLink(windowMode)).getAuthorizationURL());
+				}
+
+			}
+		}
+		String oauth_token = request.getParameter("oauth_token");
 		String oauth_verifier = request.getParameter("oauth_verifier");
 		if (oauth_verifier == null) {
 			flashMessager.setFailureMessage("No Oauth verifier code provided");
-			return;
+			return null;
 		}
 
 		Twitter twitter = getTwitterFactory().getInstance();
 		twitter.setOAuthConsumer(getOauthClientId(), getOauthClientSecret());
-		AccessToken accessToken = twitter.getOAuthAccessToken(oauth_verifier);
+		AccessToken accessToken = twitter.getOAuthAccessToken(new RequestToken(oauth_token, getOauthClientSecret()),
+			oauth_verifier);
 
 		try {
 			SecurityUtils.getSubject().login(new TwitterAuthenticationToken(accessToken, -1));
@@ -75,6 +94,7 @@ public abstract class AbstractTwitterOauthPage extends TwitterOauthComponentBase
 			flashMessager.setFailureMessage("A Twitter federated user cannot be signed in, report this to support.\n "
 				+ e.getMessage());
 		}
+		return null;
 	}
 
 	@Inject

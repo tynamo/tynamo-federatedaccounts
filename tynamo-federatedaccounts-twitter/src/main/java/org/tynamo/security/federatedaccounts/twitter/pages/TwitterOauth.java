@@ -1,5 +1,8 @@
 package org.tynamo.security.federatedaccounts.twitter.pages;
 
+import java.net.MalformedURLException;
+
+import org.apache.tapestry5.EventContext;
 import org.tynamo.security.federatedaccounts.twitter.base.AbstractTwitterOauthPage;
 
 import twitter4j.TwitterException;
@@ -7,7 +10,7 @@ import twitter4j.TwitterException;
 public class TwitterOauth extends AbstractTwitterOauthPage {
 
 	@Override
-	protected void onActivate(String windowMode) throws TwitterException {
-		super.onActivate(windowMode);
+	protected Object onActivate(EventContext context) throws TwitterException, MalformedURLException {
+		return super.onActivate(context);
 	}
 }

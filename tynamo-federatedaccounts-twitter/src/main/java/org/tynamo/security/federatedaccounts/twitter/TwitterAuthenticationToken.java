@@ -19,4 +19,11 @@ public class TwitterAuthenticationToken extends OauthAccessToken {
 	public Object getPrincipal() {
 		return accessToken;
 	}
+
+	// credentials cannot be null
+	@Override
+	public Object getCredentials() {
+		return accessToken.getUserId();
+	}
+
 }

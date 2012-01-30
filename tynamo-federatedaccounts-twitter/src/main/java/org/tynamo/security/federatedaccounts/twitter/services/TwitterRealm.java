@@ -36,12 +36,20 @@ public class TwitterRealm extends AuthenticatingRealm {
 
 	private PrincipalProperty principalProperty;
 
-	private FederatedAccountService federatedAccountService;
+	private final FederatedAccountService federatedAccountService;
+	private final TwitterFactory twitterFactory;
+	private String oauthClientId;
+	private String oauthClientSecret;
 
-	public TwitterRealm(Logger logger, FederatedAccountService federatedAccountService,
+	public TwitterRealm(Logger logger, FederatedAccountService federatedAccountService, TwitterFactory twitterFactory,
+		@Inject @Symbol(TwitterRealm.TWITTER_CLIENTID) String oauthClientId,
+		@Inject @Symbol(TwitterRealm.TWITTER_CLIENTSECRET) String oauthClientSecret,
 		@Inject @Symbol(TwitterRealm.TWITTER_PRINCIPAL) String principalPropertyName) {
 		super(new MemoryConstrainedCacheManager());
 		this.federatedAccountService = federatedAccountService;
+		this.twitterFactory = twitterFactory;
+		this.oauthClientId = oauthClientId;
+		this.oauthClientSecret = oauthClientSecret;
 		this.logger = logger;
 		// Let this throw IllegalArgumentException if value is not supported
 		this.principalProperty = PrincipalProperty.valueOf(principalPropertyName);
@@ -52,10 +60,11 @@ public class TwitterRealm extends AuthenticatingRealm {
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
 		throws AuthenticationException {
-
 		AccessToken accessToken = (AccessToken) authenticationToken.getPrincipal();
 
-		Twitter twitter = new TwitterFactory().getInstance(accessToken);
+		Twitter twitter = twitterFactory.getInstance();
+		twitter.setOAuthConsumer(oauthClientId, oauthClientSecret);
+		twitter.setOAuthAccessToken(accessToken);
 
 		User twitterUser;
 		try {

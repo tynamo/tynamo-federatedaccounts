@@ -40,8 +40,8 @@ public class TwitterFederatedAccountsModule {
 	}
 
 	public static void contributeWebSecurityManager(Configuration<Realm> configuration,
-		@InjectService("FacebookRealm") AuthenticatingRealm facebookRealm) {
-		configuration.add(facebookRealm);
+		@InjectService("TwitterRealm") AuthenticatingRealm twitterRealm) {
+		configuration.add(twitterRealm);
 	}
 
 	public static void contributeSecurityConfiguration(Configuration<SecurityFilterChain> configuration,

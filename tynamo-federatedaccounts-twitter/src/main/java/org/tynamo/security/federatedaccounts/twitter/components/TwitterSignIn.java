@@ -11,7 +11,6 @@ import org.apache.tapestry5.services.AssetSource;
 import org.tynamo.security.federatedaccounts.twitter.base.TwitterOauthComponentBase;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
-import twitter4j.Twitter;
 import twitter4j.TwitterException;
 
 @Import(library = "TwitterSignIn.js")
@@ -62,8 +61,6 @@ public class TwitterSignIn extends TwitterOauthComponentBase {
 	}
 
 	public String getOauthAuthorizationLink() throws TwitterException {
-		Twitter twitter = getTwitterFactory().getInstance();
-		twitter.setOAuthConsumer(getOauthClientId(), getOauthClientSecret());
-		return twitter.getOAuthRequestToken().getAuthorizationURL();
+		return getOauthRedirectLink(windowMode, "request_token");
 	}
 }
