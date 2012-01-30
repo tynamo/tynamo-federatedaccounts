@@ -1,0 +1,66 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Twitter authentication</title>
+</head>
+<body>
+<div class="title">
+	<h1>Twitter authentication</h1>
+</div>
+<t:FlashMessager t:id="flashMessager"/>
+<div style="margin-top:10px">
+	<a href="#" onclick="closeOauthWindow('${windowMode}');">Close window</a>
+</div>
+<script type="text/javascript">
+function onAuthenticationSuccess(successLink, windowMode) {
+	switch (windowMode) {
+		case 'blank' :
+			if (window.opener != null) {
+				if (successLink == '') window.opener.location.reload(true);
+				else window.opener.location.href = successLink;
+			}
+			window.close();
+			break;
+		case 'inline' :
+			if (window.top == window.self) {
+				// same as self, we are not in iframe anymore
+				if (successLink == '') window.history.go(-2);
+				else window.location.href = successLink;
+			}
+			else {
+				closeInlineOauthWindow();
+				if (successLink == '') window.parent.location.reload(true);
+				else window.parent.location.href = successLink;
+			}
+			break;
+		case 'self' : 
+			if (successLink == '') window.history.go(-2);
+			else window.location.href = successLink;
+			break;
+	}
+}
+
+function closeInlineOauthWindow() {
+	var parentDiv = window.parent.$('oauthInlineFrame').up('div');
+	// find the inline frame parent and "close" it
+	if (typeof(parentdiv) != undefined) parentDiv.setStyle({width: '0px', height : '0px', display : 'none'});
+}
+
+function closeOauthWindow(windowMode) {
+	switch (windowMode) {
+		case 'blank' :
+			window.close();
+			break;
+		case 'inline' :
+			closeInlineOauthWindow();
+			break;
+		case 'self' : 
+			window.history.go(-2);
+			break;
+	}
+	return false;
+}
+</script>
+</body>
+</html>
