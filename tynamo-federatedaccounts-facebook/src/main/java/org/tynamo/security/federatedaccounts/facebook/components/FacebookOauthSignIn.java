@@ -6,12 +6,14 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
-import org.tynamo.security.federatedaccounts.facebook.base.FacebookOauthComponentBase;
+import org.apache.tapestry5.services.PageRenderLinkSource;
+import org.tynamo.security.federatedaccounts.base.AbstractOauthSignIn;
+import org.tynamo.security.federatedaccounts.facebook.pages.FacebookOauth;
 import org.tynamo.security.federatedaccounts.facebook.services.FacebookRealm;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
-@Import(library = "FacebookSignIn.js", stylesheet = "fb-button.css")
-public class FacebookSignIn extends FacebookOauthComponentBase {
+@Import(stylesheet = "fb-button.css")
+public class FacebookOauthSignIn extends AbstractOauthSignIn {
 
 	@Inject
 	@Symbol(FacebookRealm.FACEBOOK_PERMISSIONS)
@@ -34,16 +36,24 @@ public class FacebookSignIn extends FacebookOauthComponentBase {
 		return windowMode.equals(WindowMode.valueOf(mode));
 	}
 
+	@Inject
+	private PageRenderLinkSource linkSource;
+
 	public String getOauthAuthorizationLink() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("https://graph.facebook.com/oauth/authorize?client_id=");
 		sb.append(getOauthClientId());
 		sb.append("&redirect_uri=");
-		sb.append(getOauthRedirectLink(windowMode));
+		sb.append(getOauthRedirectLink());
 		sb.append("&display=popup");
 		sb.append("&scope=");
 		sb.append(facebookPermissions);
 
 		return sb.toString();
 	}
+
+	public String getOauthRedirectLink() {
+		return linkSource.createPageRenderLinkWithContext(FacebookOauth.class, windowMode).toAbsoluteURI();
+	}
+
 }

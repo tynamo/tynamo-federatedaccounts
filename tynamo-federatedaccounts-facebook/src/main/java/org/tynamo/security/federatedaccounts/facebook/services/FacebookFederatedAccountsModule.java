@@ -8,7 +8,6 @@ import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.services.LibraryMapping;
 import org.tynamo.common.ModuleProperties;
-import org.tynamo.security.federatedaccounts.facebook.pages.CommitFacebookOauth;
 import org.tynamo.security.federatedaccounts.facebook.pages.FacebookOauth;
 import org.tynamo.security.services.SecurityFilterChainFactory;
 import org.tynamo.security.services.impl.SecurityFilterChain;
@@ -45,7 +44,5 @@ public class FacebookFederatedAccountsModule {
 			SecurityFilterChainFactory factory) {
 		configuration.add(factory.createChain("/" + PATH_PREFIX + "/"
 				+ FacebookOauth.class.getSimpleName().toLowerCase()).add(factory.anon()).build());
-		configuration.add(factory.createChain("/" + PATH_PREFIX + "/"
-				+ CommitFacebookOauth.class.getSimpleName().toLowerCase()).add(factory.anon()).build());
 	}	
 }

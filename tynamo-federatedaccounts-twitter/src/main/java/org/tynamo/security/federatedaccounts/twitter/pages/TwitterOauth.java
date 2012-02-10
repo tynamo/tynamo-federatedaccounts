@@ -59,8 +59,7 @@ public class TwitterOauth extends AbstractOauthPage {
 		return twitterFactory;
 	}
 
-	// Final since signin and oauth *must* share the same implementation (or at least use the same link)
-	protected final String getOauthRedirectLink(Object... context) {
+	protected String getOauthRedirectLink(Object... context) {
 		if (context == null || !(context[0] instanceof WindowMode))
 			throw new IllegalArgumentException("WindowMode is required as the first context parameter");
 		return linkSource.createPageRenderLinkWithContext(getClass(), context).toAbsoluteURI();

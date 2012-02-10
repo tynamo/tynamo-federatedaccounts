@@ -2,12 +2,12 @@
 <t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
 	<t:if test="oauthConfigured">
 		<t:if test="isWindowMode('blank')">
-			<a id="fbauthenticationlinkBlank" class="fb_container fb_button fb_button_medium" href="#" onclick="openFacebookAuthorizationWindow('${oauthAuthorizationLink}',${width},${height});">
+			<a id="fbauthenticationlinkBlank" class="fb_container fb_button fb_button_medium" href="#" onclick="openOauthWindow('${oauthAuthorizationLink}',${width},${height});">
 				<span id="fb_login_text" class="fb_button_text">Login</span>
 			</a>
 		<p:else>
 			<t:if test="isWindowMode('inline')">
-				<a id="fbauthenticationlinkInline" class="fb_container fb_button fb_button_medium" href="#" onclick="openFacebookAuthorizationInline('${oauthAuthorizationLink}');">
+				<a id="fbauthenticationlinkInline" class="fb_container fb_button fb_button_medium" href="#" onclick="openOauthInline('${oauthAuthorizationLink}');">
 					<span id="fb_login_text" class="fb_button_text">Login</span>
 				</a>
 				<p:else>
