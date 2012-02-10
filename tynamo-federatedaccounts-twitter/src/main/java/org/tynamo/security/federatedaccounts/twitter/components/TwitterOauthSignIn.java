@@ -63,7 +63,12 @@ public class TwitterOauthSignIn extends AbstractOauthSignIn {
 	@Inject
 	private PageRenderLinkSource linkSource;
 
+	@Override
+	protected Class getOauthPageClass() {
+		return TwitterOauth.class;
+	}
+
 	public String getOauthAuthorizationLink() throws TwitterException {
-		return linkSource.createPageRenderLinkWithContext(TwitterOauth.class, windowMode, "request_token").toAbsoluteURI();
+		return getOauthRedirectLink(windowMode, "request_token");
 	}
 }

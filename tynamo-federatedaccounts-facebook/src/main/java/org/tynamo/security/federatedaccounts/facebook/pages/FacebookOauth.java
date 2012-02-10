@@ -22,7 +22,6 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.BaseURLSource;
@@ -35,7 +34,6 @@ import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthPage;
 import org.tynamo.security.federatedaccounts.components.FlashMessager;
 import org.tynamo.security.federatedaccounts.facebook.FacebookAccessToken;
-import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 public class FacebookOauth extends AbstractOauthPage {
 	@Inject
@@ -58,24 +56,9 @@ public class FacebookOauth extends AbstractOauthPage {
 	@Inject
 	private PageRenderLinkSource linkSource;
 
-	private boolean fbAuthenticated;
-
-	@Property
-	private WindowMode windowMode;
-
-	protected String getOauthRedirectLink(Object... context) {
-		if (context == null || !(context[0] instanceof WindowMode))
-			throw new IllegalArgumentException("WindowMode is required as the first context parameter");
-		return linkSource.createPageRenderLinkWithContext(getClass(), context).toAbsoluteURI();
-	}
+	private boolean oauthAuthenticated;
 
 	protected Object onOauthActivate(EventContext eventContext) throws MalformedURLException {
-		try {
-			String windowModeText = eventContext.get(String.class, 0);
-			windowMode = WindowMode.valueOf(windowModeText);
-		} catch (IllegalArgumentException e) {
-		}
-
 		String code = request.getParameter("code");
 		if (code == null) {
 			flashMessager.setFailureMessage("No Oauth authentication code provided");
@@ -84,7 +67,7 @@ public class FacebookOauth extends AbstractOauthPage {
 
 		List<NameValuePair> qparams = new ArrayList<NameValuePair>();
 		qparams.add(new BasicNameValuePair("client_id", getOauthClientId()));
-		qparams.add(new BasicNameValuePair("redirect_uri", getOauthRedirectLink(windowMode)));
+		qparams.add(new BasicNameValuePair("redirect_uri", getOauthRedirectLink(getWindowMode())));
 		qparams.add(new BasicNameValuePair("client_secret", getOauthClientSecret()));
 		qparams.add(new BasicNameValuePair("code", code));
 		HttpGet get = null;
@@ -142,7 +125,7 @@ public class FacebookOauth extends AbstractOauthPage {
 		try {
 			SecurityUtils.getSubject().login(new FacebookAccessToken(accessToken, expires));
 			flashMessager.setSuccessMessage("User successfully authenticated");
-			fbAuthenticated = true;
+			oauthAuthenticated = true;
 		} catch (AuthenticationException e) {
 			logger.error("Using access token " + accessToken + "\nCould not sign in a Facebook federated user because of: ",
 				e);
@@ -166,7 +149,8 @@ public class FacebookOauth extends AbstractOauthPage {
 	private JavaScriptSupport javaScriptSupport;
 
 	protected void afterRender() {
-		if (fbAuthenticated)
-			javaScriptSupport.addScript("onAuthenticationSuccess('" + getSuccessLink() + "', '" + windowMode.name() + "');");
+		if (oauthAuthenticated)
+			javaScriptSupport.addScript("onAuthenticationSuccess('" + getSuccessLink() + "', '" + getWindowMode().name()
+				+ "');");
 	}
 }

@@ -6,7 +6,6 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
-import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthSignIn;
 import org.tynamo.security.federatedaccounts.facebook.pages.FacebookOauth;
 import org.tynamo.security.federatedaccounts.facebook.services.FacebookRealm;
@@ -36,9 +35,6 @@ public class FacebookOauthSignIn extends AbstractOauthSignIn {
 		return windowMode.equals(WindowMode.valueOf(mode));
 	}
 
-	@Inject
-	private PageRenderLinkSource linkSource;
-
 	public String getOauthAuthorizationLink() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("https://graph.facebook.com/oauth/authorize?client_id=");
@@ -53,7 +49,13 @@ public class FacebookOauthSignIn extends AbstractOauthSignIn {
 	}
 
 	public String getOauthRedirectLink() {
-		return linkSource.createPageRenderLinkWithContext(FacebookOauth.class, windowMode).toAbsoluteURI();
+		return getOauthRedirectLink(windowMode);
 	}
+
+	@Override
+	protected Class getOauthPageClass() {
+		return FacebookOauth.class;
+	}
+
 
 }

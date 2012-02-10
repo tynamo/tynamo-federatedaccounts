@@ -7,7 +7,6 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.BaseURLSource;
@@ -19,7 +18,6 @@ import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthPage;
 import org.tynamo.security.federatedaccounts.components.FlashMessager;
 import org.tynamo.security.federatedaccounts.twitter.TwitterAuthenticationToken;
-import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
@@ -47,10 +45,7 @@ public class TwitterOauth extends AbstractOauthPage {
 	@Inject
 	private PageRenderLinkSource linkSource;
 
-	private boolean fbAuthenticated;
-
-	@Property
-	private WindowMode windowMode;
+	private boolean oauthAuthenticated;
 
 	@Inject
 	private TwitterFactory twitterFactory;
@@ -59,29 +54,14 @@ public class TwitterOauth extends AbstractOauthPage {
 		return twitterFactory;
 	}
 
-	protected String getOauthRedirectLink(Object... context) {
-		if (context == null || !(context[0] instanceof WindowMode))
-			throw new IllegalArgumentException("WindowMode is required as the first context parameter");
-		return linkSource.createPageRenderLinkWithContext(getClass(), context).toAbsoluteURI();
-	}
-
 	@Override
 	protected Object onOauthActivate(EventContext eventContext) throws Exception {
-		if (eventContext.getCount() > 0) {
-			try {
-				String windowModeText = eventContext.get(String.class, 0);
-				windowMode = WindowMode.valueOf(windowModeText);
-			} catch (IllegalArgumentException e) {
-			}
-
-			if (eventContext.getCount() > 1) {
-				String action = eventContext.get(String.class, 1);
-				if ("request_token".equals(action)) {
-					Twitter twitter = getTwitterFactory().getInstance();
-					twitter.setOAuthConsumer(getOauthClientId(), getOauthClientSecret());
-					return new URL(twitter.getOAuthRequestToken(getOauthRedirectLink(windowMode)).getAuthorizationURL());
-				}
-
+		if (eventContext.getCount() > 1) {
+			String action = eventContext.get(String.class, 1);
+			if ("request_token".equals(action)) {
+				Twitter twitter = getTwitterFactory().getInstance();
+				twitter.setOAuthConsumer(getOauthClientId(), getOauthClientSecret());
+				return new URL(twitter.getOAuthRequestToken(getOauthRedirectLink(getWindowMode())).getAuthorizationURL());
 			}
 		}
 		String oauth_token = request.getParameter("oauth_token");
@@ -99,7 +79,7 @@ public class TwitterOauth extends AbstractOauthPage {
 		try {
 			SecurityUtils.getSubject().login(new TwitterAuthenticationToken(accessToken, -1));
 			flashMessager.setSuccessMessage("User successfully authenticated");
-			fbAuthenticated = true;
+			oauthAuthenticated = true;
 		} catch (AuthenticationException e) {
 			logger
 				.error("Using access token " + accessToken + "\nCould not sign in a Twitter federated user because of: ", e);
@@ -122,7 +102,8 @@ public class TwitterOauth extends AbstractOauthPage {
 	private JavaScriptSupport javaScriptSupport;
 
 	protected void afterRender() {
-		if (fbAuthenticated)
-			javaScriptSupport.addScript("onAuthenticationSuccess('" + getSuccessLink() + "', '" + windowMode.name() + "');");
+		if (oauthAuthenticated)
+			javaScriptSupport.addScript("onAuthenticationSuccess('" + getSuccessLink() + "', '" + getWindowMode().name()
+				+ "');");
 	}
 }

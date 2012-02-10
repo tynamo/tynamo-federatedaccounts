@@ -6,8 +6,9 @@ import org.apache.tapestry5.ioc.services.SymbolSource;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.tynamo.security.federatedaccounts.FederatedAccount.FederatedAccountType;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
+import org.tynamo.security.federatedaccounts.util.WindowMode;
 
-public class OauthComponentBase {
+public abstract class OauthComponentBase {
 	private static final String CLIENTID = ".clientid";
 	private static final String CLIENTSECRET = ".clientsecret";
 	@Inject
@@ -43,6 +44,15 @@ public class OauthComponentBase {
 		return !"".equals(getOauthClientId()) && !"".equals(getOauthClientSecret());
 	}
 
+	protected abstract Class getOauthPageClass();
+
 	@Inject
 	private PageRenderLinkSource linkSource;
+
+	protected String getOauthRedirectLink(Object... context) {
+		if (context == null || !(context[0] instanceof WindowMode))
+			throw new IllegalArgumentException("WindowMode is required as the first context parameter");
+		return linkSource.createPageRenderLinkWithContext(getOauthPageClass(), context).toAbsoluteURI();
+	}
+
 }
