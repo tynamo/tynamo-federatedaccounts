@@ -1,6 +1,6 @@
 package org.tynamo.security.federatedaccounts.scribe.google;
 
-import static org.tynamo.security.federatedaccounts.FederatedAccount.Type.google;
+import static org.tynamo.security.federatedaccounts.FederatedAccount.FederatedAccountType.google;
 
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;

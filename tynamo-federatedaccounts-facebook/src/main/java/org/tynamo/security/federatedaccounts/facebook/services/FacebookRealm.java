@@ -46,7 +46,7 @@ public class FacebookRealm extends AuthenticatingRealm {
 		this.logger = logger;
 		// Let this throw IllegalArgumentException if value is not supported
 		this.principalProperty = PrincipalProperty.valueOf(principalPropertyName);
-		setName(FederatedAccount.Type.facebook.name());
+		setName(FederatedAccount.FederatedAccountType.facebook.name());
 		setAuthenticationTokenClass(FacebookAccessToken.class);
 	}
 
@@ -84,7 +84,7 @@ public class FacebookRealm extends AuthenticatingRealm {
 				break;
 		}
 
-		AuthenticationInfo authenticationInfo = federatedAccountService.federate(FederatedAccount.Type.facebook.name(), principalValue,
+		AuthenticationInfo authenticationInfo = federatedAccountService.federate(FederatedAccount.FederatedAccountType.facebook.name(), principalValue,
 				authenticationToken, facebookUser);
 		// returned principalcollection is immutable
 		// authenticationInfo.getPrincipals().fromRealm(FederatedAccount.Type.facebook.name()).add(authenticationToken);

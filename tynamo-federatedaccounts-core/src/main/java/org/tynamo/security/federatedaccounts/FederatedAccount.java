@@ -2,7 +2,7 @@ package org.tynamo.security.federatedaccounts;
 
 public interface FederatedAccount {
 
-	public enum Type {
+	public enum FederatedAccountType {
 		facebook, google, twitter
 	}
 

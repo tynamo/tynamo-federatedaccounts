@@ -2,12 +2,12 @@
 <t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
 	<t:if test="oauthConfigured">
 		<t:if test="isWindowMode('blank')">
-			<a id="twitterauthenticationlinkBlank" href="#" onclick="openFacebookAuthorizationWindow('${oauthAuthorizationLink}',${width},${height});">
+			<a id="twitterauthenticationlinkBlank" href="#" onclick="openOauthWindow('${oauthAuthorizationLink}',${width},${height});">
 				<img src="${signInImage}"/>
 			</a>
 		<p:else>
 			<t:if test="isWindowMode('inline')">
-				<a id="twitterauthenticationlinkInline" href="#" onclick="openFacebookAuthorizationInline('${oauthAuthorizationLink}');">
+				<a id="twitterauthenticationlinkInline" href="#" onclick="openOauthInline('${oauthAuthorizationLink}');">
 					<img src="${signInImage}"/>
 				</a>
 				<p:else>

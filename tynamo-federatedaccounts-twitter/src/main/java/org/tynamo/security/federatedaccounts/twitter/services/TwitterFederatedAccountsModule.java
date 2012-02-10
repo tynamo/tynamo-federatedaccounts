@@ -9,7 +9,6 @@ import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.services.LibraryMapping;
 import org.tynamo.common.ModuleProperties;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountsModule;
-import org.tynamo.security.federatedaccounts.twitter.pages.CommitTwitterOauth;
 import org.tynamo.security.federatedaccounts.twitter.pages.TwitterOauth;
 import org.tynamo.security.services.SecurityFilterChainFactory;
 import org.tynamo.security.services.impl.SecurityFilterChain;
@@ -47,9 +46,6 @@ public class TwitterFederatedAccountsModule {
 	public static void contributeSecurityConfiguration(Configuration<SecurityFilterChain> configuration,
 		SecurityFilterChainFactory factory) {
 		configuration.add(factory.createChain("/" + PATH_PREFIX + "/" + TwitterOauth.class.getSimpleName().toLowerCase())
-			.add(factory.anon()).build());
-		configuration.add(factory
-			.createChain("/" + PATH_PREFIX + "/" + CommitTwitterOauth.class.getSimpleName().toLowerCase())
 			.add(factory.anon()).build());
 	}
 

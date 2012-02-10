@@ -1,4 +1,4 @@
-function openFacebookAuthorizationWindow(url, width, height) {
+function openOauthWindow(url, width, height) {
 
 	var left   = (screen.width  - width)/2;
 	var top    = (screen.height - height)/2;
@@ -11,12 +11,12 @@ function openFacebookAuthorizationWindow(url, width, height) {
 	params += ', scrollbars=no';
 	params += ', status=no';
 	params += ', toolbar=no';
-	fbAuthWindow=window.open(url,'FBauthentication', params);
-	if (window.focus) fbAuthWindow.focus();
+	oauthWindow=window.open(url,'federatedaccounts-oauth', params);
+	if (window.focus) oauthWindow.focus();
 	return false;
 }
 
-function openFacebookAuthorizationInline(url) {
+function openOauthInline(url) {
 	var oauthIFrame = $('oauthInlineFrame');
 	oauthIFrame.src = url;
 }

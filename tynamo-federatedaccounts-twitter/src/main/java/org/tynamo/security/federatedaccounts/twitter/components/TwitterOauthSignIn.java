@@ -3,18 +3,18 @@ package org.tynamo.security.federatedaccounts.twitter.components;
 import org.apache.tapestry5.Asset;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.AssetSource;
-import org.tynamo.security.federatedaccounts.twitter.base.TwitterOauthComponentBase;
+import org.apache.tapestry5.services.PageRenderLinkSource;
+import org.tynamo.security.federatedaccounts.base.AbstractOauthSignIn;
+import org.tynamo.security.federatedaccounts.twitter.pages.TwitterOauth;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 import twitter4j.TwitterException;
 
-@Import(library = "TwitterSignIn.js")
-public class TwitterSignIn extends TwitterOauthComponentBase {
+public class TwitterOauthSignIn extends AbstractOauthSignIn {
 	// from https://dev.twitter.com/docs/auth/sign-in-with-twitter
 	public enum ButtonStyle {
 		darker("sign-in-with-twitter-d.png"), darker_small("sign-in-with-twitter-d-sm.png"), lighter(
@@ -60,7 +60,10 @@ public class TwitterSignIn extends TwitterOauthComponentBase {
 		return windowMode.equals(WindowMode.valueOf(mode));
 	}
 
+	@Inject
+	private PageRenderLinkSource linkSource;
+
 	public String getOauthAuthorizationLink() throws TwitterException {
-		return getOauthRedirectLink(windowMode, "request_token");
+		return linkSource.createPageRenderLinkWithContext(TwitterOauth.class, windowMode, "request_token").toAbsoluteURI();
 	}
 }

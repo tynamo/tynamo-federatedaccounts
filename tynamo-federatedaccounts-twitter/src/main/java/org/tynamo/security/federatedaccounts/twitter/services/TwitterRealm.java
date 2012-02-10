@@ -53,7 +53,7 @@ public class TwitterRealm extends AuthenticatingRealm {
 		this.logger = logger;
 		// Let this throw IllegalArgumentException if value is not supported
 		this.principalProperty = PrincipalProperty.valueOf(principalPropertyName);
-		setName(FederatedAccount.Type.twitter.name());
+		setName(FederatedAccount.FederatedAccountType.twitter.name());
 		setAuthenticationTokenClass(TwitterAuthenticationToken.class);
 	}
 
@@ -88,7 +88,7 @@ public class TwitterRealm extends AuthenticatingRealm {
 			break;
 		}
 
-		AuthenticationInfo authenticationInfo = federatedAccountService.federate(FederatedAccount.Type.twitter.name(),
+		AuthenticationInfo authenticationInfo = federatedAccountService.federate(FederatedAccount.FederatedAccountType.twitter.name(),
 			principalValue, authenticationToken, twitterUser);
 		// returned principalcollection is immutable
 		// authenticationInfo.getPrincipals().fromRealm(FederatedAccount.Type.twitter.name()).add(authenticationToken);
