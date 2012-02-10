@@ -11,7 +11,7 @@ import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
-import org.tynamo.security.federatedaccounts.twitter.TwitterAuthenticationToken;
+import org.tynamo.security.federatedaccounts.twitter.TwitterAccessToken;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -54,13 +54,13 @@ public class TwitterRealm extends AuthenticatingRealm {
 		// Let this throw IllegalArgumentException if value is not supported
 		this.principalProperty = PrincipalProperty.valueOf(principalPropertyName);
 		setName(FederatedAccount.FederatedAccountType.twitter.name());
-		setAuthenticationTokenClass(TwitterAuthenticationToken.class);
+		setAuthenticationTokenClass(TwitterAccessToken.class);
 	}
 
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
 		throws AuthenticationException {
-		AccessToken accessToken = (AccessToken) authenticationToken.getPrincipal();
+		AccessToken accessToken = (AccessToken) authenticationToken.getCredentials();
 
 		Twitter twitter = twitterFactory.getInstance();
 		twitter.setOAuthConsumer(oauthClientId, oauthClientSecret);
@@ -88,8 +88,8 @@ public class TwitterRealm extends AuthenticatingRealm {
 			break;
 		}
 
-		AuthenticationInfo authenticationInfo = federatedAccountService.federate(FederatedAccount.FederatedAccountType.twitter.name(),
-			principalValue, authenticationToken, twitterUser);
+		AuthenticationInfo authenticationInfo = federatedAccountService.federate(
+			FederatedAccount.FederatedAccountType.twitter.name(), principalValue, authenticationToken, twitterUser);
 		// returned principalcollection is immutable
 		// authenticationInfo.getPrincipals().fromRealm(FederatedAccount.Type.twitter.name()).add(authenticationToken);
 		return authenticationInfo;

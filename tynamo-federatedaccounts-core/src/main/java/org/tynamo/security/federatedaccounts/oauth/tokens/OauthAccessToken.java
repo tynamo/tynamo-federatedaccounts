@@ -1,5 +1,6 @@
 package org.tynamo.security.federatedaccounts.oauth.tokens;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import org.apache.shiro.authc.AuthenticationToken;
@@ -7,20 +8,16 @@ import org.apache.shiro.authc.AuthenticationToken;
 public class OauthAccessToken implements AuthenticationToken {
 
 	private static final long serialVersionUID = 1L;
-	private String token;
+	private Serializable token;
 	private Date expiration;
 
-	public OauthAccessToken(String accessToken, long expiresInSeconds) {
+	public OauthAccessToken(Serializable accessToken, long expiresInSeconds) {
 		this(accessToken, expiresInSeconds < 0 ? null : new Date(System.currentTimeMillis() + expiresInSeconds * 1000L));
 	}
 
-	public OauthAccessToken(String accessToken, Date expiration) {
+	public OauthAccessToken(Serializable accessToken, Date expiration) {
 		this.token = accessToken;
 		this.expiration = expiration;
-	}
-
-	public String getToken() {
-		return token;
 	}
 
 	public Date getExpiration() {
@@ -28,7 +25,7 @@ public class OauthAccessToken implements AuthenticationToken {
 	}
 
 	public String toString() {
-		return token;
+		return token.toString();
 	}
 
 	/**
@@ -36,12 +33,12 @@ public class OauthAccessToken implements AuthenticationToken {
 	 */
 	@Override
 	public Object getPrincipal() {
-		return getToken();
+		return token;
 	}
 
 	@Override
 	public Object getCredentials() {
-		return getExpiration();
+		return token;
 	}
 
 }

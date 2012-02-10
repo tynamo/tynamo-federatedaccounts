@@ -17,7 +17,7 @@ import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthPage;
 import org.tynamo.security.federatedaccounts.components.FlashMessager;
-import org.tynamo.security.federatedaccounts.twitter.TwitterAuthenticationToken;
+import org.tynamo.security.federatedaccounts.twitter.TwitterAccessToken;
 
 import twitter4j.Twitter;
 import twitter4j.TwitterFactory;
@@ -77,7 +77,7 @@ public class TwitterOauth extends AbstractOauthPage {
 			oauth_verifier);
 
 		try {
-			SecurityUtils.getSubject().login(new TwitterAuthenticationToken(accessToken, -1));
+			SecurityUtils.getSubject().login(new TwitterAccessToken(accessToken));
 			flashMessager.setSuccessMessage("User successfully authenticated");
 			oauthAuthenticated = true;
 		} catch (AuthenticationException e) {
