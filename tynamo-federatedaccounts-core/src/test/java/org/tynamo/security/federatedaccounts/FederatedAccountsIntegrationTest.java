@@ -23,7 +23,7 @@ import static org.testng.Assert.assertNotNull;
 
 import java.io.IOException;
 
-import org.eclipse.jetty.webapp.WebAppContext;
+import org.mortbay.jetty.webapp.WebAppContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.tynamo.test.AbstractContainerTest;
@@ -87,10 +87,13 @@ public class FederatedAccountsIntegrationTest extends AbstractContainerTest {
 
 	protected void assertLoginPage(HtmlPage page) {
 		assertNotNull(page.getElementById("tynamoLogin"), "Page doesn't contain login field. Not a login page.");
-		assertEquals("password", getAttribute("tynamoPassword", "type"), "Page doesn't contain password field. Not a login page.");
-		assertEquals("checkbox", getAttribute("tynamoRememberMe", "type"), "Page doesn't contain rememberMe field. Not a login page.");
+		assertEquals("password", getAttribute("tynamoPassword", "type"),
+			"Page doesn't contain password field. Not a login page.");
+		assertEquals("checkbox", getAttribute("tynamoRememberMe", "type"),
+			"Page doesn't contain rememberMe field. Not a login page.");
 
-		assertNotNull(page.getElementById("tynamoEnter"), "Page doesn't contain login form submit button. Not a login page.");
+		assertNotNull(page.getElementById("tynamoEnter"),
+			"Page doesn't contain login form submit button. Not a login page.");
 	}
 
 	// -----------------------
