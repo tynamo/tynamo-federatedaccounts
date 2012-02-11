@@ -15,7 +15,7 @@
 	</parent>
 
 	<properties>
-		<tapestry-release-version>5.3.1</tapestry-release-version>
+		<tapestry-release-version>5.3.2</tapestry-release-version>
 	</properties>
 
 	<scm>
@@ -35,7 +35,9 @@
 	<modules>
 		<module>tynamo-federatedaccounts-core</module>
 		<module>tynamo-federatedaccounts-facebook</module>
+		<!-- disable scribe build for now since it's not fully functional
 		<module>tynamo-federatedaccounts-scribebasedoauth</module>
+		-->
 		<module>tynamo-federatedaccounts-twitter</module>
 	</modules>
 	
@@ -66,7 +68,7 @@
 			<dependency>
 				<groupId>org.tynamo</groupId>
 				<artifactId>tapestry-security</artifactId>
-				<version>0.4.1</version>
+				<version>0.4.2</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
