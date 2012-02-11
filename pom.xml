@@ -6,7 +6,7 @@
 	<name>Federated Accounts for Tapestry Security</name>
 	<description>Tynamo Federated Accounts (Facebook etc.) package for Shiro-based Tapestry Security</description>
 	<packaging>pom</packaging>
-	<version>0.1.0-SNAPSHOT</version>
+	<version>0.1.0</version>
 
 	<parent>
 		<groupId>org.tynamo</groupId>
@@ -19,9 +19,9 @@
 	</properties>
 
 	<scm>
-		<connection>scm:svn:http://svn.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</connection>
-		<developerConnection>scm:svn:https://svn.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</developerConnection>
-		<url>http://svn.tynamo.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</url>
+		<connection>scm:svn:http://svn.codehaus.org/tynamo/tags/tynamo-federatedaccounts-parent-0.1.0</connection>
+		<developerConnection>scm:svn:https://svn.codehaus.org/tynamo/tags/tynamo-federatedaccounts-parent-0.1.0</developerConnection>
+		<url>http://svn.tynamo.codehaus.org/tynamo/tags/tynamo-federatedaccounts-parent-0.1.0</url>
 	</scm>
 
 	<distributionManagement>
@@ -46,7 +46,7 @@
 			<dependency>
 				<groupId>org.tynamo.security</groupId>
 				<artifactId>tynamo-federatedaccounts-core</artifactId>
-				<version>0.1.0-SNAPSHOT</version>
+				<version>0.1.0</version>
 			</dependency>
 			<dependency>
 				<groupId>com.h2database</groupId>
