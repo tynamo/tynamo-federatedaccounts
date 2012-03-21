@@ -24,6 +24,7 @@ public abstract class OauthComponentBase {
 
 	public FederatedAccountType getAccountType() {
 		String name = getClass().getSimpleName();
+		if (name.startsWith("OpenId")) return FederatedAccountType.openid;
 		try {
 			return FederatedAccountType.valueOf(name.substring(0, name.indexOf("Oauth")).toLowerCase());
 			// FIXME implement the try-catch properly
