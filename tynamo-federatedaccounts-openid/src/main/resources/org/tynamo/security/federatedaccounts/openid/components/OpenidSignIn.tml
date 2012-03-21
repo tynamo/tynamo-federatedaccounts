@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+	<span class="wrapper">
+		<t:remove>
+		<t:if test="isProviderNajdi">
+			<a t:type="actionLink" t:context="${currentUrl}"><img src="${asset:najdi-icon.png}"/></a>
+		</t:if>
+		</t:remove>
+		<t:if test="isProviderGoogle">
+			<a t:type="actionLink" t:context="${currentUrl}"><img src="${asset:google-icon.png}"/></a>
+		</t:if>
+		<t:if test="isProviderGeneral">
+			<a t:type="actionLink" t:context="${currentUrl}"><img src="${asset:openid-icon.png}"/></a>
+		</t:if>
+	</span>
+
+
+<!-- 
+	<t:if test="oauthConfigured">
+		<t:if test="isWindowMode('blank')">
+			<a id="fbauthenticationlinkBlank" class="fb_container fb_button fb_button_medium" href="#" onclick="openFacebookAuthorizationWindow('${oauthAuthorizationLink}',${width},${height});">
+				<span id="fb_login_text" class="fb_button_text">Login</span>
+			</a>
+		<p:else>
+			<t:if test="isWindowMode('inline')">
+				<a id="fbauthenticationlinkInline" class="fb_container fb_button fb_button_medium" href="#" onclick="openFacebookAuthorizationInline('${oauthAuthorizationLink}');">
+					<span id="fb_login_text" class="fb_button_text">Login</span>
+				</a>
+				<p:else>
+					<t:if test="isWindowMode('self')">
+						<a id="fbauthenticationlinkSelf" class="fb_container fb_button fb_button_medium" href="${oauthAuthorizationLink}">
+							<span id="fb_login_text" class="fb_button_text">Login</span>
+						</a>
+					</t:if>
+				</p:else> 
+			</t:if>
+		</p:else>
+		</t:if>
+		<p:else>
+			<div class="fb_container fb_button fb_button_medium"><span id="fb_login_text" class="fb_button_text" style="color:red;font-weight:bold">FB client not configured</span> </div> 
+		</p:else>
+	</t:if>
+-->
+</t:container>
