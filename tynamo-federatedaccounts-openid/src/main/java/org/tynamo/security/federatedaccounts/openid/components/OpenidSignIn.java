@@ -18,7 +18,7 @@ import org.tynamo.security.federatedaccounts.openid.services.OpenidLoginManager;
 import org.tynamo.security.federatedaccounts.openid.util.Provider;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
-@Import(library = "OpenidSignIn.js", stylesheet = "button.css")
+@Import(stylesheet = "button.css")
 public class OpenidSignIn extends OauthComponentBase {
 
 	@Parameter(required = false, defaultPrefix = "literal")

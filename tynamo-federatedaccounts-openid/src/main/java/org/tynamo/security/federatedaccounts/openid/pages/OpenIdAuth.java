@@ -81,11 +81,12 @@ public class OpenIdAuth extends AbstractOauthPage {
 
 	@Override
 	protected Object onOauthActivate(EventContext context) throws Exception {
-		if (context.getCount() < 1) {
+		// the first context param is reserved for windowmode
+		if (context.getCount() < 2) {
 			flashMessager.setFailureMessage("No openID redirect link provided");
 			return null;
 		}
-		String redirect = context.get(String.class, 0);
+		String redirect = context.get(String.class, 1);
 
 		try {
 			String returningPage = urlEncoder.decode(redirect);
