@@ -8,7 +8,7 @@
 <div class="title">
 	<h1>OpenID authentication</h1>
 </div>
-<t:FlashMessager t:id="flashMessager"/>
+<t:federated.FlashMessager t:id="flashMessager"/>
 <div style="margin-top:10px">
 	<a href="#" onclick="closeOauthWindow('${windowMode}');">Close window</a>
 </div>
