@@ -13,13 +13,9 @@ import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
 
 /**
  * <p>
- * A {@link org.apache.shiro.realm.Realm} that authenticates with Facebook.
+ * A {@link org.apache.shiro.realm.Realm} that authenticates using OpenID.
  */
 public class OpenidRealm extends AuthenticatingRealm {
-	//public static final String FACEBOOK_CLIENTID = "facebook.clientid";
-	//public static final String FACEBOOK_CLIENTSECRET = "facebook.clientsecret";
-	//public static final String FACEBOOK_PERMISSIONS = "facebook.permissions";
-	//public static final String FACEBOOK_PRINCIPAL = "facebook.principal";
 
 	private Logger logger;
 
@@ -35,21 +31,19 @@ public class OpenidRealm extends AuthenticatingRealm {
 		super(new MemoryConstrainedCacheManager());
 		this.federatedAccountService = federatedAccountService;
 		this.logger = logger;
-		
+
 		setName(FederatedAccount.FederatedAccountType.openid.name());
 		setAuthenticationTokenClass(OpenidAccessToken.class);
 	}
 
 	@Override
 	@Log
-	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken)
+		throws AuthenticationException {
 		OpenidAccessToken token = (OpenidAccessToken) authenticationToken;
 
-		return federatedAccountService.federate(
-													FederatedAccount.FederatedAccountType.openid.name(), 
-													token.getPrincipal(),
-													authenticationToken, 
-													token.getVerificationResult());
+		return federatedAccountService.federate(FederatedAccount.FederatedAccountType.openid.name(), token.getPrincipal(),
+			authenticationToken, token.getVerificationResult());
 	}
 
 }
