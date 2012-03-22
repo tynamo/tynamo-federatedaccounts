@@ -6,7 +6,7 @@
 	<name>Federated Accounts for Tapestry Security</name>
 	<description>Tynamo Federated Accounts (Facebook etc.) package for Shiro-based Tapestry Security</description>
 	<packaging>pom</packaging>
-	<version>0.1.1-SNAPSHOT</version>
+	<version>0.2.0-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.tynamo</groupId>
@@ -38,6 +38,7 @@
 		<!-- disable scribe build for now since it's not fully functional
 		<module>tynamo-federatedaccounts-scribebasedoauth</module>
 		-->
+		<module>tynamo-federatedaccounts-openid</module>
 		<module>tynamo-federatedaccounts-twitter</module>
 	</modules>
 	
@@ -46,7 +47,7 @@
 			<dependency>
 				<groupId>org.tynamo.security</groupId>
 				<artifactId>tynamo-federatedaccounts-core</artifactId>
-				<version>0.1.1-SNAPSHOT</version>
+				<version>0.2.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.h2database</groupId>
