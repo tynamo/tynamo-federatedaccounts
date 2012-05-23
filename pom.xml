@@ -15,20 +15,20 @@
 	</parent>
 
 	<properties>
-		<tapestry-release-version>5.3.2</tapestry-release-version>
+		<tapestry-release-version>5.3.3</tapestry-release-version>
 	</properties>
 
 	<scm>
-		<connection>scm:svn:http://svn.codehaus.org/tynamo/trunk/tapestry-security-rollingtokens</connection>
-		<developerConnection>scm:svn:https://svn.codehaus.org/tynamo/trunk/tapestry-security-rollingtokens</developerConnection>
-		<url>http://svn.tynamo.codehaus.org/tynamo/trunk/tapestry-security-rollingtokens</url>
+		<connection>scm:svn:http://svn.codehaus.org/tynamo/trunk/tynamo-federatedaccounts-rollingtokens</connection>
+		<developerConnection>scm:svn:https://svn.codehaus.org/tynamo/trunk/tynamo-federatedaccounts-rollingtokens</developerConnection>
+		<url>http://svn.tynamo.codehaus.org/tynamo/trunk/tynamo-federatedaccounts-rollingtokens</url>
 	</scm>
 
 	<distributionManagement>
 		<site>
 			<id>tynamo-site</id>
 			<!-- Note the url. Only static files deployed in /constant/ can be decorated by Unity -->
-			<url>dav:https://dav.codehaus.org/tynamo/constant/sites/tapestry-security-rollingtokens</url>
+			<url>dav:https://dav.codehaus.org/tynamo/constant/sites/tynamo-federatedaccounts-rollingtokens</url>
 		</site>
 	</distributionManagement>
 	
@@ -92,7 +92,7 @@
 		<dependency>
 			<groupId>org.tynamo</groupId>
 			<artifactId>tapestry-security</artifactId>
-			<version>0.4.3-SNAPSHOT</version>
+			<version>0.4.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.tynamo.security</groupId>
@@ -171,7 +171,7 @@
 				<repository>
 					<id>EclipseLink Repo</id>
 					<url>
-						http://linorg.usp.br/eclipse/rt/eclipselink/maven.repo/
+						http://download.eclipse.org/rt/eclipselink/maven.repo
 					</url>
 				</repository>
 			</repositories>
