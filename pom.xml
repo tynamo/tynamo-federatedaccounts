@@ -6,7 +6,7 @@
 	<name>Rolling Tokens for Tapestry Security</name>
 	<description>Rolling tokens based RememberMe for Tapestry Security</description>
 	<packaging>jar</packaging>
-	<version>0.0.1</version>
+	<version>0.0.2-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.tynamo</groupId>
@@ -19,9 +19,9 @@
 	</properties>
 
 	<scm>
-		<connection>scm:svn:http://svn.codehaus.org/tynamo/tags/tynamo-federatedaccounts-rollingtokens-0.0.1</connection>
-		<developerConnection>scm:svn:https://svn.codehaus.org/tynamo/tags/tynamo-federatedaccounts-rollingtokens-0.0.1</developerConnection>
-		<url>http://svn.tynamo.codehaus.org/tynamo/tags/tynamo-federatedaccounts-rollingtokens-0.0.1</url>
+		<connection>scm:svn:http://svn.codehaus.org/tynamo/trunk/tynamo-federatedaccounts-rollingtokens</connection>
+		<developerConnection>scm:svn:https://svn.codehaus.org/tynamo/trunk/tynamo-federatedaccounts-rollingtokens</developerConnection>
+		<url>http://svn.tynamo.codehaus.org/tynamo/trunk/tynamo-federatedaccounts-rollingtokens</url>
 	</scm>
 
 	<distributionManagement>
