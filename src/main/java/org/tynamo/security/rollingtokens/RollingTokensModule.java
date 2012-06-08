@@ -27,13 +27,16 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.SubjectContext;
 import org.apache.shiro.web.mgt.WebSecurityManager;
 import org.apache.tapestry5.ioc.Configuration;
+import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.MethodAdviceReceiver;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Advise;
-import org.apache.tapestry5.ioc.annotations.Autobuild;
 import org.apache.tapestry5.ioc.annotations.Contribute;
+import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.InjectService;
+import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.jpa.JpaEntityPackageManager;
+import org.apache.tapestry5.jpa.JpaTransactionAdvisor;
 import org.apache.tapestry5.services.Cookies;
 import org.slf4j.Logger;
 import org.tynamo.security.Authenticator;
@@ -47,11 +50,11 @@ public class RollingTokensModule {
 
 	public static void bind(ServiceBinder binder) {
 		binder.bind(AuthenticatingRealm.class, RollingTokenRealm.class).withId(RollingTokenRealm.class.getSimpleName());
+		binder.bind(CommittingAuthenticationListener.class, RollingTokenAuthenticationListener.class);
 	}
 
 	public static void contributeWebSecurityManager(Configuration<Realm> configuration, Authenticator authenticator,
-		WebSecurityManager securityManager,
-		@Autobuild RollingTokenAuthenticationListener rollingTokenAuthenticationListener,
+		WebSecurityManager securityManager, CommittingAuthenticationListener rollingTokenAuthenticationListener,
 		@InjectService("RollingTokenRealm") AuthenticatingRealm rollingTokenRealm) {
 		configuration.add(rollingTokenRealm);
 
@@ -61,15 +64,28 @@ public class RollingTokensModule {
 
 	@SuppressWarnings("unchecked")
 	@Advise(serviceInterface = SubjectFactory.class)
-	public static void loginIfRollingTokenMatches(MethodAdviceReceiver receiver, Logger logger, HttpServletRequest request)
-		throws SecurityException, NoSuchMethodException {
-		final RollingTokenAutoLoginAdvice autoLoginAdvice = new RollingTokenAutoLoginAdvice(logger, request);
+	public static void loginIfRollingTokenMatches(MethodAdviceReceiver receiver, Logger logger,
+		HttpServletRequest request, @Inject @Symbol(RollingTokenSymbols.CONFIGURED_REALM) String realmName,
+		@Inject @Symbol(RollingTokenSymbols.CONFIGURED_PRINCIPALTYPE) String principalType) throws SecurityException,
+		NoSuchMethodException, ClassNotFoundException {
+		final RollingTokenAutoLoginAdvice autoLoginAdvice = new RollingTokenAutoLoginAdvice(logger, request, realmName,
+			principalType.isEmpty() ? null : Class.forName(principalType));
 		receiver.adviseMethod(receiver.getInterface().getMethod("createSubject", SubjectContext.class), autoLoginAdvice);
+	}
+
+	@Advise(serviceInterface = CommittingAuthenticationListener.class)
+	public static void commitRollingTokenTransactions(JpaTransactionAdvisor advisor, MethodAdviceReceiver receiver) {
+		advisor.addTransactionCommitAdvice(receiver);
 	}
 
 	@Contribute(JpaEntityPackageManager.class)
 	public static void providePackages(Configuration<String> configuration) {
 		configuration.add(ExpiringRollingToken.class.getPackage().getName());
+	}
+
+	public static void contributeFactoryDefaults(MappedConfiguration<String, String> configuration) {
+		configuration.add(RollingTokenSymbols.CONFIGURED_REALM, "");
+		configuration.add(RollingTokenSymbols.CONFIGURED_PRINCIPALTYPE, "");
 	}
 
 	public static class RollingTokenAuthenticationListener implements CommittingAuthenticationListener {
@@ -83,13 +99,18 @@ public class RollingTokensModule {
 		private final HttpServletResponse response;
 		private final Cookies cookies;
 		private final EntityManager entityManager;
+		private String realmName;
+		private Class principalType;
 
 		public RollingTokenAuthenticationListener(EntityManager entityManager, Cookies cookies, HttpServletRequest request,
-			HttpServletResponse response) {
+			HttpServletResponse response, @Inject @Symbol(RollingTokenSymbols.CONFIGURED_REALM) String realmName,
+			@Inject @Symbol(RollingTokenSymbols.CONFIGURED_PRINCIPALTYPE) String principalType) throws ClassNotFoundException {
 			this.entityManager = entityManager;
 			this.cookies = cookies;
 			this.request = request;
 			this.response = response;
+			this.realmName = realmName;
+			this.principalType = principalType.isEmpty() ? null : Class.forName(principalType);
 		}
 
 		@Override
@@ -108,9 +129,9 @@ public class RollingTokensModule {
 				// .uniqueResult();
 				// if (expiringToken != null) session.delete(expiringToken);
 				Query query = entityManager.createQuery("delete from " + ExpiringRollingToken.class.getSimpleName()
-					+ " where name = ? and value = ? ");
-				query.setParameter(0, token.getPrincipal().toString());
-				query.setParameter(1, token.getCredentials().toString());
+					+ " e where e.name = ?1 and e.value = ?2");
+				query.setParameter(1, token.getPrincipal().toString());
+				query.setParameter(2, token.getCredentials().toString());
 				query.executeUpdate();
 
 				// If this is rememberme authentication, security is run before request and cookie shadows are established
@@ -137,13 +158,14 @@ public class RollingTokensModule {
 				CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 				CriteriaQuery<ExpiringRollingToken> criteriaQuery = builder.createQuery(ExpiringRollingToken.class);
 				Root<ExpiringRollingToken> from = criteriaQuery.from(ExpiringRollingToken.class);
-				Predicate predicate = builder.and(builder.equal(from.get("name"), token.getPrincipal().toString()),
+				Object principal = RollingToken.getConfiguredPrincipal(realmName, principalType, info.getPrincipals());
+				Predicate predicate = builder.and(builder.equal(from.get("name"), principal.toString()),
 					builder.equal(from.get("hostAddress"), request.getRemoteAddr()));
 				ExpiringRollingToken expiringRollingToken = null;
 				List<ExpiringRollingToken> results = entityManager.createQuery(criteriaQuery.where(predicate)).getResultList();
 
-				if (results.size() <= 0) expiringRollingToken = new ExpiringRollingToken(token.getPrincipal().toString(),
-					tokenValue, request.getRemoteAddr(), expirationDate);
+				if (results.size() <= 0) expiringRollingToken = new ExpiringRollingToken(principal.toString(), tokenValue,
+					request.getRemoteAddr(), expirationDate);
 				else {
 					expiringRollingToken = results.remove(0);
 					// there shouldn't be any remaining, but remove the rest in case there are
@@ -165,9 +187,9 @@ public class RollingTokensModule {
 			// for (ExpiringRollingToken token : rollingTokens)
 			// session.delete(token);
 			Query query = entityManager.createQuery("delete from " + ExpiringRollingToken.class.getSimpleName()
-				+ " where name = ?");
+				+ " where name = ?1");
 			for (RollingToken token : rollingTokens) {
-				query.setParameter(0, token.getPrincipal().toString());
+				query.setParameter(1, token.getPrincipal().toString());
 				query.executeUpdate();
 			}
 		}

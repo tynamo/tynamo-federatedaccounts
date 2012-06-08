@@ -29,7 +29,7 @@ public class RollingTokenRealm extends AuthenticatingRealm {
 		this.logger = logger;
 		this.entityManager = entityManager;
 		this.federatedAccountService = federatedAccountService;
-		setName("poethood");
+		setName("rollingtokens");
 		this.setAuthenticationTokenClass(RollingToken.class);
 	}
 
@@ -38,7 +38,7 @@ public class RollingTokenRealm extends AuthenticatingRealm {
 		// FIXME this probably shouldn't silently fail - it seems to invalidate even the existing subject
 		RollingToken upToken = (RollingToken) token;
 
-		String principal = token.getPrincipal().toString();
+		Object principal = token.getPrincipal();
 
 		// Null username is invalid
 		if (principal == null) {

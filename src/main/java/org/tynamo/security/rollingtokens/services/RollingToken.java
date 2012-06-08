@@ -1,8 +1,11 @@
 package org.tynamo.security.rollingtokens.services;
 
+import java.util.Collection;
+
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.HostAuthenticationToken;
 import org.apache.shiro.authc.RememberMeAuthenticationToken;
+import org.apache.shiro.subject.PrincipalCollection;
 
 public class RollingToken implements AuthenticationToken, HostAuthenticationToken, RememberMeAuthenticationToken {
 	public static final String TOKEN_NAME = "rollingToken";
@@ -37,6 +40,27 @@ public class RollingToken implements AuthenticationToken, HostAuthenticationToke
 
 	public String getHost() {
 		return hostAddress;
+	}
+
+	// TODO the implementation is almost the same as in tapestry-security-jpa's SecureEntityManager.getConfiguredPrincipal
+	// is there a possibility to refactor this to some common class?
+	public static Object getConfiguredPrincipal(String realmName, Class<?> principalType,
+		PrincipalCollection allPrincipals) {
+		if (!realmName.isEmpty()) {
+			Collection<?> principals = allPrincipals.fromRealm(realmName);
+			if (principalType == null) principals.iterator().next();
+			else {
+				for (Object availablePrincipal : principals)
+					if (availablePrincipal.getClass().isAssignableFrom(principalType)) { return availablePrincipal; }
+			}
+		}
+		if (principalType != null) {
+			Object principal = allPrincipals.oneByType(principalType);
+			if (principal == null)
+				throw new NullPointerException("Subject is required to have a configured principal of type '" + principalType);
+			return principal;
+		}
+		return allPrincipals.getPrimaryPrincipal();
 	}
 
 }

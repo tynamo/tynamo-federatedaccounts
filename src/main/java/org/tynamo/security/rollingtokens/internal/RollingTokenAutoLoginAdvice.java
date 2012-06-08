@@ -4,7 +4,6 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.RememberMeAuthenticationToken;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.apache.tapestry5.plastic.MethodAdvice;
@@ -15,10 +14,15 @@ import org.tynamo.security.rollingtokens.services.RollingToken;
 public class RollingTokenAutoLoginAdvice implements MethodAdvice {
 	private final Logger logger;
 	private final HttpServletRequest request;
+	private String realmName;
+	private Class<?> principalType;
 
-	public RollingTokenAutoLoginAdvice(Logger logger, HttpServletRequest request) {
+	public RollingTokenAutoLoginAdvice(Logger logger, HttpServletRequest request, String realmName, Class<?> principalType)
+		throws ClassNotFoundException {
 		this.logger = logger;
 		this.request = request;
+		this.realmName = realmName;
+		this.principalType = principalType;
 	}
 
 	@Override
@@ -50,12 +54,9 @@ public class RollingTokenAutoLoginAdvice implements MethodAdvice {
 		}
 		if (rollingTokenValue == null) return;
 
-		// TODO I suppose the desired token could be configurable, make it so if somebody asks
-		RememberMeAuthenticationToken rememberMeToken = principals.oneByType(RememberMeAuthenticationToken.class);
-		if (rememberMeToken == null) return;
-		Object principal = rememberMeToken.getPrincipal();
+		Object principal = RollingToken.getConfiguredPrincipal(realmName, principalType, principals);
 
-		RollingToken token = new RollingToken(rememberMeToken.getPrincipal(), rollingTokenValue, request.getRemoteAddr());
+		RollingToken token = new RollingToken(principal, rollingTokenValue, request.getRemoteAddr());
 		try {
 			subject.login(token);
 			logger.info("Rolling token authentication using token " + rollingTokenValue
