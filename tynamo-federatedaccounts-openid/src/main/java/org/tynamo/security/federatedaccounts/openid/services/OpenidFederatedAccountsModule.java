@@ -7,6 +7,7 @@ import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.services.LibraryMapping;
+import org.tynamo.common.ModuleProperties;
 import org.tynamo.security.federatedaccounts.openid.pages.OpenIdAuth;
 import org.tynamo.security.services.SecurityFilterChainFactory;
 import org.tynamo.security.services.impl.SecurityFilterChain;
@@ -14,7 +15,7 @@ import org.tynamo.security.services.impl.SecurityFilterChain;
 public class OpenidFederatedAccountsModule {
 	private static final String PATH_PREFIX = "openid";
 
-	private static String version = "0.1.0-SNAPSHOT";// ModuleProperties.getVersion(OpenidFederatedAccountsModule.class);
+	private static String version = ModuleProperties.getVersion(OpenidFederatedAccountsModule.class);
 
 	public static void bind(ServiceBinder binder) {
 		binder.bind(AuthenticatingRealm.class, OpenidRealm.class).withId(OpenidRealm.class.getSimpleName());

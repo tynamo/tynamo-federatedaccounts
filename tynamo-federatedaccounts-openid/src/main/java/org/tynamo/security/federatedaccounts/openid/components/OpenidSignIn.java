@@ -13,9 +13,9 @@ import org.apache.tapestry5.services.RequestGlobals;
 import org.apache.tapestry5.services.URLEncoder;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.base.OauthComponentBase;
+import org.tynamo.security.federatedaccounts.openid.Provider;
 import org.tynamo.security.federatedaccounts.openid.pages.OpenIdAuth;
 import org.tynamo.security.federatedaccounts.openid.services.OpenidLoginManager;
-import org.tynamo.security.federatedaccounts.openid.util.Provider;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 @Import(stylesheet = "button.css")

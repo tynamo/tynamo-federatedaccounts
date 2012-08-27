@@ -18,7 +18,7 @@ import org.openid4java.message.MessageException;
 import org.openid4java.message.ParameterList;
 import org.openid4java.message.ax.FetchRequest;
 import org.slf4j.Logger;
-import org.tynamo.security.federatedaccounts.openid.util.Provider;
+import org.tynamo.security.federatedaccounts.openid.Provider;
 
 public class OpenidLoginManagerImpl implements OpenidLoginManager {
 	// services
