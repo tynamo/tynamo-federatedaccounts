@@ -107,20 +107,6 @@
 		</dependency>
 	</dependencies>
 
-	<scm>
-		<connection>scm:svn:http://svn.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</connection>
-		<developerConnection>scm:svn:https://svn.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</developerConnection>
-		<url>http://svn.tynamo.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</url>
-	</scm>
-
-	<distributionManagement>
-		<site>
-			<id>tynamo-site</id>
-			<!-- Note the url. Only static files deployed in /constant/ can be decorated by Unity -->
-			<url>dav:https://dav.codehaus.org/tynamo/constant/sites/tynamo-federatedaccounts</url>
-		</site>
-	</distributionManagement>
-
 	<build>
 		<resources>
 			<resource>
