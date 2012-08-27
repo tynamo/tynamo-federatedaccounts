@@ -61,7 +61,7 @@ public class TwitterOauth extends AbstractOauthPage {
 			if ("request_token".equals(action)) {
 				Twitter twitter = getTwitterFactory().getInstance();
 				twitter.setOAuthConsumer(getOauthClientId(), getOauthClientSecret());
-				return new URL(twitter.getOAuthRequestToken(getOauthRedirectLink(getWindowMode())).getAuthorizationURL());
+				return new URL(twitter.getOAuthRequestToken(getOauthRedirectLink(getWindowMode())).getAuthenticationURL());
 			}
 		}
 		String oauth_token = request.getParameter("oauth_token");
