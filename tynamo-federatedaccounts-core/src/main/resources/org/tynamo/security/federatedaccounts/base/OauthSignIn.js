@@ -11,7 +11,7 @@ function openOauthWindow(url, width, height) {
 	params += ', scrollbars=no';
 	params += ', status=no';
 	params += ', toolbar=no';
-	oauthWindow=window.open(url,'federatedaccounts-oauth', params);
+	oauthWindow=window.open(url,'federatedaccounts_oauth', params);
 	if (window.focus) oauthWindow.focus();
 	return false;
 }
