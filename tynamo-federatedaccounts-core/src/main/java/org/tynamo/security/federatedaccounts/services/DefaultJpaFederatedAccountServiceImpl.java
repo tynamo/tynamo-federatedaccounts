@@ -1,10 +1,9 @@
 package org.tynamo.security.federatedaccounts.services;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityTransaction;
-import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
@@ -34,34 +33,17 @@ public class DefaultJpaFederatedAccountServiceImpl extends AbstractFederatedAcco
 		Root root = cq.from(entityType);
 		cq.where(cb.equal(root.get((String) entityTypesByRealm.get(realmName + IDPROPERTY)), remotePrincipal));
 
-		TypedQuery<?> query = entityManager.createQuery(cq.select(root));
-
-		try {
-			return (FederatedAccount) query.getSingleResult();
-		} catch (NoResultException e) {
-			return null;
-		}
+		TypedQuery<FederatedAccount> query = entityManager.createQuery(cq.select(root));
+		List<FederatedAccount> results = query.getResultList();
+		return results.size() <= 0 ? null : results.get(0);
 	}
 
 	protected void saveAccount(FederatedAccount account) {
-		merge(account);
+		entityManager.persist(account);
 	}
 
 	@Override
 	protected void updateAccount(FederatedAccount account) {
-		merge(account);
+		entityManager.merge(account);
 	}
-
-	private void merge(FederatedAccount account) {
-		EntityTransaction tx = entityManager.getTransaction();
-
-		if (!tx.isActive()) {
-			tx.begin();
-			entityManager.merge(account);
-			tx.commit();
-		} else {
-			entityManager.merge(account);
-		}
-	};
-
 }
