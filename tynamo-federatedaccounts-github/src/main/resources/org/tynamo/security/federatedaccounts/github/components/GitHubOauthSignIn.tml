@@ -1,0 +1,33 @@
+<t:container xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
+
+    <t:block id="githubLogo">
+        Sign In with<br/>
+        <img src="${asset:GitHub_Logo.png}" width="100" height="44"/>
+        <img style="margin-left: 10px;" src="${asset:Octocat.png}" width="50" height="50"/>
+    </t:block>
+
+    <t:if test="oauthConfigured">
+        <t:if test="isWindowMode('blank')">
+            <a href="#" onclick="openOauthWindow('${oauthAuthorizationLink}',${width},${height});">
+                <t:delegate to="block:githubLogo"/>
+            </a>
+        <p:else>
+            <t:if test="isWindowMode('inline')">
+                <a href="#" onclick="openOauthInline('${oauthAuthorizationLink}');">
+                    <t:delegate to="block:githubLogo"/>
+                </a>
+                <p:else>
+                    <t:if test="isWindowMode('self')">
+                        <a href="${oauthAuthorizationLink}">
+                            <t:delegate to="block:githubLogo"/>
+                        </a>
+                    </t:if>
+                </p:else>
+            </t:if>
+        </p:else>
+        </t:if>
+        <p:else>
+            <div><span style="color:red;font-weight:bold">GitHub client not configured</span> </div> 
+        </p:else>
+    </t:if>
+</t:container>

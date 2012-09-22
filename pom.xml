@@ -41,6 +41,7 @@
 		<module>tynamo-federatedaccounts-openid</module>
 		<module>tynamo-federatedaccounts-rollingtokens</module>
 		<module>tynamo-federatedaccounts-twitter</module>
+		<module>tynamo-federatedaccounts-github</module>
 	</modules>
 	
 	<dependencyManagement>
