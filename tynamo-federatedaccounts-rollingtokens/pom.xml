@@ -59,26 +59,27 @@
 			<artifactId>mockito-all</artifactId>
 			<scope>test</scope>
 		</dependency>
+
 		<dependency>
 			<groupId>org.tynamo</groupId>
 			<artifactId>tynamo-common</artifactId>
-			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.tynamo</groupId>
 			<artifactId>tapestry-model-test</artifactId>
 			<version>0.1.0</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.tynamo</groupId>
 			<artifactId>tapestry-security</artifactId>
-			<version>0.4.4</version>
 		</dependency>
+
 		<dependency>
 			<groupId>org.tynamo.security</groupId>
 			<artifactId>tynamo-federatedaccounts-core</artifactId>
-			<version>0.1.0</version>
 		</dependency>
+
 	</dependencies>
 	
 	<build>
