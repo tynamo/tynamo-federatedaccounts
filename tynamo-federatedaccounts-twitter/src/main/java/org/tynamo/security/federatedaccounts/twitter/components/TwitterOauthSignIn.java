@@ -75,12 +75,6 @@ public class TwitterOauthSignIn extends AbstractOauthSignIn {
 	}
 
 	public String getOauthAuthorizationLink() throws TwitterException {
-		if ("".equals(getReturnPageName())) return getOauthRedirectLink(windowMode, "request_token");
-		if ("^".equals(getReturnPageName()))
-			return getOauthRedirectLink(windowMode, "request_token",
-				pageRenderLinkSource.createPageRenderLink(componentResources.getPage().getClass()).toAbsoluteURI());
-		return getOauthRedirectLink(windowMode, "request_token",
-			pageRenderLinkSource.createPageRenderLink(getReturnPageName()).toAbsoluteURI());
-
+		return getOauthRedirectLink(windowMode, "request_token", getReturnPageUri());
 	}
 }

@@ -6,13 +6,9 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
-import org.apache.tapestry5.services.BaseURLSource;
-import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthPage;
@@ -30,10 +26,6 @@ public class TwitterOauth extends AbstractOauthPage {
 	private boolean httpClientOnGae;
 
 	@Inject
-	@Symbol(FederatedAccountSymbols.SUCCESSURL)
-	private String successUrl;
-
-	@Inject
 	private Logger logger;
 
 	@Inject
@@ -43,14 +35,9 @@ public class TwitterOauth extends AbstractOauthPage {
 	private FlashMessager flashMessager;
 
 	@Inject
-	private PageRenderLinkSource linkSource;
-
-	private boolean oauthAuthenticated;
-
-	@Inject
 	private TwitterFactory twitterFactory;
 
-	private String returnUri;
+	// private String returnUri;
 
 	protected TwitterFactory getTwitterFactory() {
 		return twitterFactory;
@@ -61,17 +48,17 @@ public class TwitterOauth extends AbstractOauthPage {
 		if (eventContext.getCount() > 2) {
 			String action = eventContext.get(String.class, 1);
 			// pass along this redirectUrl
-			returnUri = eventContext.get(String.class, 2);
+			setReturnUri(eventContext.get(String.class, 2));
 			if ("request_token".equals(action)) {
 				Twitter twitter = getTwitterFactory().getInstance();
 				twitter.setOAuthConsumer(getOauthClientId(), getOauthClientSecret());
-				return new URL(twitter.getOAuthRequestToken(getOauthRedirectLink(getWindowMode(), returnUri))
+				return new URL(twitter.getOAuthRequestToken(getOauthRedirectLink(getWindowMode(), getReturnUri()))
 					.getAuthenticationURL());
 			}
 		}
 
 		// capture the redirect url again
-		if (eventContext.getCount() > 1) returnUri = eventContext.get(String.class, 1);
+		if (eventContext.getCount() > 1) setReturnUri(eventContext.get(String.class, 1));
 
 		String oauth_token = request.getParameter("oauth_token");
 		String oauth_verifier = request.getParameter("oauth_verifier");
@@ -88,7 +75,7 @@ public class TwitterOauth extends AbstractOauthPage {
 		try {
 			SecurityUtils.getSubject().login(new TwitterAccessToken(accessToken));
 			flashMessager.setSuccessMessage("User successfully authenticated");
-			oauthAuthenticated = true;
+			setOauthAuthenticated(true);
 		} catch (AuthenticationException e) {
 			logger
 				.error("Using access token " + accessToken + "\nCould not sign in a Twitter federated user because of: ", e);
@@ -98,23 +85,5 @@ public class TwitterOauth extends AbstractOauthPage {
 				+ e.getMessage());
 		}
 		return null;
-	}
-
-	@Inject
-	private BaseURLSource baseURLSource;
-
-	public String getSuccessLink() {
-		if (returnUri != null) return returnUri;
-
-		return "".equals(successUrl) ? "" : baseURLSource.getBaseURL(request.isSecure()) + successUrl;
-	}
-
-	@Environmental
-	private JavaScriptSupport javaScriptSupport;
-
-	protected void afterRender() {
-		if (oauthAuthenticated)
-			javaScriptSupport.addScript("onAuthenticationSuccess('" + getSuccessLink() + "', '" + getWindowMode().name()
-				+ "');");
 	}
 }

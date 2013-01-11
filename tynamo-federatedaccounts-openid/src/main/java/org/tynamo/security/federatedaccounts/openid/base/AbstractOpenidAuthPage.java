@@ -5,17 +5,14 @@ import java.net.URL;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.tapestry5.ComponentResources;
-import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
-import org.apache.tapestry5.services.BaseURLSource;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestGlobals;
 import org.apache.tapestry5.services.Response;
 import org.apache.tapestry5.services.URLEncoder;
-import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.openid4java.consumer.VerificationResult;
 import org.openid4java.discovery.Identifier;
 import org.slf4j.Logger;
@@ -31,10 +28,6 @@ public abstract class AbstractOpenidAuthPage extends AbstractOauthSignIn {
 	private boolean httpClientOnGae;
 
 	@Inject
-	@Symbol(FederatedAccountSymbols.SUCCESSURL)
-	private String successUrl;
-
-	@Inject
 	private Logger logger;
 
 	@Inject
@@ -42,8 +35,6 @@ public abstract class AbstractOpenidAuthPage extends AbstractOauthSignIn {
 
 	@Inject
 	private PageRenderLinkSource linkSource;
-
-	private boolean fbAuthenticated;
 
 	@Property
 	private WindowMode windowMode;
@@ -84,20 +75,5 @@ public abstract class AbstractOpenidAuthPage extends AbstractOauthSignIn {
 			e.printStackTrace();
 		}
 		return null;
-	}
-
-	@Inject
-	private BaseURLSource baseURLSource;
-
-	public String getSuccessLink() {
-		return "".equals(successUrl) ? "" : baseURLSource.getBaseURL(request.isSecure()) + successUrl;
-	}
-
-	@Environmental
-	private JavaScriptSupport javaScriptSupport;
-
-	protected void afterRender() {
-		if (fbAuthenticated)
-			javaScriptSupport.addScript("onAuthenticationSuccess('" + getSuccessLink() + "', '" + windowMode.name() + "');");
 	}
 }

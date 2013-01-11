@@ -6,19 +6,15 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.annotations.Component;
-import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
-import org.apache.tapestry5.services.BaseURLSource;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.apache.tapestry5.services.Request;
-import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.scribe.oauth.OAuthService;
 import org.slf4j.Logger;
-import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthPage;
 import org.tynamo.security.federatedaccounts.components.FlashMessager;
 import org.tynamo.security.federatedaccounts.github.services.GitHubAccessToken;
@@ -27,10 +23,6 @@ import org.tynamo.security.federatedaccounts.github.services.GitHubRealm;
 
 @SuppressWarnings("deprecation")
 public class GitHubOauth extends AbstractOauthPage {
-
-	@Inject
-	@Symbol(FederatedAccountSymbols.SUCCESSURL)
-	private String successUrl;
 
 	@Inject
 	private Logger logger;
@@ -52,7 +44,7 @@ public class GitHubOauth extends AbstractOauthPage {
 
 	protected Object onOauthActivate(EventContext eventContext) throws Exception {
 		ServiceBuilder serviceBuilder = new ServiceBuilder().provider(GitHubApi.class).apiKey(getOauthClientId())
-			.apiSecret(getOauthClientSecret()).callback(getSuccessLink());
+			.apiSecret(getOauthClientSecret()).callback(getReturnUri());
 
 		OAuthService oAuthService = serviceBuilder.build();
 
@@ -86,21 +78,5 @@ public class GitHubOauth extends AbstractOauthPage {
 				+ e.getMessage());
 		}
 		return null;
-	}
-
-	@Inject
-	private BaseURLSource baseURLSource;
-
-	public String getSuccessLink() {
-		return "".equals(successUrl) ? "" : baseURLSource.getBaseURL(request.isSecure()) + successUrl;
-	}
-
-	@Environmental
-	private JavaScriptSupport javaScriptSupport;
-
-	protected void afterRender() {
-		if (oauthAuthenticated)
-			javaScriptSupport.addScript("onAuthenticationSuccess('" + getSuccessLink() + "', '" + getWindowMode().name()
-				+ "');");
 	}
 }

@@ -20,7 +20,7 @@ public class FederatedAccountsModule {
 	public static void contributeFactoryDefaults(MappedConfiguration<String, String> configuration) {
 		configuration.add(FederatedAccountSymbols.COMMITAFTER_OAUTH, "true");
 		configuration.add(FederatedAccountSymbols.HTTPCLIENT_ON_GAE, "false");
-		configuration.add(FederatedAccountSymbols.SUCCESSURL, "");
+		configuration.add(FederatedAccountSymbols.DEFAULT_RETURNPAGE, "");
 	}
 
 	public static void contributeComponentClassResolver(Configuration<LibraryMapping> configuration) {
@@ -32,11 +32,12 @@ public class FederatedAccountsModule {
 	}
 
 	public void contributeTypeCoercer(Configuration<CoercionTuple<String, WindowMode>> configuration) {
-		configuration.add(new CoercionTuple<String, WindowMode>(String.class, WindowMode.class, new Coercion<String, WindowMode>() {
-			public WindowMode coerce(String input) {
-				return WindowMode.valueOf(input);
-			}
-		}));
+		configuration.add(new CoercionTuple<String, WindowMode>(String.class, WindowMode.class,
+			new Coercion<String, WindowMode>() {
+				public WindowMode coerce(String input) {
+					return WindowMode.valueOf(input);
+				}
+			}));
 	}
 
 }

@@ -1,7 +1,9 @@
 package org.tynamo.security.federatedaccounts.base;
 
 import org.apache.tapestry5.EventContext;
+import org.apache.tapestry5.annotations.Environmental;
 import org.apache.tapestry5.hibernate.annotations.CommitAfter;
+import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 /**
@@ -12,6 +14,10 @@ import org.tynamo.security.federatedaccounts.util.WindowMode;
 public abstract class AbstractOauthPage extends OauthComponentBase {
 
 	private WindowMode windowMode;
+
+	private String returnUri;
+
+	private boolean oauthAuthenticated;
 
 	public WindowMode getWindowMode() {
 		return windowMode;
@@ -41,4 +47,28 @@ public abstract class AbstractOauthPage extends OauthComponentBase {
 		return getClass();
 	}
 
+	public String getReturnUri() {
+		return returnUri;
+	}
+
+	public void setReturnUri(String returnUri) {
+		this.returnUri = returnUri;
+	}
+
+	public boolean isOauthAuthenticated() {
+		return oauthAuthenticated;
+	}
+
+	public void setOauthAuthenticated(boolean oauthAuthenticated) {
+		this.oauthAuthenticated = oauthAuthenticated;
+	}
+
+	@Environmental
+	private JavaScriptSupport javaScriptSupport;
+
+	protected void afterRender() {
+		if (isOauthAuthenticated())
+			javaScriptSupport.addScript("onAuthenticationSuccess('" + getReturnUri() + "', '" + getWindowMode().name()
+				+ "');");
+	}
 }
