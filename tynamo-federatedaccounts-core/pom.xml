@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.tynamo.security</groupId>
 		<artifactId>tynamo-federatedaccounts-parent</artifactId>
-		<version>0.2.1-SNAPSHOT</version>
+		<version>0.3.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -70,7 +70,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!--  tapestry-hibernate modules are really optional as well 
+		<!--  tapestry-hibernate modules are really optional as well
 		-->
 		<dependency>
 			<groupId>org.apache.tapestry</groupId>
@@ -92,16 +92,17 @@
 			<scope>provided</scope>
 		</dependency>
 
-<!-- tapestry-security pulls in shiro that depends on a slf4j-api 1.5.8, but tapestry needs 1.6 -->
+<!-- tapestry-security pulls in shiro that depends on a slf4j-api 1.5.8, but tapestry needs at least 1.6 -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.6.1</version>
+			<version>1.7.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.6.1</version>
+			<version>1.7.2</version>
+			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
@@ -109,7 +110,7 @@
 			<artifactId>tapestry-model-test</artifactId>
 			<version>0.1.0</version>
 			<scope>test</scope>
-			<!-- 
+			<!--
 			<exclusions>
 				<exclusion>
 					<groupId>commons-httpclient</groupId>

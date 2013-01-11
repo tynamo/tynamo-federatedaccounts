@@ -50,20 +50,29 @@ public class TwitterOauth extends AbstractOauthPage {
 	@Inject
 	private TwitterFactory twitterFactory;
 
+	private String returnUri;
+
 	protected TwitterFactory getTwitterFactory() {
 		return twitterFactory;
 	}
 
 	@Override
 	protected Object onOauthActivate(EventContext eventContext) throws Exception {
-		if (eventContext.getCount() > 1) {
+		if (eventContext.getCount() > 2) {
 			String action = eventContext.get(String.class, 1);
+			// pass along this redirectUrl
+			returnUri = eventContext.get(String.class, 2);
 			if ("request_token".equals(action)) {
 				Twitter twitter = getTwitterFactory().getInstance();
 				twitter.setOAuthConsumer(getOauthClientId(), getOauthClientSecret());
-				return new URL(twitter.getOAuthRequestToken(getOauthRedirectLink(getWindowMode())).getAuthenticationURL());
+				return new URL(twitter.getOAuthRequestToken(getOauthRedirectLink(getWindowMode(), returnUri))
+					.getAuthenticationURL());
 			}
 		}
+
+		// capture the redirect url again
+		if (eventContext.getCount() > 1) returnUri = eventContext.get(String.class, 1);
+
 		String oauth_token = request.getParameter("oauth_token");
 		String oauth_verifier = request.getParameter("oauth_verifier");
 		if (oauth_verifier == null) {
@@ -95,6 +104,8 @@ public class TwitterOauth extends AbstractOauthPage {
 	private BaseURLSource baseURLSource;
 
 	public String getSuccessLink() {
+		if (returnUri != null) return returnUri;
+
 		return "".equals(successUrl) ? "" : baseURLSource.getBaseURL(request.isSecure()) + successUrl;
 	}
 

@@ -58,8 +58,16 @@ public class FacebookOauth extends AbstractOauthPage {
 
 	private boolean oauthAuthenticated;
 
+	@Environmental
+	private JavaScriptSupport javaScriptSupport;
+
+	private String returnUri;
+
 	protected Object onOauthActivate(EventContext eventContext) throws MalformedURLException {
 		String code = request.getParameter("code");
+
+		if (eventContext.getCount() > 1) this.returnUri = eventContext.get(String.class, 1);
+
 		if (code == null) {
 			flashMessager.setFailureMessage("No Oauth authentication code provided");
 			return null;
@@ -67,7 +75,7 @@ public class FacebookOauth extends AbstractOauthPage {
 
 		List<NameValuePair> qparams = new ArrayList<NameValuePair>();
 		qparams.add(new BasicNameValuePair("client_id", getOauthClientId()));
-		qparams.add(new BasicNameValuePair("redirect_uri", getOauthRedirectLink(getWindowMode())));
+		qparams.add(new BasicNameValuePair("redirect_uri", getOauthRedirectLink(getWindowMode(), returnUri)));
 		qparams.add(new BasicNameValuePair("client_secret", getOauthClientSecret()));
 		qparams.add(new BasicNameValuePair("code", code));
 		HttpGet get = null;
@@ -142,11 +150,9 @@ public class FacebookOauth extends AbstractOauthPage {
 	private BaseURLSource baseURLSource;
 
 	public String getSuccessLink() {
+		if (returnUri != null) return returnUri;
 		return "".equals(successUrl) ? "" : baseURLSource.getBaseURL(request.isSecure()) + successUrl;
 	}
-
-	@Environmental
-	private JavaScriptSupport javaScriptSupport;
 
 	protected void afterRender() {
 		if (oauthAuthenticated)

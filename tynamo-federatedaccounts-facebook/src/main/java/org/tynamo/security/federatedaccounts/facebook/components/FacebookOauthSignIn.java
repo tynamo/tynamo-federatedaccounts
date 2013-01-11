@@ -1,11 +1,14 @@
 package org.tynamo.security.federatedaccounts.facebook.components;
 
 import org.apache.tapestry5.BindingConstants;
+import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
+import org.apache.tapestry5.services.AssetSource;
+import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthSignIn;
 import org.tynamo.security.federatedaccounts.facebook.pages.FacebookOauth;
 import org.tynamo.security.federatedaccounts.facebook.services.FacebookRealm;
@@ -27,8 +30,17 @@ public class FacebookOauthSignIn extends AbstractOauthSignIn {
 	@Property
 	private Integer height;
 
-	@Parameter(value = "blank", required = false, defaultPrefix = "literal")
+	@Parameter(defaultPrefix = BindingConstants.LITERAL, value = "blank")
 	private WindowMode windowMode;
+
+	@Inject
+	private AssetSource assetSource;
+
+	@Inject
+	private ComponentResources componentResources;
+
+	@Inject
+	private PageRenderLinkSource pageRenderLinkSource;
 
 	public boolean isWindowMode(String mode) {
 		if (mode == null) throw new IllegalArgumentException("Window mode argument cannot be null");
@@ -49,11 +61,16 @@ public class FacebookOauthSignIn extends AbstractOauthSignIn {
 	}
 
 	public String getOauthRedirectLink() {
-		return getOauthRedirectLink(windowMode);
+		if ("".equals(getReturnPageName())) return getOauthRedirectLink(windowMode);
+		if ("^".equals(getReturnPageName()))
+			return getOauthRedirectLink(windowMode,
+				pageRenderLinkSource.createPageRenderLink(componentResources.getPage().getClass()).toAbsoluteURI());
+		return getOauthRedirectLink(windowMode, pageRenderLinkSource.createPageRenderLink(getReturnPageName())
+			.toAbsoluteURI());
 	}
 
 	@Override
-	protected Class getOauthPageClass() {
+	protected Class<?> getOauthPageClass() {
 		return FacebookOauth.class;
 	}
 

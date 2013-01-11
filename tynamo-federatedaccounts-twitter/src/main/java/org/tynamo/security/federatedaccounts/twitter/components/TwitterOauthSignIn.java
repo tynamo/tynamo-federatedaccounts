@@ -45,11 +45,17 @@ public class TwitterOauthSignIn extends AbstractOauthSignIn {
 	@Parameter(value = "blank", required = false, defaultPrefix = "literal")
 	private WindowMode windowMode;
 
+	@Parameter(defaultPrefix = BindingConstants.LITERAL, value = "false")
+	private boolean stayOnPage;
+
 	@Inject
 	private AssetSource assetSource;
 
 	@Inject
 	private ComponentResources componentResources;
+
+	@Inject
+	private PageRenderLinkSource pageRenderLinkSource;
 
 	public Asset getSignInImage() {
 		return assetSource.getAsset(componentResources.getBaseResource(), buttonStyle.toString(), null);
@@ -64,11 +70,17 @@ public class TwitterOauthSignIn extends AbstractOauthSignIn {
 	private PageRenderLinkSource linkSource;
 
 	@Override
-	protected Class getOauthPageClass() {
+	protected Class<?> getOauthPageClass() {
 		return TwitterOauth.class;
 	}
 
 	public String getOauthAuthorizationLink() throws TwitterException {
-		return getOauthRedirectLink(windowMode, "request_token");
+		if ("".equals(getReturnPageName())) return getOauthRedirectLink(windowMode, "request_token");
+		if ("^".equals(getReturnPageName()))
+			return getOauthRedirectLink(windowMode, "request_token",
+				pageRenderLinkSource.createPageRenderLink(componentResources.getPage().getClass()).toAbsoluteURI());
+		return getOauthRedirectLink(windowMode, "request_token",
+			pageRenderLinkSource.createPageRenderLink(getReturnPageName()).toAbsoluteURI());
+
 	}
 }

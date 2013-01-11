@@ -6,7 +6,7 @@
 	<name>Federated Accounts for Tapestry Security</name>
 	<description>Tynamo Federated Accounts (Facebook etc.) package for Shiro-based Tapestry Security</description>
 	<packaging>pom</packaging>
-	<version>0.2.1-SNAPSHOT</version>
+	<version>0.3.0-SNAPSHOT</version>
 
 	<parent>
 		<groupId>org.tynamo</groupId>
@@ -15,7 +15,7 @@
 	</parent>
 
 	<properties>
-		<tapestry-release-version>5.3.4</tapestry-release-version>
+		<tapestry-release-version>5.3.6</tapestry-release-version>
 	</properties>
 
 	<scm>
@@ -31,7 +31,7 @@
 			<url>dav:https://dav.codehaus.org/tynamo/constant/sites/tynamo-federatedaccounts</url>
 		</site>
 	</distributionManagement>
-	
+
 	<modules>
 		<module>tynamo-federatedaccounts-core</module>
 		<module>tynamo-federatedaccounts-facebook</module>
@@ -43,13 +43,13 @@
 		<module>tynamo-federatedaccounts-twitter</module>
 		<module>tynamo-federatedaccounts-github</module>
 	</modules>
-	
+
 	<dependencyManagement>
 		<dependencies>
 			<dependency>
 				<groupId>org.tynamo.security</groupId>
 				<artifactId>tynamo-federatedaccounts-core</artifactId>
-				<version>0.2.1-SNAPSHOT</version>
+				<version>0.3.0-SNAPSHOT</version>
 			</dependency>
 			<dependency>
 				<groupId>com.h2database</groupId>
@@ -61,7 +61,7 @@
 			<dependency>
 				<groupId>org.apache.httpcomponents</groupId>
 				<artifactId>httpclient</artifactId>
-				<version>4.2.1</version>
+				<version>4.2.2</version>
 				<scope>compile</scope>
 			</dependency>
 
@@ -74,7 +74,7 @@
 			<dependency>
 				<groupId>org.tynamo</groupId>
 				<artifactId>tapestry-security</artifactId>
-				<version>0.4.6</version>
+				<version>0.5.0</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>

@@ -9,7 +9,7 @@
 	<parent>
 		<groupId>org.tynamo.security</groupId>
 		<artifactId>tynamo-federatedaccounts-parent</artifactId>
-		<version>0.2.1-SNAPSHOT</version>
+		<version>0.3.0-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -72,7 +72,7 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!--  tapestry-hibernate modules are really optional as well 
+		<!--  tapestry-hibernate modules are really optional as well
 		-->
 		<dependency>
 			<groupId>org.apache.tapestry</groupId>
