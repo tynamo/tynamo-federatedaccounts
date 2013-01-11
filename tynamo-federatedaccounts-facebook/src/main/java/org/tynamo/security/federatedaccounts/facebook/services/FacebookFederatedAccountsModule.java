@@ -9,11 +9,12 @@ import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.services.LibraryMapping;
 import org.tynamo.common.ModuleProperties;
 import org.tynamo.security.federatedaccounts.facebook.pages.FacebookOauth;
+import org.tynamo.security.federatedaccounts.services.FederatedAccountsModule;
 import org.tynamo.security.services.SecurityFilterChainFactory;
 import org.tynamo.security.services.impl.SecurityFilterChain;
 
 public class FacebookFederatedAccountsModule {
-	private static final String PATH_PREFIX = "facebook";
+	private static final String PATH_PREFIX = "federated-facebook";
 	private static String version = ModuleProperties.getVersion(FacebookFederatedAccountsModule.class);
 
 	public static void bind(ServiceBinder binder) {
@@ -28,7 +29,8 @@ public class FacebookFederatedAccountsModule {
 	}
 
 	public static void contributeComponentClassResolver(Configuration<LibraryMapping> configuration) {
-		configuration.add(new LibraryMapping(PATH_PREFIX, "org.tynamo.security.federatedaccounts.facebook"));
+		configuration.add(new LibraryMapping(FederatedAccountsModule.PATH_PREFIX,
+			"org.tynamo.security.federatedaccounts.facebook"));
 	}
 
 	public static void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration) {
@@ -42,7 +44,8 @@ public class FacebookFederatedAccountsModule {
 
 	public static void contributeSecurityConfiguration(Configuration<SecurityFilterChain> configuration,
 			SecurityFilterChainFactory factory) {
-		configuration.add(factory.createChain("/" + PATH_PREFIX + "/"
+		configuration.add(factory
+			.createChain("/" + FederatedAccountsModule.PATH_PREFIX + "/"
 				+ FacebookOauth.class.getSimpleName().toLowerCase()).add(factory.anon()).build());
-	}	
+	}
 }

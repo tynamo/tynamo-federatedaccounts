@@ -11,7 +11,7 @@ import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 public class FederatedAccountsModule {
-	private static final String PATH_PREFIX = "federated";
+	public static final String PATH_PREFIX = "federated";
 	private static String version = ModuleProperties.getVersion(FederatedAccountsModule.class);
 
 	public static void bind(ServiceBinder binder) {

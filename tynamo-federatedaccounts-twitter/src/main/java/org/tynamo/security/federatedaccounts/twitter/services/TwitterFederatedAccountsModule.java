@@ -16,7 +16,7 @@ import org.tynamo.security.services.impl.SecurityFilterChain;
 import twitter4j.TwitterFactory;
 
 public class TwitterFederatedAccountsModule {
-	private static final String PATH_PREFIX = "twitter";
+	private static final String PATH_PREFIX = "federated-twitter";
 	// this is a child module, use the same version as for the parent
 	private static String version = ModuleProperties.getVersion(FederatedAccountsModule.class);
 
@@ -31,7 +31,8 @@ public class TwitterFederatedAccountsModule {
 	}
 
 	public static void contributeComponentClassResolver(Configuration<LibraryMapping> configuration) {
-		configuration.add(new LibraryMapping(PATH_PREFIX, "org.tynamo.security.federatedaccounts.twitter"));
+		configuration.add(new LibraryMapping(FederatedAccountsModule.PATH_PREFIX,
+			"org.tynamo.security.federatedaccounts.twitter"));
 	}
 
 	public static void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration) {
@@ -45,7 +46,8 @@ public class TwitterFederatedAccountsModule {
 
 	public static void contributeSecurityConfiguration(Configuration<SecurityFilterChain> configuration,
 		SecurityFilterChainFactory factory) {
-		configuration.add(factory.createChain("/" + PATH_PREFIX + "/" + TwitterOauth.class.getSimpleName().toLowerCase())
+		configuration.add(factory
+			.createChain("/" + FederatedAccountsModule.PATH_PREFIX + "/" + TwitterOauth.class.getSimpleName().toLowerCase())
 			.add(factory.anon()).build());
 	}
 
