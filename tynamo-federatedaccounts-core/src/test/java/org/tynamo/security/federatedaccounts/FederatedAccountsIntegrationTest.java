@@ -5,7 +5,7 @@ import static org.testng.Assert.assertNotNull;
 
 import java.io.IOException;
 
-import org.mortbay.jetty.webapp.WebAppContext;
+import org.eclipse.jetty.webapp.WebAppContext;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 import org.tynamo.test.AbstractContainerTest;
@@ -144,7 +144,7 @@ public class FederatedAccountsIntegrationTest extends AbstractContainerTest {
 	}
 
 	private String getLocation() {
-		return page.getWebResponse().getRequestSettings().getUrl().toString();
+		return page.getWebResponse().getWebRequest().getUrl().toString();
 	}
 
 }
