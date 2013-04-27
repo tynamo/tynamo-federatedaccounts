@@ -5,6 +5,7 @@ import java.net.URL;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.tapestry5.EventContext;
+import org.apache.tapestry5.alerts.AlertManager;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
@@ -12,7 +13,6 @@ import org.apache.tapestry5.services.Request;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthPage;
-import org.tynamo.security.federatedaccounts.components.FlashMessager;
 import org.tynamo.security.federatedaccounts.twitter.TwitterAccessToken;
 
 import twitter4j.Twitter;
@@ -32,7 +32,7 @@ public class TwitterOauth extends AbstractOauthPage {
 	private Request request;
 
 	@Component
-	private FlashMessager flashMessager;
+	private AlertManager alertManager;
 
 	@Inject
 	private TwitterFactory twitterFactory;
@@ -63,7 +63,7 @@ public class TwitterOauth extends AbstractOauthPage {
 		String oauth_token = request.getParameter("oauth_token");
 		String oauth_verifier = request.getParameter("oauth_verifier");
 		if (oauth_verifier == null) {
-			flashMessager.setFailureMessage("No Oauth verifier code provided");
+			alertManager.error("No Oauth verifier code provided");
 			return null;
 		}
 
@@ -74,15 +74,14 @@ public class TwitterOauth extends AbstractOauthPage {
 
 		try {
 			SecurityUtils.getSubject().login(new TwitterAccessToken(accessToken));
-			flashMessager.setSuccessMessage("User successfully authenticated");
+			alertManager.success("User successfully authenticated");
 			setOauthAuthenticated(true);
 		} catch (AuthenticationException e) {
 			logger
 				.error("Using access token " + accessToken + "\nCould not sign in a Twitter federated user because of: ", e);
 			// FIXME Deal with other account exception types like expired and
 			// locked
-			flashMessager.setFailureMessage("A Twitter federated user cannot be signed in, report this to support.\n "
-				+ e.getMessage());
+			alertManager.error("A Twitter federated user cannot be signed in, report this to support.\n " + e.getMessage());
 		}
 		return null;
 	}

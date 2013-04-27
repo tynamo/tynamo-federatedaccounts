@@ -20,6 +20,7 @@ import org.apache.http.util.EntityUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.tapestry5.EventContext;
+import org.apache.tapestry5.alerts.AlertManager;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
@@ -29,7 +30,6 @@ import org.esxx.js.protocol.GAEConnectionManager;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthPage;
-import org.tynamo.security.federatedaccounts.components.FlashMessager;
 import org.tynamo.security.federatedaccounts.facebook.FacebookAccessToken;
 
 public class FacebookOauth extends AbstractOauthPage {
@@ -44,7 +44,7 @@ public class FacebookOauth extends AbstractOauthPage {
 	private Request request;
 
 	@Component
-	private FlashMessager flashMessager;
+	private AlertManager alertManager;
 
 	@Inject
 	private PageRenderLinkSource linkSource;
@@ -55,7 +55,7 @@ public class FacebookOauth extends AbstractOauthPage {
 		if (eventContext.getCount() > 1) setReturnUri(eventContext.get(String.class, 1));
 
 		if (code == null) {
-			flashMessager.setFailureMessage("No Oauth authentication code provided");
+			alertManager.error("No Oauth authentication code provided");
 			return null;
 		}
 
@@ -87,7 +87,7 @@ public class FacebookOauth extends AbstractOauthPage {
 			int status = response.getStatusLine().getStatusCode();
 			if (HttpStatus.SC_OK != status) {
 				logger.error("Facebook access_token request returned status code " + status);
-				flashMessager.setFailureMessage("Facebook access_token request failed with status code: " + status);
+				alertManager.error("Facebook access_token request failed with status code: " + status);
 				return null;
 			}
 			HttpEntity entity = response.getEntity();
@@ -97,7 +97,7 @@ public class FacebookOauth extends AbstractOauthPage {
 			}
 		} catch (Exception e) {
 			logger.error("Facebook access_token request failed because of:", e);
-			flashMessager.setFailureMessage("Facebook access_token request failed with message: " + e.getMessage());
+			alertManager.error("Facebook access_token request failed with message: " + e.getMessage());
 			return null;
 		} finally {
 			if (get != null) get.abort();
@@ -112,20 +112,20 @@ public class FacebookOauth extends AbstractOauthPage {
 			accessToken = accessToken.substring(0, accessToken.indexOf("&expires"));
 		} catch (Exception e) {
 			logger.error("access_token wasn't of right format");
-			flashMessager.setFailureMessage("Facebook access_token wasn't of right format");
+			alertManager.error("Facebook access_token wasn't of right format");
 			return null;
 		}
 
 		try {
 			SecurityUtils.getSubject().login(new FacebookAccessToken(accessToken, expires));
-			flashMessager.setSuccessMessage("User successfully authenticated");
+			alertManager.success("User successfully authenticated");
 			setOauthAuthenticated(true);
 		} catch (AuthenticationException e) {
 			logger.error("Using access token " + accessToken + "\nCould not sign in a Facebook federated user because of: ",
 				e);
 			// FIXME Deal with other account exception types like expired and
 			// locked
-			flashMessager.setFailureMessage("A Facebook federated user cannot be signed in, report this to support.\n "
+			alertManager.error("A Facebook federated user cannot be signed in, report this to support.\n "
 				+ e.getMessage());
 			return null;
 		}

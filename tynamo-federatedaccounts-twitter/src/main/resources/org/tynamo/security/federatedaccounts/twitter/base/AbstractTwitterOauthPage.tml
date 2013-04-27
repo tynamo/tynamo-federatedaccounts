@@ -8,7 +8,7 @@
 <div class="title">
 	<h1>Twitter authentication</h1>
 </div>
-<t:FlashMessager t:id="flashMessager"/>
+<t:alerts/>
 <div style="margin-top:10px">
 	<a href="#" onclick="closeOauthWindow('${windowMode}');">Close window</a>
 </div>
@@ -34,7 +34,7 @@ function onAuthenticationSuccess(successLink, windowMode) {
 				else window.parent.location.href = successLink;
 			}
 			break;
-		case 'self' : 
+		case 'self' :
 			if (successLink == '') window.history.go(-2);
 			else window.location.href = successLink;
 			break;
@@ -55,7 +55,7 @@ function closeOauthWindow(windowMode) {
 		case 'inline' :
 			closeInlineOauthWindow();
 			break;
-		case 'self' : 
+		case 'self' :
 			window.history.go(-2);
 			break;
 	}

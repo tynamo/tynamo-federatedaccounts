@@ -5,6 +5,7 @@ import java.net.URL;
 import org.apache.shiro.SecurityUtils;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.EventContext;
+import org.apache.tapestry5.alerts.AlertManager;
 import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
@@ -18,7 +19,6 @@ import org.openid4java.discovery.Identifier;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthPage;
-import org.tynamo.security.federatedaccounts.components.FlashMessager;
 import org.tynamo.security.federatedaccounts.openid.OpenidAccessToken;
 import org.tynamo.security.federatedaccounts.openid.services.OpenidLoginManager;
 
@@ -49,7 +49,7 @@ public class OpenIdAuth extends AbstractOauthPage {
 	private Response response;
 
 	@Component
-	private FlashMessager flashMessager;
+	private AlertManager alertManager;
 
 	@Inject
 	private URLEncoder urlEncoder;
@@ -58,7 +58,7 @@ public class OpenIdAuth extends AbstractOauthPage {
 	protected Object onOauthActivate(EventContext context) throws Exception {
 		// the first context param is reserved for windowmode
 		if (context.getCount() < 2) {
-			flashMessager.setFailureMessage("No openID redirect link provided");
+			alertManager.error("No openID redirect link provided");
 			return null;
 		}
 		String redirect = context.get(String.class, 1);
