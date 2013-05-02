@@ -1,0 +1,65 @@
+body { font: 12px Tahoma, Geneva, sans-serif; }
+
+/* panel */
+.collapsiblepanel_container
+{
+	background: #eee;
+	margin: 5px;
+	padding: 0px 2px 5px 0px;
+	width: 300px;
+	border: 1px solid #999;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
+.collapsiblepanel_container>div.collapsiblepanel_header
+{
+	background: #CCC;
+	width: 100%;
+	text-align: left;
+	font-size: 18px;
+	font-weight: normal;
+	margin: 0px;
+	margin-right: 4px;
+	border-bottom: 1px solid #999;
+	-moz-border-radius: 3px;
+	-webkit-border-radius: 3px;
+	border-top: 1px solid #FFF;
+	border-right: 1px solid #FFF;
+	border-left: 1px solid #FFF;
+}
+
+div.collapsiblepanel_header>span.collapsiblepanel_header_title
+{
+	float : right;
+	display: inline-block;
+	margin-left : 10px;
+	padding-right : 20px;
+}
+
+div.collapsiblepanel_header>span.collapsiblepanel_header_title_expanded
+{
+	background: url(arrow-up.gif) no-repeat 100%;
+}
+
+/* panel heading on rollover */
+.panel h2:hover, .panelcollapsed h2:hover { background-color: #A9BCEF; }
+
+/* heading of a collapsed panel */
+div.collapsiblepanel_header>span.collapsiblepanel_header_title_collapsed
+{
+	background: url(arrow-dn.gif) no-repeat 100%;
+	border-color: #CCC;
+}
+
+/* panel content - do not set borders or paddings */
+.collapsiblepanel_container>div.collapsiblepanel_content
+{
+	background: #EEE;
+	overflow: hidden;
+}
+
+/* collapsed panel content */
+.collapsiblepanel_container>div.collapsiblepanel_content_collapsed {
+	display: none;
+}

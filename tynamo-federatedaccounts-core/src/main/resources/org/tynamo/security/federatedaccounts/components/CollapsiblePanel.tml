@@ -1,0 +1,9 @@
+<div xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter" class="collapsiblepanel_container">
+	<div class="collapsiblepanel_header">
+		<t:delegate to="headerContent"/>
+		<span class="collapsiblepanel_header_title collapsiblepanel_header_title_${state}" onclick="toggleCollapsiblePanel(this);">${title}</span>
+	</div>
+	<div class="collapsiblepanel_content collapsiblepanel_content_${state}">
+		<t:body/>
+	</div>
+</div>

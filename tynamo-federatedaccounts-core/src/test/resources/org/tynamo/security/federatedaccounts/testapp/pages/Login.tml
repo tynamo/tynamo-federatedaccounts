@@ -1,5 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:t="http://tapestry.apache.org/schema/tapestry_5_1_0.xsd" xmlns:p="tapestry:parameter">
 
 	<head>
 		<title>Login page</title>
@@ -10,63 +10,69 @@
 				height:600px;
 				margin:0 auto;
 			}
-			
+
 			#tynamoLoginForm {
 				padding: 90px 110px;
 			}
-			
+
 			#tynamoLoginMessage {
 				color:red;
-				margin-bottom: 10px;	
+				margin-bottom: 10px;
 			}
-			
+
 			input {
 				font-size: 220%;
 			}
-			
+
 			input[type="text"], input[type="password"] {
 				font-size: 220%; width: 400px;
 			}
-			
+
 			#tynamoLoginContainer {
 				margin-bottom: 50px;
 			}
-			
+
 			#tynamoPasswordContainer {
 				margin-bottom: 50px;
 			}
-			
+
 			#tynamoRememberMeContainer {
 				margin-bottom: 40px;
 			}
-			
+
 			.tynamoMessage {
 				margin:0 auto;
 			}
-		</style>	
+		</style>
 	</head>
 
 	<body style="text-align:center;font-family:'lucida grande','lucida sans unicode','bitstream vera sans', 'trebuchet ms',arial,sans-serif;">
 		<div class="tynamoMessage">
 			${message}
 		</div>
+
+   	<t:federated.collapsiblepanel title="Test title">
+   		<p:headerContent>Header content<br/>more content</p:headerContent>
+   		Hello world!
+   	</t:federated.collapsiblepanel>
+
 		<t:remove>
 		<h3>Sign in as a Facebook user instead</h3>
 		<div>
-			<div style="float:left">demonstrating different windowmodes,&nbsp;</div> 		
-			<div style="float:left"> 
+			<div style="float:left">demonstrating different windowmodes,&nbsp;</div>
+			<div style="float:left">
 				blank: <t:federated.facebookSignIn/>
 			</div>
-			<div style="float:left"> 
+			<div style="float:left">
 				inline: <t:federated.facebookSignIn windowMode="inline"/>
 			</div>
-			<div style="float:left"> 
+			<div style="float:left">
 				self: <t:federated.facebookSignIn windowMode="self"/>
 			</div>
 		</div>
 		<t:federated.oauthInlineFrame/>
 		</t:remove>
 		<t:security.loginform />
-			
+
 	</body>
 </html>
