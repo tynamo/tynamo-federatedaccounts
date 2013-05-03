@@ -15,6 +15,8 @@ public class FederatedAccountsModule {
 	private static String version = ModuleProperties.getVersion(FederatedAccountsModule.class);
 
 	public static void bind(ServiceBinder binder) {
+		binder.bind(FederatedSignInComponentBlockSource.class, FederatedSignInComponentBlockSourceImpl.class);
+		binder.bind(FederatedSignInOptions.class, FederatedSignInOptionsImpl.class);
 	}
 
 	public static void contributeFactoryDefaults(MappedConfiguration<String, String> configuration) {

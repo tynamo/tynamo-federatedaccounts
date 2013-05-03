@@ -26,6 +26,9 @@ public class CollapsiblePanel {
 	@Property(write = false)
 	private Block headerContent;
 
+	@Parameter(defaultPrefix = "literal")
+	private boolean expanderDisabled;
+
 	public boolean isDefaultCollapsed() {
 		return true;
 	}
@@ -38,6 +41,14 @@ public class CollapsiblePanel {
 		// writer.end(); // input
 
 		// jss.addScript("$('#%s').spectrum(%s);", getClientId(), spec);
+	}
+
+	public boolean isExpanderDisabled() {
+		return expanderDisabled;
+	}
+
+	public void setExpanderDisabled(boolean expanderDisabled) {
+		this.expanderDisabled = expanderDisabled;
 	}
 
 }

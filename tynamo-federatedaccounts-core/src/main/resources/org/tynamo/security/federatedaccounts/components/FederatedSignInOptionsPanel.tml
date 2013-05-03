@@ -1,0 +1,11 @@
+<t:federated.collapsiblepanel xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter" title="More">
+		<p:headerContent>
+			<t:loop source="options.primaryBlocks" value="signInBlock">
+				<t:delegate to="signInBlock"/>
+			</t:loop>
+		</p:headerContent>
+		<t:loop source="options.secondaryBlocks" value="signInBlock">
+			<t:delegate to="signInBlock"/>
+		</t:loop>
+		hello world
+</t:federated.collapsiblepanel>

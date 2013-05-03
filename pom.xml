@@ -42,6 +42,7 @@
 		-->
 		<module>tynamo-federatedaccounts-rollingtokens</module>
 		<module>tynamo-federatedaccounts-twitter</module>
+		<module>tynamo-federatedaccounts-test</module>
 	</modules>
 
 	<dependencyManagement>

@@ -4,6 +4,7 @@ import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Import;
 import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.BaseURLSource;
@@ -23,6 +24,7 @@ public abstract class AbstractOauthSignIn extends OauthComponentBase {
 
 	@Inject
 	@Symbol(FederatedAccountSymbols.DEFAULT_RETURNPAGE)
+	@Property(write = false)
 	String defaultReturnPage;
 
 	@Inject

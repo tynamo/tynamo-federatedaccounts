@@ -1,0 +1,5 @@
+<html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter">
+	<t:block id="twitter_small">
+		<t:federated.twitterOauthSignIn/>
+	</t:block>
+</html>

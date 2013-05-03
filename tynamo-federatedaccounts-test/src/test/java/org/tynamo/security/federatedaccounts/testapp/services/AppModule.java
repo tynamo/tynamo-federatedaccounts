@@ -25,12 +25,16 @@ import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
 import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
+import org.apache.tapestry5.ioc.annotations.Contribute;
 import org.apache.tapestry5.ioc.annotations.InjectService;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.tynamo.security.SecuritySymbols;
+import org.tynamo.security.federatedaccounts.FederatedAccount.FederatedAccountType;
 import org.tynamo.security.federatedaccounts.services.DefaultHibernateFederatedAccountServiceImpl;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountsModule;
+import org.tynamo.security.federatedaccounts.services.FederatedSignInOptions;
+import org.tynamo.security.federatedaccounts.services.FederatedSignInOptions.OptionType;
 import org.tynamo.security.federatedaccounts.testapp.entities.User;
 import org.tynamo.security.services.SecurityFilterChainFactory;
 import org.tynamo.security.services.SecurityModule;
@@ -68,11 +72,11 @@ public class AppModule {
 		// header. If existing assets are changed, the version number should also
 		// change, to force the browser to download new versions.
 		configuration.add(SymbolConstants.APPLICATION_VERSION, "0.0.1-SNAPSHOT");
-		
+
 		configuration.add(SecuritySymbols.LOGIN_URL, "/login");
 		configuration.add(SecuritySymbols.SUCCESS_URL, "/index");
 	}
-	
+
 	public static void contributeSecurityConfiguration(Configuration<SecurityFilterChain> configuration,
 			SecurityFilterChainFactory factory) {
 		configuration.add(factory.createChain("/assets/**").add(factory.anon()).build());
@@ -80,7 +84,7 @@ public class AppModule {
 		configuration.add(factory.createChain("/federated/facebookoauth/**").add(factory.anon()).build());
 		configuration.add(factory.createChain("/federated/commitfacebookoauth/**").add(factory.anon()).build());
 		configuration.add(factory.createChain("/**").add(factory.authc()).build());
-	}	
+	}
 
 	public static void contributeWebSecurityManager(Configuration<Realm> configuration, @InjectService("UserRealm") AuthorizingRealm userRealm) {
 		// FacebookRealm is automatically contributed as long as federatedsecurity is on the classpath
@@ -101,4 +105,11 @@ public class AppModule {
 		fakeFederatedUser.setFacebookUserId(0L);
 		configuration.add("fakeuser", fakeFederatedUser);
 	}
+
+	@Contribute(FederatedSignInOptions.class)
+	public static void provideDefaultSearchFilterBlocks(MappedConfiguration<String,OptionType> configuration) {
+		 configuration.add(FederatedAccountType.facebook.name(), OptionType.primary);
+		 configuration.add(FederatedAccountType.twitter.name(), OptionType.primary);
+	}
+
 }
