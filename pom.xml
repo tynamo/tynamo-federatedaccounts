@@ -35,8 +35,8 @@
 	<modules>
 		<module>tynamo-federatedaccounts-core</module>
 		<module>tynamo-federatedaccounts-facebook</module>
+		<module>tynamo-federatedaccounts-pac4jbasedoauth</module>
 		<!-- disable scribe, openid and github modules for now since they are not fully tested
-		<module>tynamo-federatedaccounts-scribebasedoauth</module>
 		<module>tynamo-federatedaccounts-openid</module>
 		<module>tynamo-federatedaccounts-github</module>
 		-->

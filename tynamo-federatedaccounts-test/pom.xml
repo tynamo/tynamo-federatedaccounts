@@ -128,7 +128,7 @@
 		</dependency>
 		<dependency>
 			<groupId>org.tynamo.security</groupId>
-			<artifactId>tynamo-federatedaccounts-scribebasedoauth</artifactId>
+			<artifactId>tynamo-federatedaccounts-pac4jbasedoauth</artifactId>
 			<version>0.4.0-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
