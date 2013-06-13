@@ -39,7 +39,7 @@ public abstract class AbstractOauthPage extends OauthComponentBase {
 	protected abstract Object onOauthActivate(EventContext context) throws Exception;
 
 	public String getTitle() {
-		return getAccountType().name() + " account";
+		return getProviderPrefix() + " account";
 	}
 
 	@Override

@@ -7,5 +7,4 @@
 		<t:loop source="options.secondaryBlocks" value="signInBlock">
 			<t:delegate to="signInBlock"/>
 		</t:loop>
-		hello world
 </t:federated.collapsiblepanel>

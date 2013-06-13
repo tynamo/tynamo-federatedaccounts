@@ -22,11 +22,11 @@ public abstract class OauthComponentBase {
 	@Inject
 	private SymbolSource symbolSource;
 
-	public FederatedAccountType getAccountType() {
+	public String getProviderPrefix() {
 		String name = getClass().getSimpleName();
-		if (name.startsWith("OpenId")) return FederatedAccountType.openid;
+		if (name.startsWith("OpenId")) return FederatedAccountType.openid.name();
 		try {
-			return FederatedAccountType.valueOf(name.substring(0, name.indexOf("Oauth")).toLowerCase());
+			return FederatedAccountType.valueOf(name.substring(0, name.indexOf("Oauth")).toLowerCase()).name();
 			// FIXME implement the try-catch properly
 		} catch (IndexOutOfBoundsException e) {
 			throw new IllegalArgumentException(e);
@@ -34,11 +34,11 @@ public abstract class OauthComponentBase {
 	}
 
 	public String getOauthClientId() {
-		return symbolSource.valueForSymbol(getAccountType().name() + CLIENTID);
+		return symbolSource.valueForSymbol(getProviderPrefix() + CLIENTID);
 	}
 
 	protected String getOauthClientSecret() {
-		return symbolSource.valueForSymbol(getAccountType().name() + CLIENTSECRET);
+		return symbolSource.valueForSymbol(getProviderPrefix() + CLIENTSECRET);
 	}
 
 	public boolean isOauthConfigured() {

@@ -1,4 +1,4 @@
-package org.tynamo.security.federatedaccounts.scribe.services;
+package org.tynamo.security.federatedaccounts.pac4j.services;
 
 public interface OAuthServiceLocator {
 

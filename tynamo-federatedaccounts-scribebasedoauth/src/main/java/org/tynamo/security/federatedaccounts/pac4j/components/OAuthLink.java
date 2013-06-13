@@ -1,4 +1,4 @@
-package org.tynamo.security.federatedaccounts.scribe.components;
+package org.tynamo.security.federatedaccounts.pac4j.components;
 
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentResources;
@@ -7,8 +7,8 @@ import org.apache.tapestry5.annotations.Parameter;
 import org.apache.tapestry5.annotations.SessionState;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.scribe.model.Token;
-import org.tynamo.security.federatedaccounts.scribe.services.OAuthServiceLocator;
-import org.tynamo.security.federatedaccounts.scribe.services.TynamoOAuthService;
+import org.tynamo.security.federatedaccounts.pac4j.services.OAuthServiceLocator;
+import org.tynamo.security.federatedaccounts.pac4j.services.TynamoOAuthService;
 
 /**
  * Generates a link to the service provider authorization endpoint.

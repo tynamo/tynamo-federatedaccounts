@@ -6,7 +6,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.alerts.AlertManager;
-import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.PageRenderLinkSource;
@@ -48,7 +47,7 @@ public class OpenIdAuth extends AbstractOauthPage {
 	@Inject
 	private Response response;
 
-	@Component
+	@Inject
 	private AlertManager alertManager;
 
 	@Inject

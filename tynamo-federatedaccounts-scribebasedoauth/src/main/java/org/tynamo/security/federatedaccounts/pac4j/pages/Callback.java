@@ -1,4 +1,4 @@
-package org.tynamo.security.federatedaccounts.scribe.pages;
+package org.tynamo.security.federatedaccounts.pac4j.pages;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
@@ -8,8 +8,8 @@ import org.apache.tapestry5.services.Request;
 import org.scribe.model.Token;
 import org.scribe.model.Verifier;
 import org.slf4j.Logger;
-import org.tynamo.security.federatedaccounts.scribe.services.OAuthServiceLocator;
-import org.tynamo.security.federatedaccounts.scribe.services.TynamoOAuthService;
+import org.tynamo.security.federatedaccounts.pac4j.services.OAuthServiceLocator;
+import org.tynamo.security.federatedaccounts.pac4j.services.TynamoOAuthService;
 
 public class Callback {
 

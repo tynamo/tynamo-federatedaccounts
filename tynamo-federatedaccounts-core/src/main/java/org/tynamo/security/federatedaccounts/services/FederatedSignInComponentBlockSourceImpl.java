@@ -10,7 +10,6 @@ import org.apache.tapestry5.ioc.internal.util.CollectionFactory;
 import org.slf4j.Logger;
 
 public class FederatedSignInComponentBlockSourceImpl implements FederatedSignInComponentBlockSource {
-	// This is checked before masterSource
 	private final Map<String, FederatedSignInComponentContribution> signInComponentMap = CollectionFactory
 		.newCaseInsensitiveMap();
 

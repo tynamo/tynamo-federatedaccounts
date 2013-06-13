@@ -45,9 +45,6 @@ public class TwitterOauthSignIn extends AbstractOauthSignIn {
 	@Parameter(value = "blank", required = false, defaultPrefix = "literal")
 	private WindowMode windowMode;
 
-	@Parameter(defaultPrefix = BindingConstants.LITERAL, value = "false")
-	private boolean stayOnPage;
-
 	@Inject
 	private AssetSource assetSource;
 

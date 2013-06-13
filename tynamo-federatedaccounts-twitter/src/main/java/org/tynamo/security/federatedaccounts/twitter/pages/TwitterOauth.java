@@ -31,7 +31,7 @@ public class TwitterOauth extends AbstractOauthPage {
 	@Inject
 	private Request request;
 
-	@Component
+	@Inject
 	private AlertManager alertManager;
 
 	@Inject

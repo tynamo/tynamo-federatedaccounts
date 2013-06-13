@@ -81,8 +81,7 @@ public class AppModule {
 			SecurityFilterChainFactory factory) {
 		configuration.add(factory.createChain("/assets/**").add(factory.anon()).build());
 		configuration.add(factory.createChain("/login.loginform.tynamologinform").add(factory.anon()).build());
-		configuration.add(factory.createChain("/federated/facebookoauth/**").add(factory.anon()).build());
-		configuration.add(factory.createChain("/federated/commitfacebookoauth/**").add(factory.anon()).build());
+		configuration.add(factory.createChain("/federated/**").add(factory.anon()).build());
 		configuration.add(factory.createChain("/**").add(factory.authc()).build());
 	}
 
@@ -107,9 +106,10 @@ public class AppModule {
 	}
 
 	@Contribute(FederatedSignInOptions.class)
-	public static void provideDefaultSearchFilterBlocks(MappedConfiguration<String,OptionType> configuration) {
+	public static void provideDefaultSignInBlocks(MappedConfiguration<String,OptionType> configuration) {
 		 configuration.add(FederatedAccountType.facebook.name(), OptionType.primary);
 		 configuration.add(FederatedAccountType.twitter.name(), OptionType.primary);
+		 configuration.add(FederatedAccountType.pac4j_.name() + "dropbox", OptionType.secondary);
 	}
 
 }
