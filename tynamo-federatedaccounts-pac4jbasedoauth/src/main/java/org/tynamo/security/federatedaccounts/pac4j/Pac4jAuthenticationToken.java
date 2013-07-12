@@ -12,6 +12,8 @@ public class Pac4jAuthenticationToken implements AuthenticationToken {
 
 	// public GoogleAuthenticationToken(Token accessToken, long expiresInSeconds) {
 	public Pac4jAuthenticationToken(UserProfile profile, String accessToken) {
+		// FIXME perhaps we should accept the whole org.pac4j.oauth.credentials.OAuthCredentials
+		// and hold onto it, instead of just the String token from the credentials. See Pac4jOauth
 		this.profile = profile;
 		this.accessToken = accessToken;
 	}
