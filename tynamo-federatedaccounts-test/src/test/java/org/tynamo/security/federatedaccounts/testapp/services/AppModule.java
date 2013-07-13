@@ -112,4 +112,11 @@ public class AppModule {
 		 configuration.add(FederatedAccountType.pac4j_.name() + "dropbox", OptionType.secondary);
 	}
 
+	public static void contributeFederatedAccountService(MappedConfiguration<String, Object> configuration) {
+		configuration.add("*", User.class);
+		configuration.add("facebook.id", "facebookId");
+		configuration.add("twitter.id", "twitterId");
+		configuration.add("pac4j_dropbox.id", "dropboxId");
+	}
+
 }

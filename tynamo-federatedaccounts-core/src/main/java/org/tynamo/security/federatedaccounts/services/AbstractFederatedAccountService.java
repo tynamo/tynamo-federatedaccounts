@@ -9,14 +9,17 @@ import org.apache.shiro.authc.ExpiredCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount;
 
 public abstract class AbstractFederatedAccountService implements FederatedAccountService {
 
 	protected final Map<String, Object> entityTypesByRealm;
 	protected final Class<?> singleEntityType;
+	protected final Logger logger;
 
-	public AbstractFederatedAccountService(Map<String, Object> entityTypesByRealm) {
+	public AbstractFederatedAccountService(Logger logger, Map<String, Object> entityTypesByRealm) {
+		this.logger = logger;
 		this.entityTypesByRealm = entityTypesByRealm;
 		singleEntityType = entityTypesByRealm.containsKey("*") ? (Class<?>) entityTypesByRealm.get("*") : null;
 	}

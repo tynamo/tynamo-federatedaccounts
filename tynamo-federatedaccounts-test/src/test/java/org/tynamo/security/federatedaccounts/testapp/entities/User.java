@@ -39,6 +39,8 @@ public class User implements FederatedAccount {
 	private Integer id;
 
 	private Long facebookUserId;
+	private Long twitterUserId;
+	private String dropboxUserId;
 
 	private String username;
 
@@ -182,16 +184,6 @@ public class User implements FederatedAccount {
 		return "User " + username;
 	}
 
-	public void setFacebookUserId(Long facebookUserId) {
-		this.facebookUserId = facebookUserId;
-	}
-
-	@NonVisual
-	@Column(unique = true, nullable = true)
-	public Long getFacebookUserId() {
-		return facebookUserId;
-	}
-
 	public void setPasswordSalt(byte[] passwordSalt) {
 		this.passwordSalt = passwordSalt;
 	}
@@ -218,6 +210,36 @@ public class User implements FederatedAccount {
 			}
 		}
 		return false;
+	}
+
+	public void setFacebookUserId(Long facebookUserId) {
+		this.facebookUserId = facebookUserId;
+	}
+
+	@NonVisual
+	@Column(unique = true, nullable = true)
+	public Long getFacebookUserId() {
+		return facebookUserId;
+	}
+
+	@NonVisual
+	@Column(unique = true, nullable = true)
+	public Long getTwitterUserId() {
+		return twitterUserId;
+	}
+
+	public void setTwitterUserId(Long twitterUserId) {
+		this.twitterUserId = twitterUserId;
+	}
+
+	@NonVisual
+	@Column(unique = true, nullable = true)
+	public String getDropboxUserId() {
+		return dropboxUserId;
+	}
+
+	public void setDropboxUserId(String dropboxUserId) {
+		this.dropboxUserId = dropboxUserId;
 	}
 
 }

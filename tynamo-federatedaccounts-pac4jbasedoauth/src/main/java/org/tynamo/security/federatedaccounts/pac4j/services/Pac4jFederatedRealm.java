@@ -56,6 +56,8 @@ public class Pac4jFederatedRealm extends AuthenticatingRealm {
 
 		Pac4jAuthenticationToken token = (Pac4jAuthenticationToken) authenticationToken;
 		UserProfile profile = (UserProfile) token.getPrincipal();
+		String realmName = pac4j_.name() + profile.getClass().getSimpleName().toLowerCase();
+		if (realmName.endsWith("profile")) realmName = realmName.substring(realmName.lastIndexOf("profile"));
 		/*
 		 * OAuthRequest request = new OAuthRequest(Verb.GET, "https://www.google.com/m8/feeds/contacts/default/full");
 		 * service.signRequest(token.getToken(), request); request.send().getBody();
