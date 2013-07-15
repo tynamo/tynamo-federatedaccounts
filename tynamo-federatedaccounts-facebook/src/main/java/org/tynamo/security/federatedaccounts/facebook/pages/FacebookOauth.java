@@ -115,8 +115,10 @@ public class FacebookOauth extends AbstractOauthPage {
 			return null;
 		}
 
+		FacebookAccessToken fbAccessToken = new FacebookAccessToken(accessToken, expires);
+		fbAccessToken.setRememberMe(isRememberMe());
 		try {
-			SecurityUtils.getSubject().login(new FacebookAccessToken(accessToken, expires));
+			SecurityUtils.getSubject().login(fbAccessToken);
 			alertManager.success("User successfully authenticated");
 			setOauthAuthenticated(true);
 		} catch (AuthenticationException e) {

@@ -6,7 +6,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.alerts.AlertManager;
-import org.apache.tapestry5.annotations.Component;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.Request;
@@ -71,9 +70,11 @@ public class TwitterOauth extends AbstractOauthPage {
 		twitter.setOAuthConsumer(getOauthClientId(), getOauthClientSecret());
 		AccessToken accessToken = twitter.getOAuthAccessToken(new RequestToken(oauth_token, getOauthClientSecret()),
 			oauth_verifier);
+		TwitterAccessToken twitterAccessToken = new TwitterAccessToken(accessToken);
+		twitterAccessToken.setRememberMe(isRememberMe());
 
 		try {
-			SecurityUtils.getSubject().login(new TwitterAccessToken(accessToken));
+			SecurityUtils.getSubject().login(twitterAccessToken);
 			alertManager.success("User successfully authenticated");
 			setOauthAuthenticated(true);
 		} catch (AuthenticationException e) {

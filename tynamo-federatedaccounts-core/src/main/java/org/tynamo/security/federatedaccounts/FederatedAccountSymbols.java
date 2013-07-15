@@ -8,4 +8,6 @@ public class FederatedAccountSymbols {
 	public static final String HTTPCLIENT_ON_GAE = "httpclient.gae";
 
 	public static final String DEFAULT_RETURNPAGE = "federatedaccounts.default_returnpage";
+
+	public static final String DEFAULT_REMEMBERME = "federatedaccounts.default_rememberme";
 }

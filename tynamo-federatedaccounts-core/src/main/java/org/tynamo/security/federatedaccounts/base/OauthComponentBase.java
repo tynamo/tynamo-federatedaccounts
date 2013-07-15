@@ -15,6 +15,10 @@ public abstract class OauthComponentBase {
 	@Symbol(FederatedAccountSymbols.COMMITAFTER_OAUTH)
 	private boolean autocommit;
 
+	@Inject
+	@Symbol(FederatedAccountSymbols.DEFAULT_REMEMBERME)
+	private boolean rememberMe;
+
 	public boolean isAutocommit() {
 		return autocommit;
 	}
@@ -54,6 +58,14 @@ public abstract class OauthComponentBase {
 		if (context == null || !(context[0] instanceof WindowMode))
 			throw new IllegalArgumentException("WindowMode is required as the first context parameter");
 		return linkSource.createPageRenderLinkWithContext(getOauthPageClass(), context).toAbsoluteURI();
+	}
+
+	public boolean isRememberMe() {
+		return rememberMe;
+	}
+
+	public void setRememberMe(boolean rememberMe) {
+		this.rememberMe = rememberMe;
 	}
 
 }
