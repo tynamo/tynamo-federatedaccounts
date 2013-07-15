@@ -62,6 +62,8 @@ public class User implements FederatedAccount {
 
 	private byte[] passwordSalt;
 
+	private String yahooUserId;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NonVisual
@@ -240,6 +242,16 @@ public class User implements FederatedAccount {
 
 	public void setDropboxUserId(String dropboxUserId) {
 		this.dropboxUserId = dropboxUserId;
+	}
+
+	@NonVisual
+	@Column(unique = true, nullable = true)
+	public String getYahooUserId() {
+		return yahooUserId;
+	}
+
+	public void setYahooUserId(String yahooUserId) {
+		this.yahooUserId = yahooUserId;
 	}
 
 }

@@ -2,4 +2,7 @@
 	<t:block id="pac4j_dropbox_small">
 		<t:federated.Pac4jOauthSignIn provider="dropbox"/>
 	</t:block>
+	<t:block id="pac4j_yahoo_small">
+		<t:federated.Pac4jOauthSignIn provider="yahoo"/>
+	</t:block>
 </html>

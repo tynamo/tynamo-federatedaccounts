@@ -75,6 +75,9 @@ public class AppModule {
 
 		configuration.add(SecuritySymbols.LOGIN_URL, "/login");
 		configuration.add(SecuritySymbols.SUCCESS_URL, "/index");
+
+//		configuration.add(Pac4jFederatedRealm.YAHOO_CLIENTID, "somekey");
+//		configuration.add(Pac4jFederatedRealm.YAHOO_CLIENTSECRET, "just to test yahoo login icon");
 	}
 
 	public static void contributeSecurityConfiguration(Configuration<SecurityFilterChain> configuration,
@@ -110,6 +113,7 @@ public class AppModule {
 		 configuration.add(FederatedAccountType.facebook.name(), OptionType.primary);
 		 configuration.add(FederatedAccountType.twitter.name(), OptionType.primary);
 		 configuration.add(FederatedAccountType.pac4j_.name() + "dropbox", OptionType.secondary);
+		 configuration.add(FederatedAccountType.pac4j_.name() + "yahoo", OptionType.secondary);
 	}
 
 	public static void contributeFederatedAccountService(MappedConfiguration<String, Object> configuration) {
@@ -117,6 +121,7 @@ public class AppModule {
 		configuration.add("facebook.id", "facebookId");
 		configuration.add("twitter.id", "twitterId");
 		configuration.add("pac4j_dropbox.id", "dropboxId");
+		configuration.add("pac4j_yahoo.id", "yahooId");
 	}
 
 }

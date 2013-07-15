@@ -26,8 +26,12 @@ public class Pac4jFederatedAccountsModule {
 	}
 
 	public static void contributeFactoryDefaults(MappedConfiguration<String, String> configuration) {
+		configuration.add(Pac4jFederatedRealm.DROPBOX_CLIENTID, "");
+		configuration.add(Pac4jFederatedRealm.DROPBOX_CLIENTSECRET, "");
 		configuration.add(Pac4jFederatedRealm.FACEBOOK_CLIENTID, "");
 		configuration.add(Pac4jFederatedRealm.FACEBOOK_CLIENTSECRET, "");
+		configuration.add(Pac4jFederatedRealm.YAHOO_CLIENTID, "");
+		configuration.add(Pac4jFederatedRealm.YAHOO_CLIENTSECRET, "");
 	}
 
 	public static void contributeComponentClassResolver(Configuration<LibraryMapping> configuration) {
@@ -48,6 +52,8 @@ public class Pac4jFederatedAccountsModule {
 	public static void addSignInComponentBlocks(Configuration<FederatedSignInComponentContribution> configuration) {
 		configuration.add(new FederatedSignInComponentContribution(FederatedAccountType.pac4j_.name()
 			+ Pac4jOauthClientLocator.SupportedClient.dropbox, "federated/pac4jSignInComponentBlocks"));
+		configuration.add(new FederatedSignInComponentContribution(FederatedAccountType.pac4j_.name()
+			+ Pac4jOauthClientLocator.SupportedClient.yahoo, "federated/pac4jSignInComponentBlocks"));
 	}
 
 }

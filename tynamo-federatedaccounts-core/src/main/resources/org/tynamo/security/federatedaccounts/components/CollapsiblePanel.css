@@ -37,6 +37,7 @@ div.collapsiblepanel_header>span.collapsiblepanel_header_title
 	display: inline-block;
 	margin-left : 10px;
 	padding-right : 20px;
+	cursor: pointer;
 }
 
 div.collapsiblepanel_header>span.collapsiblepanel_header_title_expanded
