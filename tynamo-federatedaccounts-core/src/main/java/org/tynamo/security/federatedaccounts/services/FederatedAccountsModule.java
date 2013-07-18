@@ -23,6 +23,7 @@ public class FederatedAccountsModule {
 		configuration.add(FederatedAccountSymbols.COMMITAFTER_OAUTH, "true");
 		configuration.add(FederatedAccountSymbols.HTTPCLIENT_ON_GAE, "false");
 		configuration.add(FederatedAccountSymbols.DEFAULT_RETURNPAGE, "");
+		configuration.add(FederatedAccountSymbols.DEFAULT_REMEMBERME, "true");
 	}
 
 	public static void contributeComponentClassResolver(Configuration<LibraryMapping> configuration) {

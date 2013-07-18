@@ -3,7 +3,7 @@
 	<t:if test="oauthConfigured">
 		<t:if test="isWindowMode('blank')">
 			<a id="pac4jauthenticationlinkBlank" href="#" onclick="openOauthWindow('${oauthAuthorizationLink}',${width},${height});">
-				<img src="${signInImage}"/>
+				<div style="${buttonSpriteStyle}"> </div>
 			</a>
 		<p:else>
 			<t:if test="isWindowMode('inline')">
@@ -21,7 +21,7 @@
 		</p:else>
 		</t:if>
 		<p:else>
-			<div><span id="pac4j_login_text" style="color:red;font-weight:bold">Pac4j ${provider} client not configured</span> </div>
+			<span id="pac4j_login_text" style="display:block;color:red;font-weight:bold">Pac4j ${provider} client not configured</span>
 		</p:else>
 	</t:if>
 </t:container>

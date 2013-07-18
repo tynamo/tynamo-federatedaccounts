@@ -4,6 +4,7 @@ import org.apache.tapestry5.Asset;
 import org.apache.tapestry5.BindingConstants;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Parameter;
+import org.apache.tapestry5.annotations.Path;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.AssetSource;
@@ -12,6 +13,7 @@ import org.pac4j.core.exception.CommunicationException;
 import org.tynamo.security.federatedaccounts.FederatedAccount.FederatedAccountType;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthSignIn;
 import org.tynamo.security.federatedaccounts.pac4j.pages.Pac4jOauth;
+import org.tynamo.security.federatedaccounts.pac4j.services.Pac4jOauthClientLocator;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 public class Pac4jOauthSignIn extends AbstractOauthSignIn {
@@ -64,4 +66,29 @@ public class Pac4jOauthSignIn extends AbstractOauthSignIn {
 		return FederatedAccountType.pac4j_ + provider;
 	}
 
+	@Inject
+	@Path("classpath:org/tynamo/security/federatedaccounts/pac4j/components/supportedclients.png")
+	private Asset clientSprites;
+
+	public String getButtonSpriteStyle() {
+		// given that displaying the right sprite requires specific css, let's just create the whole style here
+		// we could later support supplying custom style and auth method as well but might be easier just to create a separate component for
+		// that
+
+		Pac4jOauthClientLocator.SupportedClient client = null;
+		try {
+			client = Pac4jOauthClientLocator.SupportedClient.valueOf(provider);
+		} catch (IllegalArgumentException e) {
+			logger.error("Provider type " + provider + " isn't supported by current Pac4jOauth component");
+			return "";
+		}
+
+		StringBuilder sb = new StringBuilder();
+		sb.append("width:150px;height:50px;background:transparent url('");
+		sb.append(clientSprites);
+		sb.append("') no-repeat 0 ");
+		sb.append(-50 * client.ordinal());
+		sb.append("px;");
+		return sb.toString();
+	}
 }

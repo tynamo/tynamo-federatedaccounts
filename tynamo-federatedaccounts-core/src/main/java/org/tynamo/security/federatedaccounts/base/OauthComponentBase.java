@@ -4,6 +4,7 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.ioc.services.SymbolSource;
 import org.apache.tapestry5.services.PageRenderLinkSource;
+import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount.FederatedAccountType;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
@@ -18,6 +19,9 @@ public abstract class OauthComponentBase {
 	@Inject
 	@Symbol(FederatedAccountSymbols.DEFAULT_REMEMBERME)
 	private boolean rememberMe;
+
+	@Inject
+	protected Logger logger;
 
 	public boolean isAutocommit() {
 		return autocommit;

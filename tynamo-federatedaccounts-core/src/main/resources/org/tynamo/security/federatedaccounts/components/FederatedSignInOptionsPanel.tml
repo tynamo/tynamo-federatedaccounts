@@ -5,6 +5,8 @@
 			</t:loop>
 		</p:headerContent>
 		<t:loop source="options.secondaryBlocks" value="signInBlock">
-			<t:delegate to="signInBlock"/>
+			<div style="float:left;margin-left:4px">
+				<t:delegate to="signInBlock"/>
+			</div>
 		</t:loop>
 </t:federated.collapsiblepanel>
