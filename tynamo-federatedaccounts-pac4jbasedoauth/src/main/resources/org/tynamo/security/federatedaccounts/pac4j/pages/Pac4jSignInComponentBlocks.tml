@@ -1,6 +1,27 @@
 <html xmlns:t="http://tapestry.apache.org/schema/tapestry_5_3.xsd" xmlns:p="tapestry:parameter">
+	<t:block id="pac4j_facebook_small">
+		<t:federated.Pac4jOauthSignIn provider="facebook"/>
+	</t:block>
 	<t:block id="pac4j_dropbox_small">
 		<t:federated.Pac4jOauthSignIn provider="dropbox"/>
+	</t:block>
+	<t:block id="pac4j_github_small">
+		<t:federated.Pac4jOauthSignIn provider="github"/>
+	</t:block>
+	<t:block id="pac4j_google2_small">
+		<t:federated.Pac4jOauthSignIn provider="google2"/>
+	</t:block>
+	<t:block id="pac4j_linkedin2_small">
+		<t:federated.Pac4jOauthSignIn provider="linkedin2"/>
+	</t:block>
+	<t:block id="pac4j_twitter_small">
+		<t:federated.Pac4jOauthSignIn provider="twitter"/>
+	</t:block>
+	<t:block id="pac4j_windowslive_small">
+		<t:federated.Pac4jOauthSignIn provider="windowslive"/>
+	</t:block>
+	<t:block id="pac4j_wordpress_small">
+		<t:federated.Pac4jOauthSignIn provider="wordpress"/>
 	</t:block>
 	<t:block id="pac4j_yahoo_small">
 		<t:federated.Pac4jOauthSignIn provider="yahoo"/>

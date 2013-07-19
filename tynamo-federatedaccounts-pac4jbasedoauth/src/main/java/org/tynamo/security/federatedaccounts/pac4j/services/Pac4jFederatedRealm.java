@@ -17,24 +17,30 @@ import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
  * A {@link org.apache.shiro.realm.Realm} that authenticates with Google.
  */
 public class Pac4jFederatedRealm extends AuthenticatingRealm {
-	public static final String DROPBOX_CLIENTID = "pac4j_dropbox.clientid";
-	public static final String DROPBOX_CLIENTSECRET = "pac4j_dropbox.clientsecret";
-	public static final String FACEBOOK_CLIENTID = "pac4j_facebook.clientid";
-	public static final String FACEBOOK_CLIENTSECRET = "pac4j_facebook.clientsecret";
-	public static final String GITHUB_CLIENTID = "pac4j_github.clientid";
-	public static final String GITHUB_CLIENTSECRET = "pac4j_github.clientsecret";
-	public static final String GOOGLE_CLIENTID = "pac4j_google.clientid";
-	public static final String GOOGLE_CLIENTSECRET = "pac4j_google.clientsecret";
-	public static final String LINKEDIN_CLIENTID = "pac4j_linkedin.clientid";
-	public static final String LINKEDIN_CLIENTSECRET = "pac4j_linkedin.clientsecret";
-	public static final String TWITTER_CLIENTID = "pac4j_twitter.clientid";
-	public static final String TWITTER_CLIENTSECRET = "pac4j_twitter.clientsecret";
-	public static final String WINDOWSLIVE_CLIENTID = "pac4j_windowslive.clientid";
-	public static final String WINDOWSLIVE_CLIENTSECRET = "pac4j_windowslive.clientsecret";
-	public static final String WORDPRESS_CLIENTID = "pac4j_wordpress.clientid";
-	public static final String WORDPRESS_CLIENTSECRET = "pac4j_wordpress.clientsecret";
-	public static final String YAHOO_CLIENTID = "pac4j_yahoo.clientid";
-	public static final String YAHOO_CLIENTSECRET = "pac4j_yahoo.clientsecret";
+	private static final String CLIENTID = ".clientid";
+	private static final String CLIENTSECRET = ".clientsecret";
+
+	// can't use the following form because it's not a "constant expression"
+	// public static final String FACEBOOK_CLIENTID = "pac4j_facebook.name()
+	// + CLIENTID;
+	public static final String FACEBOOK_CLIENTID = "pac4j_facebook" + CLIENTID;
+	public static final String FACEBOOK_CLIENTSECRET = "pac4j_facebook" + CLIENTSECRET;
+	public static final String DROPBOX_CLIENTID = "pac4j_dropbox" + CLIENTID;
+	public static final String DROPBOX_CLIENTSECRET = "pac4j_dropbox" + CLIENTSECRET;
+	public static final String GITHUB_CLIENTID = "pac4j_github" + CLIENTID;
+	public static final String GITHUB_CLIENTSECRET = "pac4j_github" + CLIENTSECRET;
+	public static final String GOOGLE_CLIENTID = "pac4j_google2" + CLIENTID;
+	public static final String GOOGLE_CLIENTSECRET = "pac4j_google2" + CLIENTSECRET;
+	public static final String LINKEDIN_CLIENTID = "pac4j_linkedin2" + CLIENTID;
+	public static final String LINKEDIN_CLIENTSECRET = "pac4j_linkedin2" + CLIENTSECRET;
+	public static final String TWITTER_CLIENTID = "pac4j_twitter" + CLIENTID;
+	public static final String TWITTER_CLIENTSECRET = "pac4j_twitter" + CLIENTSECRET;
+	public static final String WINDOWSLIVE_CLIENTID = "pac4j_windowslive" + CLIENTID;
+	public static final String WINDOWSLIVE_CLIENTSECRET = "pac4j_windowslive" + CLIENTSECRET;
+	public static final String WORDPRESS_CLIENTID = "pac4j_wordpress" + CLIENTID;
+	public static final String WORDPRESS_CLIENTSECRET = "pac4j_wordpress" + CLIENTSECRET;
+	public static final String YAHOO_CLIENTID = "pac4j_yahoo" + CLIENTID;
+	public static final String YAHOO_CLIENTSECRET = "pac4j_yahoo" + CLIENTSECRET;
 
 	private Logger logger;
 

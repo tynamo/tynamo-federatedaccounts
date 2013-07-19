@@ -30,6 +30,18 @@ public class Pac4jFederatedAccountsModule {
 		configuration.add(Pac4jFederatedRealm.DROPBOX_CLIENTSECRET, "");
 		configuration.add(Pac4jFederatedRealm.FACEBOOK_CLIENTID, "");
 		configuration.add(Pac4jFederatedRealm.FACEBOOK_CLIENTSECRET, "");
+		configuration.add(Pac4jFederatedRealm.GITHUB_CLIENTID, "");
+		configuration.add(Pac4jFederatedRealm.GITHUB_CLIENTSECRET, "");
+		configuration.add(Pac4jFederatedRealm.GOOGLE_CLIENTID, "");
+		configuration.add(Pac4jFederatedRealm.GOOGLE_CLIENTSECRET, "");
+		configuration.add(Pac4jFederatedRealm.LINKEDIN_CLIENTID, "");
+		configuration.add(Pac4jFederatedRealm.LINKEDIN_CLIENTSECRET, "");
+		configuration.add(Pac4jFederatedRealm.TWITTER_CLIENTID, "");
+		configuration.add(Pac4jFederatedRealm.TWITTER_CLIENTSECRET, "");
+		configuration.add(Pac4jFederatedRealm.WINDOWSLIVE_CLIENTID, "");
+		configuration.add(Pac4jFederatedRealm.WINDOWSLIVE_CLIENTSECRET, "");
+		configuration.add(Pac4jFederatedRealm.WORDPRESS_CLIENTID, "");
+		configuration.add(Pac4jFederatedRealm.WORDPRESS_CLIENTSECRET, "");
 		configuration.add(Pac4jFederatedRealm.YAHOO_CLIENTID, "");
 		configuration.add(Pac4jFederatedRealm.YAHOO_CLIENTSECRET, "");
 	}
@@ -51,7 +63,21 @@ public class Pac4jFederatedAccountsModule {
 	@Contribute(FederatedSignInComponentBlockSource.class)
 	public static void addSignInComponentBlocks(Configuration<FederatedSignInComponentContribution> configuration) {
 		configuration.add(new FederatedSignInComponentContribution(FederatedAccountType.pac4j_.name()
+			+ Pac4jOauthClientLocator.SupportedClient.facebook, "federated/pac4jSignInComponentBlocks"));
+		configuration.add(new FederatedSignInComponentContribution(FederatedAccountType.pac4j_.name()
 			+ Pac4jOauthClientLocator.SupportedClient.dropbox, "federated/pac4jSignInComponentBlocks"));
+		configuration.add(new FederatedSignInComponentContribution(FederatedAccountType.pac4j_.name()
+			+ Pac4jOauthClientLocator.SupportedClient.github, "federated/pac4jSignInComponentBlocks"));
+		configuration.add(new FederatedSignInComponentContribution(FederatedAccountType.pac4j_.name()
+			+ Pac4jOauthClientLocator.SupportedClient.google2, "federated/pac4jSignInComponentBlocks"));
+		configuration.add(new FederatedSignInComponentContribution(FederatedAccountType.pac4j_.name()
+			+ Pac4jOauthClientLocator.SupportedClient.linkedin2, "federated/pac4jSignInComponentBlocks"));
+		configuration.add(new FederatedSignInComponentContribution(FederatedAccountType.pac4j_.name()
+			+ Pac4jOauthClientLocator.SupportedClient.twitter, "federated/pac4jSignInComponentBlocks"));
+		configuration.add(new FederatedSignInComponentContribution(FederatedAccountType.pac4j_.name()
+			+ Pac4jOauthClientLocator.SupportedClient.windowslive, "federated/pac4jSignInComponentBlocks"));
+		configuration.add(new FederatedSignInComponentContribution(FederatedAccountType.pac4j_.name()
+			+ Pac4jOauthClientLocator.SupportedClient.wordpress, "federated/pac4jSignInComponentBlocks"));
 		configuration.add(new FederatedSignInComponentContribution(FederatedAccountType.pac4j_.name()
 			+ Pac4jOauthClientLocator.SupportedClient.yahoo, "federated/pac4jSignInComponentBlocks"));
 	}

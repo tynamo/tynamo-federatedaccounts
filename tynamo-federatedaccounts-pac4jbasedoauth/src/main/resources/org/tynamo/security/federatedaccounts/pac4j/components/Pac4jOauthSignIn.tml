@@ -8,12 +8,12 @@
 		<p:else>
 			<t:if test="isWindowMode('inline')">
 				<a id="pac4jauthenticationlinkInline" href="#" onclick="openOauthInline('${oauthAuthorizationLink}');">
-					<img src="${signInImage}"/>
+					<div style="${buttonSpriteStyle}"> </div>
 				</a>
 				<p:else>
 					<t:if test="isWindowMode('self')">
 						<a id="pac4jauthenticationlinkSelf" href="${oauthAuthorizationLink}">
-							<img src="${signInImage}"/>
+							<div style="${buttonSpriteStyle}"> </div>
 						</a>
 					</t:if>
 				</p:else>
@@ -21,7 +21,9 @@
 		</p:else>
 		</t:if>
 		<p:else>
-			<span id="pac4j_login_text" style="display:block;color:red;font-weight:bold">Pac4j ${provider} client not configured</span>
+			<div style="${buttonSpriteStyle}">
+				<span id="pac4j_login_text" style="display:inline-block;width:100%;height;100%;background-color:rgba(255,255,255,0.6);color:red;font-weight:bold">Pac4j ${provider} client not configured</span>
+			</div>
 		</p:else>
 	</t:if>
 </t:container>
