@@ -9,17 +9,23 @@ import org.apache.shiro.authc.ExpiredCredentialsException;
 import org.apache.shiro.authc.LockedAccountException;
 import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.subject.SimplePrincipalCollection;
+import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount;
+import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 
 public abstract class AbstractFederatedAccountService implements FederatedAccountService {
 
 	protected final Map<String, Object> entityTypesByRealm;
 	protected final Class<?> singleEntityType;
 	protected final Logger logger;
+	protected final String localAccountRealmName;
 
-	public AbstractFederatedAccountService(Logger logger, Map<String, Object> entityTypesByRealm) {
+	public AbstractFederatedAccountService(Logger logger,
+		@Symbol(FederatedAccountSymbols.LOCALACCOUNT_REALMNAME) String localAccountRealmName,
+		Map<String, Object> entityTypesByRealm) {
 		this.logger = logger;
+		this.localAccountRealmName = localAccountRealmName;
 		this.entityTypesByRealm = entityTypesByRealm;
 		singleEntityType = entityTypesByRealm.containsKey("*") ? (Class<?>) entityTypesByRealm.get("*") : null;
 	}
@@ -75,12 +81,17 @@ public abstract class AbstractFederatedAccountService implements FederatedAccoun
 			String msg = "The credentials for federated account [" + remotePrincipal + "] are expired";
 			throw new ExpiredCredentialsException(msg);
 		}
-		SimplePrincipalCollection principalCollection = new SimplePrincipalCollection(remotePrincipal, realmName);
+		SimplePrincipalCollection principalCollection;
+		if (localAccountRealmName.isEmpty()) principalCollection = new SimplePrincipalCollection(remotePrincipal, realmName);
+		else {
+			principalCollection = new SimplePrincipalCollection(localAccount.getLocalAccountPrimaryPrincipal(),
+				localAccountRealmName);
+			principalCollection.add(remotePrincipal, realmName);
+		}
 		principalCollection.add(authenticationToken, realmName);
 		return new SimpleAuthenticationInfo(principalCollection, authenticationToken.getCredentials());
 
 		// SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(remotePrincipal,
 		// authenticationToken.getCredentials(), realmName);
 	}
-
 }

@@ -18,6 +18,8 @@
  */
 package org.tynamo.security.federatedaccounts.testapp.services;
 
+import java.sql.SQLException;
+
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.SymbolConstants;
@@ -27,29 +29,33 @@ import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Contribute;
 import org.apache.tapestry5.ioc.annotations.InjectService;
+import org.apache.tapestry5.ioc.annotations.Startup;
 import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.tynamo.security.SecuritySymbols;
 import org.tynamo.security.federatedaccounts.FederatedAccount.FederatedAccountType;
-import org.tynamo.security.federatedaccounts.services.DefaultHibernateFederatedAccountServiceImpl;
+import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
+import org.tynamo.security.federatedaccounts.pac4j.services.Pac4jOauthClientLocator.SupportedClient;
+import org.tynamo.security.federatedaccounts.services.DefaultJpaFederatedAccountServiceImpl;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountsModule;
 import org.tynamo.security.federatedaccounts.services.FederatedSignInOptions;
 import org.tynamo.security.federatedaccounts.services.FederatedSignInOptions.OptionType;
 import org.tynamo.security.federatedaccounts.testapp.entities.User;
+import org.tynamo.security.rollingtokens.services.RollingTokenRealm;
 import org.tynamo.security.services.SecurityFilterChainFactory;
 import org.tynamo.security.services.SecurityModule;
 import org.tynamo.security.services.impl.SecurityFilterChain;
-import org.tynamo.seedentity.hibernate.services.SeedEntity;
+import org.tynamo.seedentity.jpa.services.SeedEntityModule;
 
 /**
  * This module is automatically included as part of the Tapestry IoC Registry, it's a good place to configure and extend
  * Tapestry, or to place your own service definitions.
  */
-@SubModule(value = { SecurityModule.class, SeedEntity.class, FederatedAccountsModule.class })
+@SubModule(value = { SecurityModule.class, SeedEntityModule.class, FederatedAccountsModule.class })
 public class AppModule {
 
 	public static void bind(ServiceBinder binder) {
-		binder.bind(FederatedAccountService.class, DefaultHibernateFederatedAccountServiceImpl.class);
+		binder.bind(FederatedAccountService.class, DefaultJpaFederatedAccountServiceImpl.class);
 		binder.bind(AuthorizingRealm.class, UserRealm.class).withId(UserRealm.class.getSimpleName());
 	}
 
@@ -72,6 +78,8 @@ public class AppModule {
 		// header. If existing assets are changed, the version number should also
 		// change, to force the browser to download new versions.
 		configuration.add(SymbolConstants.APPLICATION_VERSION, "0.0.1-SNAPSHOT");
+
+		configuration.add(FederatedAccountSymbols.LOCALACCOUNT_REALMNAME, "localaccounts");
 
 		configuration.add(SecuritySymbols.LOGIN_URL, "/login");
 		configuration.add(SecuritySymbols.SUCCESS_URL, "/index");
@@ -112,8 +120,15 @@ public class AppModule {
 	public static void provideDefaultSignInBlocks(MappedConfiguration<String,OptionType> configuration) {
 		 configuration.add(FederatedAccountType.facebook.name(), OptionType.primary);
 		 configuration.add(FederatedAccountType.twitter.name(), OptionType.primary);
-		 configuration.add(FederatedAccountType.pac4j_.name() + "dropbox", OptionType.secondary);
-		 configuration.add(FederatedAccountType.pac4j_.name() + "yahoo", OptionType.secondary);
+		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.facebook.name(), OptionType.secondary);
+		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.dropbox.name(), OptionType.secondary);
+		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.github.name(), OptionType.secondary);
+		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.google2.name(), OptionType.secondary);
+		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.linkedin2.name(), OptionType.secondary);
+		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.twitter.name(), OptionType.secondary);
+		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.windowslive.name(), OptionType.secondary);
+		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.wordpress.name(), OptionType.secondary);
+		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.yahoo.name(), OptionType.secondary);
 	}
 
 	public static void contributeFederatedAccountService(MappedConfiguration<String, Object> configuration) {
@@ -122,6 +137,14 @@ public class AppModule {
 		configuration.add("twitter.id", "twitterId");
 		configuration.add("pac4j_dropbox.id", "dropboxId");
 		configuration.add("pac4j_yahoo.id", "yahooId");
+		configuration.add(RollingTokenRealm.NAME + FederatedAccountService.IDPROPERTY, "id");
 	}
+
+	@Startup
+	public static void startH2WebServer()
+		throws SQLException {
+			org.h2.tools.Server.createWebServer(new String[] { "-web", "-webAllowOthers", "-webPort", "8082" }).start();
+	}
+
 
 }

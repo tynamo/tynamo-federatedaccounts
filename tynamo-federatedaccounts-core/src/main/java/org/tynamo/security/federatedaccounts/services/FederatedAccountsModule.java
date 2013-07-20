@@ -24,6 +24,7 @@ public class FederatedAccountsModule {
 		configuration.add(FederatedAccountSymbols.HTTPCLIENT_ON_GAE, "false");
 		configuration.add(FederatedAccountSymbols.DEFAULT_RETURNPAGE, "");
 		configuration.add(FederatedAccountSymbols.DEFAULT_REMEMBERME, "true");
+		configuration.add(FederatedAccountSymbols.LOCALACCOUNT_REALMNAME, "");
 	}
 
 	public static void contributeComponentClassResolver(Configuration<LibraryMapping> configuration) {

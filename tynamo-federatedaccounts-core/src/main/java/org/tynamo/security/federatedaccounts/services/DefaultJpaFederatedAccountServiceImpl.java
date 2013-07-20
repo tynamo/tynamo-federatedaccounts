@@ -9,16 +9,19 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 
+import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount;
+import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 
 public class DefaultJpaFederatedAccountServiceImpl extends AbstractFederatedAccountService {
 
 	private final EntityManager entityManager;
 
-	public DefaultJpaFederatedAccountServiceImpl(Logger logger, EntityManager entityManager,
+	public DefaultJpaFederatedAccountServiceImpl(Logger logger,
+		@Symbol(FederatedAccountSymbols.LOCALACCOUNT_REALMNAME) String localAccountRealmName, EntityManager entityManager,
 		Map<String, Object> entityTypesByRealm) {
-		super(logger, entityTypesByRealm);
+		super(logger, localAccountRealmName, entityTypesByRealm);
 		this.entityManager = entityManager;
 	}
 

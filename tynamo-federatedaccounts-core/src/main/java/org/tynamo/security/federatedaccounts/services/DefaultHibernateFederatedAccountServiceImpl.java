@@ -2,19 +2,22 @@ package org.tynamo.security.federatedaccounts.services;
 
 import java.util.Map;
 
+import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.hibernate.Session;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount;
+import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 
 public class DefaultHibernateFederatedAccountServiceImpl extends AbstractFederatedAccountService implements
 	FederatedAccountService {
 
 	private final Session session;
 
-	public DefaultHibernateFederatedAccountServiceImpl(Logger logger, Session session,
+	public DefaultHibernateFederatedAccountServiceImpl(Logger logger,
+		@Symbol(FederatedAccountSymbols.LOCALACCOUNT_REALMNAME) String localAccountRealmName, Session session,
 		Map<String, Object> entityTypesByRealm) {
-		super(logger, entityTypesByRealm);
+		super(logger, localAccountRealmName, entityTypesByRealm);
 		this.session = session;
 	}
 

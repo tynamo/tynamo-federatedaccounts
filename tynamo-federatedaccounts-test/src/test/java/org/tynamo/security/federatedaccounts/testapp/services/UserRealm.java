@@ -1,7 +1,13 @@
 package org.tynamo.security.federatedaccounts.testapp.services;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+
+import javax.persistence.EntityManager;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.apache.shiro.authc.AccountException;
 import org.apache.shiro.authc.AuthenticationException;
@@ -20,17 +26,15 @@ import org.apache.shiro.crypto.hash.Sha1Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.SimpleByteSource;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.tynamo.security.federatedaccounts.testapp.entities.User;
 import org.tynamo.security.federatedaccounts.testapp.entities.User.Role;
 
 public class UserRealm extends AuthorizingRealm {
-	protected final Session session;
+	protected final EntityManager em;
 
-	public UserRealm(Session session) {
+	public UserRealm(EntityManager em) {
 		super(new MemoryConstrainedCacheManager());
-		this.session = session;
+		this.em = em;
 		setName("localaccounts");
 		setAuthenticationTokenClass(UsernamePasswordToken.class);
 		setCredentialsMatcher(new HashedCredentialsMatcher(Sha1Hash.ALGORITHM_NAME));
@@ -55,7 +59,11 @@ public class UserRealm extends AuthorizingRealm {
 	}
 
 	private User findByUsername(String username) {
-		return (User) session.createCriteria(User.class).add(Restrictions.eq("username", username)).uniqueResult();
+		CriteriaBuilder qb = em.getCriteriaBuilder();
+		CriteriaQuery<User> query = qb.createQuery(User.class);
+		Root<User> root = query.from(User.class);
+		List<User> results = em.createQuery(query.where(qb.equal(root.get("username"), username))).getResultList();
+		return results.size() <= 0 ? null : results.get(0);
 	}
 
 	@Override

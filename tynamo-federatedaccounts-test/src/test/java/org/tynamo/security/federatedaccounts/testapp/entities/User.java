@@ -5,10 +5,13 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.persistence.Transient;
 
 import org.apache.shiro.crypto.SecureRandomNumberGenerator;
@@ -16,9 +19,7 @@ import org.apache.shiro.crypto.hash.Sha1Hash;
 import org.apache.shiro.util.ByteSource;
 import org.apache.tapestry5.beaneditor.NonVisual;
 import org.apache.tapestry5.beaneditor.Validate;
-import org.hibernate.annotations.CollectionOfElements;
-import org.hibernate.annotations.Index;
-import org.hibernate.annotations.NaturalId;
+import org.eclipse.persistence.annotations.Index;
 import org.tynamo.security.federatedaccounts.FederatedAccount;
 
 @Entity
@@ -89,7 +90,6 @@ public class User implements FederatedAccount {
 		return username == null ? 0 : username.hashCode();
 	}
 
-	@NaturalId
 	@Column(unique = true)
 	@Index(name = "User_username")
 	public String getUsername() {
@@ -135,6 +135,7 @@ public class User implements FederatedAccount {
 	}
 
 	@NonVisual
+	@Temporal(TemporalType.TIMESTAMP)
 	public Date getCreated() {
 		return created;
 	}
@@ -163,7 +164,7 @@ public class User implements FederatedAccount {
 		this.roles = roles;
 	}
 
-	@CollectionOfElements(targetElement = Role.class)
+	@ElementCollection
 	public Set<Role> getRoles() {
 		return roles;
 	}
@@ -252,6 +253,12 @@ public class User implements FederatedAccount {
 
 	public void setYahooUserId(String yahooUserId) {
 		this.yahooUserId = yahooUserId;
+	}
+
+	@Override
+	@Transient
+	public Object getLocalAccountPrimaryPrincipal() {
+		return getId();
 	}
 
 }

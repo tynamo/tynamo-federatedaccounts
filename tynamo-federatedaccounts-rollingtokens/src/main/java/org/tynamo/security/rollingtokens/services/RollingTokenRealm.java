@@ -18,9 +18,10 @@ import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
 import org.tynamo.security.rollingtokens.entities.ExpiringRollingToken;
 
 // instead of extending, this should be a delegating realm, requiring the primary realm so it can query
-// the realm name and use its authorization if it so wishes 
+// the realm name and use its authorization if it so wishes
 public class RollingTokenRealm extends AuthenticatingRealm {
 
+	public static final String NAME = "rollingtokens";
 	private final EntityManager entityManager;
 	private final Logger logger;
 	private FederatedAccountService federatedAccountService;
@@ -29,7 +30,7 @@ public class RollingTokenRealm extends AuthenticatingRealm {
 		this.logger = logger;
 		this.entityManager = entityManager;
 		this.federatedAccountService = federatedAccountService;
-		setName("rollingtokens");
+		setName(NAME);
 		this.setAuthenticationTokenClass(RollingToken.class);
 	}
 
