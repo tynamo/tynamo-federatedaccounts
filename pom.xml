@@ -11,11 +11,11 @@
 	<parent>
 		<groupId>org.tynamo</groupId>
 		<artifactId>tynamo-parent</artifactId>
-		<version>0.0.11</version>
+		<version>0.0.12</version>
 	</parent>
 
 	<properties>
-		<tapestry-release-version>5.3.6</tapestry-release-version>
+		<tapestry-release-version>5.3.7</tapestry-release-version>
 	</properties>
 
 	<scm>
@@ -36,9 +36,8 @@
 		<module>tynamo-federatedaccounts-core</module>
 		<module>tynamo-federatedaccounts-facebook</module>
 		<module>tynamo-federatedaccounts-pac4jbasedoauth</module>
-		<!-- disable scribe, openid and github modules for now since they are not fully tested
+		<!-- disable openid module for now since they are not fully tested
 		<module>tynamo-federatedaccounts-openid</module>
-		<module>tynamo-federatedaccounts-github</module>
 		-->
 		<module>tynamo-federatedaccounts-rollingtokens</module>
 		<module>tynamo-federatedaccounts-twitter</module>
@@ -75,7 +74,7 @@
 			<dependency>
 				<groupId>org.tynamo</groupId>
 				<artifactId>tapestry-security</artifactId>
-				<version>0.5.0</version>
+				<version>0.5.1</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
