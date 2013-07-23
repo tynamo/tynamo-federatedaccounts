@@ -7,8 +7,8 @@ function openOauthWindow(url, width, height) {
 	params += ', directories=no';
 	params += ', location=no';
 	params += ', menubar=no';
-	params += ', resizable=no';
-	params += ', scrollbars=no';
+	params += ', resizable=yes';
+	params += ', scrollbars=yes';
 	params += ', status=no';
 	params += ', toolbar=no';
 	oauthWindow=window.open(url,'federatedaccounts_oauth', params);
