@@ -78,8 +78,7 @@ public class Pac4jFederatedRealm extends AuthenticatingRealm {
 		 * principalValue = facebookUser.getEmail(); break; case name: principalValue = facebookUser.getName(); break; }
 		 */
 
-		return federatedAccountService.federate(pac4j_.name() + profile.getClass().getSimpleName(), profile.getTypedId(),
-			authenticationToken, profile);
+		return federatedAccountService.federate(realmName, profile.getTypedId(), authenticationToken, profile);
 		// SimplePrincipalCollection principalCollection = new SimplePrincipalCollection(authenticationToken.getPrincipal(),
 		// pac4j.name());
 		// principalCollection.add(authenticationToken, pac4j.name());
