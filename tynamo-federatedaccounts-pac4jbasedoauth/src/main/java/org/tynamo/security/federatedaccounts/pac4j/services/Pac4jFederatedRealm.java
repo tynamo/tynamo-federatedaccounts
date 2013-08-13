@@ -63,7 +63,7 @@ public class Pac4jFederatedRealm extends AuthenticatingRealm {
 		Pac4jAuthenticationToken token = (Pac4jAuthenticationToken) authenticationToken;
 		UserProfile profile = (UserProfile) token.getPrincipal();
 		String realmName = pac4j_.name() + profile.getClass().getSimpleName().toLowerCase();
-		if (realmName.endsWith("profile")) realmName = realmName.substring(realmName.lastIndexOf("profile"));
+		if (realmName.endsWith("profile")) realmName = realmName.substring(0, realmName.lastIndexOf("profile"));
 		/*
 		 * OAuthRequest request = new OAuthRequest(Verb.GET, "https://www.google.com/m8/feeds/contacts/default/full");
 		 * service.signRequest(token.getToken(), request); request.send().getBody();
@@ -78,7 +78,7 @@ public class Pac4jFederatedRealm extends AuthenticatingRealm {
 		 * principalValue = facebookUser.getEmail(); break; case name: principalValue = facebookUser.getName(); break; }
 		 */
 
-		return federatedAccountService.federate(realmName, profile.getTypedId(), authenticationToken, profile);
+		return federatedAccountService.federate(realmName, profile.getId(), authenticationToken, profile);
 		// SimplePrincipalCollection principalCollection = new SimplePrincipalCollection(authenticationToken.getPrincipal(),
 		// pac4j.name());
 		// principalCollection.add(authenticationToken, pac4j.name());
