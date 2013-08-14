@@ -6,7 +6,7 @@ import org.pac4j.oauth.client.DropBoxClient;
 import org.pac4j.oauth.client.FacebookClient;
 import org.pac4j.oauth.client.GitHubClient;
 import org.pac4j.oauth.client.Google2Client;
-import org.pac4j.oauth.client.LinkedInClient;
+import org.pac4j.oauth.client.LinkedIn2Client;
 import org.pac4j.oauth.client.TwitterClient;
 import org.pac4j.oauth.client.WindowsLiveClient;
 import org.pac4j.oauth.client.WordPressClient;
@@ -84,8 +84,7 @@ public class Pac4jOauthClientLocatorImpl implements Pac4jOauthClientLocator {
 		case google2:
 			return new Google2Client(googleClientId, googleClientSecret);
 		case linkedin2:
-			// TODO Change to support only oauth2 once new version of pac4j (>1.4.0) is released
-			return new LinkedInClient(linkedinClientId, linkedinClientSecret);
+			return new LinkedIn2Client(linkedinClientId, linkedinClientSecret);
 		case twitter:
 			return new TwitterClient(twitterClientId, twitterClientSecret);
 		case windowslive:

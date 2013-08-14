@@ -2,6 +2,7 @@ package org.tynamo.security.federatedaccounts.pac4j;
 
 import org.apache.shiro.authc.RememberMeAuthenticationToken;
 import org.pac4j.core.profile.UserProfile;
+import org.pac4j.oauth.profile.OAuth20Profile;
 
 public class Pac4jAuthenticationToken implements RememberMeAuthenticationToken {
 
@@ -12,11 +13,10 @@ public class Pac4jAuthenticationToken implements RememberMeAuthenticationToken {
 
 	private boolean rememberMe;
 
-	public Pac4jAuthenticationToken(UserProfile profile, String accessToken) {
-		// FIXME perhaps we should accept the whole org.pac4j.oauth.credentials.OAuthCredentials
-		// and hold onto it, instead of just the String token from the credentials. See Pac4jOauth
+	public Pac4jAuthenticationToken(UserProfile profile) {
 		this.profile = profile;
-		this.accessToken = accessToken;
+		// if (profile instanceof OAuth10Profile) this.accessToken = ((OAuth10Profile) profile).getAccessSecret();
+		if (profile instanceof OAuth20Profile) this.accessToken = ((OAuth20Profile) profile).getAccessToken();
 	}
 
 	@Override

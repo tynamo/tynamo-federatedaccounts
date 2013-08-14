@@ -81,7 +81,7 @@ public class Pac4jOauth extends AbstractOauthPage {
 		OAuthCredentials credentials = client.getCredentials(new J2EContext(httpRequest, httpResponse));
 
 		UserProfile userProfile = client.getUserProfile(credentials);
-		Pac4jAuthenticationToken accessToken = new Pac4jAuthenticationToken(userProfile, credentials.getToken());
+		Pac4jAuthenticationToken accessToken = new Pac4jAuthenticationToken(userProfile);
 
 		// TODO just use the default rememberMe for now. We could later add support for providing rememberMe in context
 		accessToken.setRememberMe(isRememberMe());
