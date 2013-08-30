@@ -107,21 +107,6 @@
 			<version>1.6.1</version>
 		</dependency>
 
-		<dependency>
-			<groupId>org.tynamo</groupId>
-			<artifactId>tapestry-model-test</artifactId>
-			<version>0.3.1</version>
-			<scope>test</scope>
-			<!--
-			<exclusions>
-				<exclusion>
-					<groupId>commons-httpclient</groupId>
-					<artifactId>commons-httpclient</artifactId>
-				</exclusion>
-			</exclusions>
-			 -->
-		</dependency>
-
 	</dependencies>
 
 	<scm>

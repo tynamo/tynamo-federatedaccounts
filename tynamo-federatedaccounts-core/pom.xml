@@ -92,14 +92,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-			<scope>provided</scope>
-		</dependency>
-
-<!-- tapestry-security pulls in shiro that depends on a slf4j-api 1.5.8, but tapestry needs at least 1.6 -->
+		<!-- tapestry-security pulls in shiro that depends on a slf4j-api 1.5.8, but tapestry needs at least 1.6 -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -114,17 +107,9 @@
 
 		<dependency>
 			<groupId>org.tynamo</groupId>
-			<artifactId>tapestry-model-test</artifactId>
-			<version>0.5.0</version>
+			<artifactId>tynamo-test</artifactId>
+			<version>0.0.1</version>
 			<scope>test</scope>
-			<!--
-			<exclusions>
-				<exclusion>
-					<groupId>commons-httpclient</groupId>
-					<artifactId>commons-httpclient</artifactId>
-				</exclusion>
-			</exclusions>
-			 -->
 		</dependency>
 	</dependencies>
 

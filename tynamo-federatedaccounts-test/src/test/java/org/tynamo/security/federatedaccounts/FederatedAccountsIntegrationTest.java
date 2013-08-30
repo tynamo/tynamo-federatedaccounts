@@ -102,7 +102,7 @@ public class FederatedAccountsIntegrationTest extends AbstractContainerTest {
 
 	protected void clickOnBasePage(String url) throws Exception {
 		openBase();
-		page = page.getElementById(url).click();
+		page = page.getHtmlElementById(url).click();
 	}
 
 	protected void assertAuthenticated() {

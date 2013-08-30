@@ -78,14 +78,7 @@
 			<scope>test</scope>
 		</dependency>
 
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-			<scope>provided</scope>
-		</dependency>
-
-<!-- tapestry-security pulls in shiro that depends on a slf4j-api 1.5.8, but tapestry needs at least 1.6 -->
+		<!-- tapestry-security pulls in shiro that depends on a slf4j-api 1.5.8, but tapestry needs at least 1.6 -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -100,20 +93,29 @@
 
 		<dependency>
 			<groupId>org.tynamo</groupId>
-			<artifactId>tapestry-model-test</artifactId>
-			<version>0.5.0</version>
+			<artifactId>tynamo-test</artifactId>
+			<version>0.0.1</version>
 			<scope>test</scope>
-			<!--
 			<exclusions>
 				<exclusion>
-					<groupId>commons-httpclient</groupId>
-					<artifactId>commons-httpclient</artifactId>
+					<groupId>net.sourceforge.htmlunit</groupId>
+					<artifactId>htmlunit</artifactId>
 				</exclusion>
 			</exclusions>
-			 -->
 		</dependency>
-		<!--
-		 -->
+
+		<dependency>
+			<!-- ERROR:
+				- Caused by: java.lang.RuntimeException: java.lang.NoSuchMethodException:
+				- org.apache.http.conn.ssl.SSLSocketFactory.createDefaultSSLContext()
+				versions 2.11 and 2.12 make use of a private method in HttpClient 4.2.3 that was removed in 4.2.4 (HTTPCLIENT-1320)
+			-->
+			<groupId>net.sourceforge.htmlunit</groupId>
+			<artifactId>htmlunit</artifactId>
+			<version>2.10</version>
+			<scope>test</scope>
+		</dependency>
+
 		<dependency>
 			<groupId>org.tynamo.security</groupId>
 			<artifactId>tynamo-federatedaccounts-facebook</artifactId>
