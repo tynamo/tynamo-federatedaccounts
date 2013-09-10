@@ -11,6 +11,7 @@ import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.alerts.AlertManager;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
+import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.Request;
 import org.pac4j.core.context.J2EContext;
 import org.pac4j.core.profile.UserProfile;
@@ -47,6 +48,9 @@ public class Pac4jOauth extends AbstractOauthPage {
 	// private String returnUri;
 
 	@Inject
+	private Cookies cookies;
+
+	@Inject
 	private Pac4jOauthClientLocator oauthClientLocator;
 
 	private String clientName;
@@ -57,26 +61,34 @@ public class Pac4jOauth extends AbstractOauthPage {
 		BaseOAuthClient<?> client = oauthClientLocator.getClient(clientName);
 		client.setReadTimeout(20000);
 		client.setConnectTimeout(20000);
-		if (eventContext.getCount() > 3) {
+		if (eventContext.getCount() > 2) {
 			String action = eventContext.get(String.class, 2);
 			// pass along this redirectUrl
-			setReturnUri(eventContext.get(String.class, 3));
-			client.setCallbackUrl(getOauthRedirectLink(getWindowMode(), clientName, getReturnUri()));
+			setReturnUri(request.getParameter("returnpage"));
+			client.setCallbackUrl(getOauthRedirectLink(getWindowMode(), clientName));
 			if ("request_token".equals(action)) {
 				String providerOauthUrl = client.getRedirectionUrl(new J2EContext(httpRequest, httpResponse), true);
 				// fix an issue with pac4j dropboxClient and "direct redirection"
 				if (client instanceof DropBoxClient)
 					if (!providerOauthUrl.contains("&oauth_callback"))
 						providerOauthUrl += "&oauth_callback=" + client.getCallbackUrl();
+				// Because Google requires the callback uri to match *exactly* (including query parameters) with the configuration,
+				// use a cookie to store the destination uri after successful Oauth authentication
+				cookies.writeCookieValue("oauth_returnpage", getReturnUri(), -1);
 				return new URL(providerOauthUrl);
 			}
 		}
 		// FIXME should we catch and handle the event context errors? Probably
 
 		// capture the redirect url again
-		if (eventContext.getCount() > 2) setReturnUri(eventContext.get(String.class, 2));
+		String returnPageUri = cookies.readCookieValue("oauth_returnpage");
+		if (returnPageUri != null) {
+			setReturnUri(returnPageUri);
+			cookies.removeCookieValue("oauth_returnpage");
+		}
+
 		// we'll get a technical exception if callback url is not set even though it shouldn't be needed anymore
-		client.setCallbackUrl(getOauthRedirectLink(getWindowMode(), clientName, getReturnUri()));
+		client.setCallbackUrl(getOauthRedirectLink(getWindowMode(), clientName));
 
 		OAuthCredentials credentials = client.getCredentials(new J2EContext(httpRequest, httpResponse));
 
