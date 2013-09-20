@@ -10,7 +10,7 @@
 	<parent>
 		<groupId>org.tynamo.security</groupId>
 		<artifactId>tynamo-federatedaccounts-parent</artifactId>
-		<version>0.4.5</version>
+		<version>0.4.6-SNAPSHOT</version>
 	</parent>
 
 	<dependencies>
@@ -110,9 +110,9 @@
 	</dependencies>
 
 	<scm>
-		<connection>scm:svn:http://svn.codehaus.org/tynamo/tags/tynamo-federatedaccounts-parent-0.4.5/tynamo-federatedaccounts</connection>
-		<developerConnection>scm:svn:https://svn.codehaus.org/tynamo/tags/tynamo-federatedaccounts-parent-0.4.5/tynamo-federatedaccounts</developerConnection>
-		<url>http://svn.tynamo.codehaus.org/tynamo/tags/tynamo-federatedaccounts-parent-0.4.5/tynamo-federatedaccounts</url>
+		<connection>scm:svn:http://svn.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</connection>
+		<developerConnection>scm:svn:https://svn.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</developerConnection>
+		<url>http://svn.tynamo.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</url>
 	</scm>
 
 	<distributionManagement>
