@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.tynamo</groupId>
 		<artifactId>tynamo-parent</artifactId>
-		<version>0.0.12</version>
+		<version>0.1.0</version>
 	</parent>
 
 	<properties>
@@ -19,9 +19,10 @@
 	</properties>
 
 	<scm>
-		<connection>scm:svn:http://svn.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</connection>
-		<developerConnection>scm:svn:https://svn.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</developerConnection>
-		<url>http://svn.tynamo.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</url>
+		<connection>scm:git:git@github.com:tynamo/tynamo-federatedaccounts.git</connection>
+		<developerConnection>scm:git:git@github.com:tynamo/tynamo-federatedaccounts.git</developerConnection>
+		<url>https://github.com/tynamo/tynamo-federatedaccounts</url>
+		<tag>HEAD</tag>
 	</scm>
 
 	<distributionManagement>
