@@ -113,7 +113,8 @@
 		<connection>scm:svn:http://svn.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</connection>
 		<developerConnection>scm:svn:https://svn.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</developerConnection>
 		<url>http://svn.tynamo.codehaus.org/tynamo/trunk/tynamo-federatedaccounts</url>
-	</scm>
+	  <tag>0.4.x</tag>
+  </scm>
 
 	<distributionManagement>
 		<site>

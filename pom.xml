@@ -22,7 +22,7 @@
 		<connection>scm:git:git@github.com:tynamo/tynamo-federatedaccounts.git</connection>
 		<developerConnection>scm:git:git@github.com:tynamo/tynamo-federatedaccounts.git</developerConnection>
 		<url>https://github.com/tynamo/tynamo-federatedaccounts</url>
-		<tag>HEAD</tag>
+		<tag>0.4.x</tag>
 	</scm>
 
 	<distributionManagement>
