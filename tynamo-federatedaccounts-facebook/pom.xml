@@ -41,12 +41,14 @@
 			<groupId>org.tynamo</groupId>
 			<artifactId>tapestry-security</artifactId>
 		</dependency>
+		<!-- is this needed anymore?
 		<dependency>
 			<groupId>org.tynamo.gae</groupId>
 			<artifactId>esxx-httpclient-gae</artifactId>
 			<version>0.0.1</version>
 			<scope>provided</scope>
 		</dependency>
+		 -->
 		<dependency>
 			<groupId>org.tynamo</groupId>
 			<artifactId>tapestry-hibernate-seedentity</artifactId>

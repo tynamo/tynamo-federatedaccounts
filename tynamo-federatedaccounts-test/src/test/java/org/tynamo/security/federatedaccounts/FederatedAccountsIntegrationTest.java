@@ -19,10 +19,10 @@ public class FederatedAccountsIntegrationTest extends AbstractContainerTest {
 	private static final String STATUS_AUTH = "STATUS[Authenticated]";
 	private HtmlPage page;
 
-	@Override
 	@BeforeClass
 	public void configureWebClient() {
-		webClient.setThrowExceptionOnFailingStatusCode(false);
+		webClient.getOptions().setThrowExceptionOnFailingStatusCode(false);
+		webClient.getOptions().setThrowExceptionOnScriptError(false);
 	}
 
 	@Override

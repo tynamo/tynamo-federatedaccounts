@@ -93,6 +93,8 @@ public class AppModule {
 		configuration.add(factory.createChain("/assets/**").add(factory.anon()).build());
 		configuration.add(factory.createChain("/login.loginform.tynamologinform").add(factory.anon()).build());
 		configuration.add(factory.createChain("/federated/**").add(factory.anon()).build());
+		configuration.add(factory.createChain("/modules/**").add(factory.anon()).build());
+		configuration.add(factory.createChain("/modules.gz/**").add(factory.anon()).build());
 		configuration.add(factory.createChain("/**").add(factory.authc()).build());
 	}
 

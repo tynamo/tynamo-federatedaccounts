@@ -31,12 +31,14 @@
 			<groupId>org.tynamo</groupId>
 			<artifactId>tapestry-security</artifactId>
 		</dependency>
+		<!--  is this needed anymore?
 		<dependency>
 			<groupId>org.tynamo.gae</groupId>
 			<artifactId>esxx-httpclient-gae</artifactId>
 			<version>0.0.1</version>
 			<scope>provided</scope>
 		</dependency>
+		 -->
 		<dependency>
 			<groupId>org.tynamo</groupId>
 			<artifactId>tapestry-jpa-seedentity</artifactId>
@@ -68,7 +70,7 @@
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>eclipselink</artifactId>
-			<version>2.4.1</version>
+			<version>2.5.2</version>
 		</dependency>
 
 		<dependency>
@@ -94,28 +96,9 @@
 		<dependency>
 			<groupId>org.tynamo</groupId>
 			<artifactId>tynamo-test</artifactId>
-			<version>0.0.1</version>
-			<scope>test</scope>
-			<exclusions>
-				<exclusion>
-					<groupId>net.sourceforge.htmlunit</groupId>
-					<artifactId>htmlunit</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-
-		<dependency>
-			<!-- ERROR:
-				- Caused by: java.lang.RuntimeException: java.lang.NoSuchMethodException:
-				- org.apache.http.conn.ssl.SSLSocketFactory.createDefaultSSLContext()
-				versions 2.11 and 2.12 make use of a private method in HttpClient 4.2.3 that was removed in 4.2.4 (HTTPCLIENT-1320)
-			-->
-			<groupId>net.sourceforge.htmlunit</groupId>
-			<artifactId>htmlunit</artifactId>
-			<version>2.10</version>
+			<version>0.1.1</version>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.tynamo.security</groupId>
 			<artifactId>tynamo-federatedaccounts-facebook</artifactId>

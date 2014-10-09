@@ -37,9 +37,9 @@ public class FacebookFederatedAccountsModule {
 			"org.tynamo.security.federatedaccounts.facebook"));
 	}
 
-	public static void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration) {
-		configuration.add(PATH_PREFIX + "-" + version, "org/tynamo/security/federatedaccounts/facebook");
-	}
+//	public static void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration) {
+//		configuration.add(PATH_PREFIX + "-" + version, "org/tynamo/security/federatedaccounts/facebook");
+//	}
 
 	public static void contributeWebSecurityManager(Configuration<Realm> configuration,
 			@InjectService("FacebookRealm") AuthenticatingRealm facebookRealm) {

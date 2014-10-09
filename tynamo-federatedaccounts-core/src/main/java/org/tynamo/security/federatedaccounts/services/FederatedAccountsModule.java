@@ -31,9 +31,9 @@ public class FederatedAccountsModule {
 		configuration.add(new LibraryMapping(PATH_PREFIX, "org.tynamo.security.federatedaccounts"));
 	}
 
-	public static void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration) {
-		configuration.add(PATH_PREFIX + "-" + version, "org/tynamo/security/federatedaccounts");
-	}
+//	public static void contributeClasspathAssetAliasManager(MappedConfiguration<String, String> configuration) {
+//		configuration.add(PATH_PREFIX + "-" + version, "org/tynamo/security/federatedaccounts");
+//	}
 
 	public void contributeTypeCoercer(Configuration<CoercionTuple<String, WindowMode>> configuration) {
 		configuration.add(new CoercionTuple<String, WindowMode>(String.class, WindowMode.class,
