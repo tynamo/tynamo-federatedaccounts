@@ -15,27 +15,19 @@ import org.apache.http.client.utils.URIUtils;
 import org.apache.http.client.utils.URLEncodedUtils;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
 import org.apache.http.util.EntityUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.alerts.AlertManager;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.apache.tapestry5.services.Request;
-import org.esxx.js.protocol.GAEConnectionManager;
 import org.slf4j.Logger;
-import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthPage;
 import org.tynamo.security.federatedaccounts.facebook.FacebookAccessToken;
 
 public class FacebookOauth extends AbstractOauthPage {
-	@Inject
-	@Symbol(FederatedAccountSymbols.HTTPCLIENT_ON_GAE)
-	private boolean httpClientOnGae;
-
 	@Inject
 	private Logger logger;
 
@@ -79,8 +71,7 @@ public class FacebookOauth extends AbstractOauthPage {
 			// queryString[3] = new NameValuePair("code", code);
 			// get.setQueryString(queryString);
 			// HttpClient httpClient = new DefaultHttpClient();
-			HttpClient httpClient = httpClientOnGae ? new DefaultHttpClient(new GAEConnectionManager(), new BasicHttpParams())
-				: new DefaultHttpClient();
+			HttpClient httpClient = new DefaultHttpClient();
 
 			HttpResponse response = httpClient.execute(get);
 			int status = response.getStatusLine().getStatusCode();
