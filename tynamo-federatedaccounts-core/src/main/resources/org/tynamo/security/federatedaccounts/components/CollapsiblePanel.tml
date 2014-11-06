@@ -2,7 +2,7 @@
 	<div class="collapsiblepanel_header">
 		<t:delegate to="headerContent"/>
 		<t:unless test="expanderDisabled">
-			<span class="collapsiblepanel_header_title collapsiblepanel_header_title_${state}" onclick="toggleCollapsiblePanel(this);">${title}</span>
+			<span class="collapsiblepanel_header_title collapsiblepanel_header_title_${state}" data-action="collapsible">${title}</span>
 		</t:unless>
 	</div>
 	<div class="collapsiblepanel_content collapsiblepanel_content_${state}">

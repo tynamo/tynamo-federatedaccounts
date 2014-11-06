@@ -1,21 +1,3 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 package org.tynamo.security.federatedaccounts.testapp.services;
 
 import java.sql.SQLException;
@@ -34,6 +16,7 @@ import org.apache.tapestry5.ioc.annotations.SubModule;
 import org.tynamo.security.SecuritySymbols;
 import org.tynamo.security.federatedaccounts.FederatedAccount.FederatedAccountType;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
+import org.tynamo.security.federatedaccounts.facebook.services.FacebookFederatedAccountsModule;
 import org.tynamo.security.federatedaccounts.pac4j.services.Pac4jOauthClientLocator.SupportedClient;
 import org.tynamo.security.federatedaccounts.services.DefaultJpaFederatedAccountServiceImpl;
 import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
@@ -47,11 +30,8 @@ import org.tynamo.security.services.SecurityModule;
 import org.tynamo.security.services.impl.SecurityFilterChain;
 import org.tynamo.seedentity.jpa.services.SeedEntityModule;
 
-/**
- * This module is automatically included as part of the Tapestry IoC Registry, it's a good place to configure and extend
- * Tapestry, or to place your own service definitions.
- */
-@SubModule(value = { SecurityModule.class, SeedEntityModule.class, FederatedAccountsModule.class })
+// excplicitly claiming these as submodules just for development and testing
+@SubModule(value = { SecurityModule.class, SeedEntityModule.class, FederatedAccountsModule.class, FacebookFederatedAccountsModule.class })
 public class AppModule {
 
 	public static void bind(ServiceBinder binder) {

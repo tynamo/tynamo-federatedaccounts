@@ -128,6 +128,28 @@
 
 		<plugins>
 			<plugin>
+				<groupId>com.theoryinpractise</groupId>
+				<artifactId>coffee-maven-plugin</artifactId>
+				<version>1.4.9</version>
+				<configuration>
+					<version>1.6.3</version>
+					<coffeeOutputDirectory>${project.build.directory}/classes</coffeeOutputDirectory>
+					<compileIndividualFiles>true</compileIndividualFiles>
+					<preserveSubDirectory>true</preserveSubDirectory>
+				</configuration>
+
+				<executions>
+					<execution>
+						<id>coffee</id>
+						<goals>
+							<goal>coffee</goal>
+						</goals>
+					</execution>
+				</executions>
+
+			</plugin>
+
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.4.3</version>
