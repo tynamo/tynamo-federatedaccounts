@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>AppModule xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../../testapidocs/org/tynamo/security/federatedaccounts/testapp/services/AppModule.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> org.tynamo.security.federatedaccounts.testapp.services;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> java.sql.SQLException;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.apache.shiro.realm.AuthorizingRealm;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.apache.shiro.realm.Realm;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.apache.tapestry5.SymbolConstants;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.apache.tapestry5.ioc.Configuration;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.apache.tapestry5.ioc.MappedConfiguration;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.apache.tapestry5.ioc.OrderedConfiguration;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> org.apache.tapestry5.ioc.ServiceBinder;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.apache.tapestry5.ioc.annotations.Contribute;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> org.apache.tapestry5.ioc.annotations.InjectService;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> org.apache.tapestry5.ioc.annotations.Startup;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> org.apache.tapestry5.ioc.annotations.SubModule;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.SecuritySymbols;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.FederatedAccount.FederatedAccountType;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.facebook.services.FacebookFederatedAccountsModule;
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.pac4j.services.Pac4jOauthClientLocator.SupportedClient;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.services.DefaultJpaFederatedAccountServiceImpl;
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.services.FederatedAccountService;
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.services.FederatedAccountsModule;
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.services.FederatedSignInOptions;
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.services.FederatedSignInOptions.OptionType;
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.testapp.entities.User;
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.rollingtokens.services.RollingTokenRealm;
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.services.SecurityFilterChainFactory;
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.services.SecurityModule;
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.services.impl.SecurityFilterChain;
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  <strong class="jxr_keyword">import</strong> org.tynamo.seedentity.jpa.services.SeedEntityModule;
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  <em class="jxr_comment">// excplicitly claiming these as submodules just for development and testing</em>
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  @SubModule(value = { SecurityModule.<strong class="jxr_keyword">class</strong>, SeedEntityModule.<strong class="jxr_keyword">class</strong>, FederatedAccountsModule.<strong class="jxr_keyword">class</strong>, FacebookFederatedAccountsModule.<strong class="jxr_keyword">class</strong> })
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../../org/tynamo/security/federatedaccounts/testapp/services/AppModule.html">AppModule</a> {
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> bind(ServiceBinder binder) {
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  		binder.bind(FederatedAccountService.<strong class="jxr_keyword">class</strong>, DefaultJpaFederatedAccountServiceImpl.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  		binder.bind(AuthorizingRealm.<strong class="jxr_keyword">class</strong>, UserRealm.<strong class="jxr_keyword">class</strong>).withId(UserRealm.<strong class="jxr_keyword">class</strong>.getSimpleName());
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  	}
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> contributeApplicationDefaults(MappedConfiguration&lt;String, String&gt; configuration) {
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  		<em class="jxr_comment">// Contributions to ApplicationDefaults will override any contributions to</em>
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  		<em class="jxr_comment">// FactoryDefaults (with the same key). Here we're restricting the supported</em>
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  		<em class="jxr_comment">// locales to just "en" (English). As you add localised message catalogs and other assets,</em>
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  		<em class="jxr_comment">// you can extend this list of locales (it's a comma separated series of locale names;</em>
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  		<em class="jxr_comment">// the first locale name is the default when there's no reasonable match).</em>
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  		configuration.add(SymbolConstants.SUPPORTED_LOCALES, <span class="jxr_string">"en"</span>);
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  		<em class="jxr_comment">// The factory default is true but during the early stages of an application</em>
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  		<em class="jxr_comment">// overriding to false is a good idea. In addition, this is often overridden</em>
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  		<em class="jxr_comment">// on the command line as -Dtapestry.production-mode=false</em>
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  		configuration.add(SymbolConstants.PRODUCTION_MODE, <span class="jxr_string">"false"</span>);
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  		<em class="jxr_comment">// The application version number is incorprated into URLs for some</em>
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  		<em class="jxr_comment">// assets. Web browsers will cache assets because of the far future expires</em>
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  		<em class="jxr_comment">// header. If existing assets are changed, the version number should also</em>
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  		<em class="jxr_comment">// change, to force the browser to download new versions.</em>
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  		configuration.add(SymbolConstants.APPLICATION_VERSION, <span class="jxr_string">"0.0.1-SNAPSHOT"</span>);
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  		configuration.add(FederatedAccountSymbols.LOCALACCOUNT_REALMNAME, <span class="jxr_string">"localaccounts"</span>);
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  		configuration.add(SecuritySymbols.LOGIN_URL, <span class="jxr_string">"/login"</span>);
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  		configuration.add(SecuritySymbols.SUCCESS_URL, <span class="jxr_string">"/index"</span>);
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  <em class="jxr_comment">//		configuration.add(Pac4jFederatedRealm.YAHOO_CLIENTID, "somekey");</em>
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  <em class="jxr_comment">//		configuration.add(Pac4jFederatedRealm.YAHOO_CLIENTSECRET, "just to test yahoo login icon");</em>
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  	}
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> contributeSecurityConfiguration(Configuration&lt;SecurityFilterChain&gt; configuration,
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  			SecurityFilterChainFactory factory) {
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  		configuration.add(factory.createChain(<span class="jxr_string">"/assets/**"</span>).add(factory.anon()).build());
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  		configuration.add(factory.createChain(<span class="jxr_string">"/login.loginform.tynamologinform"</span>).add(factory.anon()).build());
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  		configuration.add(factory.createChain(<span class="jxr_string">"/federated/**"</span>).add(factory.anon()).build());
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  		configuration.add(factory.createChain(<span class="jxr_string">"/modules/**"</span>).add(factory.anon()).build());
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  		configuration.add(factory.createChain(<span class="jxr_string">"/modules.gz/**"</span>).add(factory.anon()).build());
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  		configuration.add(factory.createChain(<span class="jxr_string">"/**"</span>).add(factory.authc()).build());
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  	}
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> contributeWebSecurityManager(Configuration&lt;Realm&gt; configuration, @InjectService(<span class="jxr_string">"UserRealm"</span>) AuthorizingRealm userRealm) {
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>  		<em class="jxr_comment">// FacebookRealm is automatically contributed as long as federatedsecurity is on the classpath</em>
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  		configuration.add(userRealm);
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  	}
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  
+<a class="jxr_linenumber" name="L86" href="#L86">86</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> contributeSeedEntity(OrderedConfiguration&lt;Object&gt; configuration) {
+<a class="jxr_linenumber" name="L87" href="#L87">87</a>  		User localUser = <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/tynamo/security/federatedaccounts/testapp/entities/User.html">User</a>();
+<a class="jxr_linenumber" name="L88" href="#L88">88</a>  		localUser.setUsername(<span class="jxr_string">"user"</span>);
+<a class="jxr_linenumber" name="L89" href="#L89">89</a>  		localUser.setFirstName(<span class="jxr_string">"Local"</span>);
+<a class="jxr_linenumber" name="L90" href="#L90">90</a>  		localUser.setLastName(<span class="jxr_string">"User"</span>);
+<a class="jxr_linenumber" name="L91" href="#L91">91</a>  		localUser.setPassword(<span class="jxr_string">"user"</span>);
+<a class="jxr_linenumber" name="L92" href="#L92">92</a>  		configuration.add(<span class="jxr_string">"localuser"</span>, localUser);
+<a class="jxr_linenumber" name="L93" href="#L93">93</a>  		User fakeFederatedUser = <strong class="jxr_keyword">new</strong> <a href="../../../../../../org/tynamo/security/federatedaccounts/testapp/entities/User.html">User</a>();
+<a class="jxr_linenumber" name="L94" href="#L94">94</a>  		fakeFederatedUser.setUsername(<span class="jxr_string">"fbuser"</span>);
+<a class="jxr_linenumber" name="L95" href="#L95">95</a>  		fakeFederatedUser.setFirstName(<span class="jxr_string">"Facebook"</span>);
+<a class="jxr_linenumber" name="L96" href="#L96">96</a>  		fakeFederatedUser.setLastName(<span class="jxr_string">"User"</span>);
+<a class="jxr_linenumber" name="L97" href="#L97">97</a>  		fakeFederatedUser.setFacebookUserId(0L);
+<a class="jxr_linenumber" name="L98" href="#L98">98</a>  		configuration.add(<span class="jxr_string">"fakeuser"</span>, fakeFederatedUser);
+<a class="jxr_linenumber" name="L99" href="#L99">99</a>  	}
+<a class="jxr_linenumber" name="L100" href="#L100">100</a> 
+<a class="jxr_linenumber" name="L101" href="#L101">101</a> 	@Contribute(FederatedSignInOptions.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L102" href="#L102">102</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> provideDefaultSignInBlocks(MappedConfiguration&lt;String,OptionType&gt; configuration) {
+<a class="jxr_linenumber" name="L103" href="#L103">103</a> 		 configuration.add(FederatedAccountType.facebook.name(), OptionType.primary);
+<a class="jxr_linenumber" name="L104" href="#L104">104</a> 		 configuration.add(FederatedAccountType.twitter.name(), OptionType.primary);
+<a class="jxr_linenumber" name="L105" href="#L105">105</a> 		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.facebook.name(), OptionType.secondary);
+<a class="jxr_linenumber" name="L106" href="#L106">106</a> 		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.dropbox.name(), OptionType.secondary);
+<a class="jxr_linenumber" name="L107" href="#L107">107</a> 		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.github.name(), OptionType.secondary);
+<a class="jxr_linenumber" name="L108" href="#L108">108</a> 		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.google2.name(), OptionType.secondary);
+<a class="jxr_linenumber" name="L109" href="#L109">109</a> 		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.linkedin2.name(), OptionType.secondary);
+<a class="jxr_linenumber" name="L110" href="#L110">110</a> 		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.twitter.name(), OptionType.secondary);
+<a class="jxr_linenumber" name="L111" href="#L111">111</a> 		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.windowslive.name(), OptionType.secondary);
+<a class="jxr_linenumber" name="L112" href="#L112">112</a> 		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.wordpress.name(), OptionType.secondary);
+<a class="jxr_linenumber" name="L113" href="#L113">113</a> 		 configuration.add(FederatedAccountType.pac4j_.name() + SupportedClient.yahoo.name(), OptionType.secondary);
+<a class="jxr_linenumber" name="L114" href="#L114">114</a> 	}
+<a class="jxr_linenumber" name="L115" href="#L115">115</a> 
+<a class="jxr_linenumber" name="L116" href="#L116">116</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> contributeFederatedAccountService(MappedConfiguration&lt;String, Object&gt; configuration) {
+<a class="jxr_linenumber" name="L117" href="#L117">117</a> 		configuration.add(<span class="jxr_string">"*"</span>, User.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L118" href="#L118">118</a> 		configuration.add(<span class="jxr_string">"facebook.id"</span>, <span class="jxr_string">"facebookId"</span>);
+<a class="jxr_linenumber" name="L119" href="#L119">119</a> 		configuration.add(<span class="jxr_string">"twitter.id"</span>, <span class="jxr_string">"twitterId"</span>);
+<a class="jxr_linenumber" name="L120" href="#L120">120</a> 		configuration.add(<span class="jxr_string">"pac4j_dropbox.id"</span>, <span class="jxr_string">"dropboxId"</span>);
+<a class="jxr_linenumber" name="L121" href="#L121">121</a> 		configuration.add(<span class="jxr_string">"pac4j_yahoo.id"</span>, <span class="jxr_string">"yahooId"</span>);
+<a class="jxr_linenumber" name="L122" href="#L122">122</a> 		configuration.add(RollingTokenRealm.NAME + FederatedAccountService.IDPROPERTY, <span class="jxr_string">"id"</span>);
+<a class="jxr_linenumber" name="L123" href="#L123">123</a> 	}
+<a class="jxr_linenumber" name="L124" href="#L124">124</a> 
+<a class="jxr_linenumber" name="L125" href="#L125">125</a> 	@Startup
+<a class="jxr_linenumber" name="L126" href="#L126">126</a> 	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> startH2WebServer()
+<a class="jxr_linenumber" name="L127" href="#L127">127</a> 		<strong class="jxr_keyword">throws</strong> SQLException {
+<a class="jxr_linenumber" name="L128" href="#L128">128</a> 			org.h2.tools.Server.createWebServer(<strong class="jxr_keyword">new</strong> String[] { <span class="jxr_string">"-web"</span>, <span class="jxr_string">"-webAllowOthers"</span>, <span class="jxr_string">"-webPort"</span>, <span class="jxr_string">"8082"</span> }).start();
+<a class="jxr_linenumber" name="L129" href="#L129">129</a> 	}
+<a class="jxr_linenumber" name="L130" href="#L130">130</a> 
+<a class="jxr_linenumber" name="L131" href="#L131">131</a> 
+<a class="jxr_linenumber" name="L132" href="#L132">132</a> }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2004&#x2013;2015. All rights reserved.</div>
+</body>
+</html>

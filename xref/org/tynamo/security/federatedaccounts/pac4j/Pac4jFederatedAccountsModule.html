@@ -1,0 +1,98 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head><meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+<title>Pac4jFederatedAccountsModule xref</title>
+<link type="text/css" rel="stylesheet" href="../../../../../stylesheet.css" />
+</head>
+<body>
+<div id="overview"><a href="../../../../../../apidocs/org/tynamo/security/federatedaccounts/pac4j/Pac4jFederatedAccountsModule.html">View Javadoc</a></div><pre>
+<a class="jxr_linenumber" name="L1" href="#L1">1</a>   <strong class="jxr_keyword">package</strong> org.tynamo.security.federatedaccounts.pac4j;
+<a class="jxr_linenumber" name="L2" href="#L2">2</a>   
+<a class="jxr_linenumber" name="L3" href="#L3">3</a>   <strong class="jxr_keyword">import</strong> org.apache.shiro.realm.AuthenticatingRealm;
+<a class="jxr_linenumber" name="L4" href="#L4">4</a>   <strong class="jxr_keyword">import</strong> org.apache.shiro.realm.Realm;
+<a class="jxr_linenumber" name="L5" href="#L5">5</a>   <strong class="jxr_keyword">import</strong> org.apache.tapestry5.ioc.Configuration;
+<a class="jxr_linenumber" name="L6" href="#L6">6</a>   <strong class="jxr_keyword">import</strong> org.apache.tapestry5.ioc.MappedConfiguration;
+<a class="jxr_linenumber" name="L7" href="#L7">7</a>   <strong class="jxr_keyword">import</strong> org.apache.tapestry5.ioc.ServiceBinder;
+<a class="jxr_linenumber" name="L8" href="#L8">8</a>   <strong class="jxr_keyword">import</strong> org.apache.tapestry5.ioc.annotations.Contribute;
+<a class="jxr_linenumber" name="L9" href="#L9">9</a>   <strong class="jxr_keyword">import</strong> org.apache.tapestry5.ioc.annotations.InjectService;
+<a class="jxr_linenumber" name="L10" href="#L10">10</a>  <strong class="jxr_keyword">import</strong> org.apache.tapestry5.services.LibraryMapping;
+<a class="jxr_linenumber" name="L11" href="#L11">11</a>  <strong class="jxr_keyword">import</strong> org.tynamo.common.ModuleProperties;
+<a class="jxr_linenumber" name="L12" href="#L12">12</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.FederatedAccount.FederatedAccountType;
+<a class="jxr_linenumber" name="L13" href="#L13">13</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.pac4j.services.Pac4jFederatedRealm;
+<a class="jxr_linenumber" name="L14" href="#L14">14</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.pac4j.services.Pac4jOauthClientLocator;
+<a class="jxr_linenumber" name="L15" href="#L15">15</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.services.FederatedAccountsModule;
+<a class="jxr_linenumber" name="L16" href="#L16">16</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.services.FederatedSignInComponentBlockSource;
+<a class="jxr_linenumber" name="L17" href="#L17">17</a>  <strong class="jxr_keyword">import</strong> org.tynamo.security.federatedaccounts.services.FederatedSignInComponentContribution;
+<a class="jxr_linenumber" name="L18" href="#L18">18</a>  
+<a class="jxr_linenumber" name="L19" href="#L19">19</a>  <strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">class</strong> <a href="../../../../../org/tynamo/security/federatedaccounts/pac4j/Pac4jFederatedAccountsModule.html">Pac4jFederatedAccountsModule</a> {
+<a class="jxr_linenumber" name="L20" href="#L20">20</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">final</strong> String PATH_PREFIX = <span class="jxr_string">"federated-pac4j"</span>;
+<a class="jxr_linenumber" name="L21" href="#L21">21</a>  	<strong class="jxr_keyword">private</strong> <strong class="jxr_keyword">static</strong> String version = ModuleProperties.getVersion(FederatedAccountsModule.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L22" href="#L22">22</a>  
+<a class="jxr_linenumber" name="L23" href="#L23">23</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> bind(ServiceBinder binder) {
+<a class="jxr_linenumber" name="L24" href="#L24">24</a>  		binder.bind(AuthenticatingRealm.<strong class="jxr_keyword">class</strong>, Pac4jFederatedRealm.<strong class="jxr_keyword">class</strong>).withId(Pac4jFederatedRealm.<strong class="jxr_keyword">class</strong>.getSimpleName());
+<a class="jxr_linenumber" name="L25" href="#L25">25</a>  		binder.bind(Pac4jOauthClientLocator.<strong class="jxr_keyword">class</strong>);
+<a class="jxr_linenumber" name="L26" href="#L26">26</a>  	}
+<a class="jxr_linenumber" name="L27" href="#L27">27</a>  
+<a class="jxr_linenumber" name="L28" href="#L28">28</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> contributeFactoryDefaults(MappedConfiguration&lt;String, String&gt; configuration) {
+<a class="jxr_linenumber" name="L29" href="#L29">29</a>  		configuration.add(Pac4jFederatedRealm.DROPBOX_CLIENTID, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L30" href="#L30">30</a>  		configuration.add(Pac4jFederatedRealm.DROPBOX_CLIENTSECRET, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L31" href="#L31">31</a>  		configuration.add(Pac4jFederatedRealm.FACEBOOK_CLIENTID, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L32" href="#L32">32</a>  		configuration.add(Pac4jFederatedRealm.FACEBOOK_CLIENTSECRET, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L33" href="#L33">33</a>  		configuration.add(Pac4jFederatedRealm.GITHUB_CLIENTID, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L34" href="#L34">34</a>  		configuration.add(Pac4jFederatedRealm.GITHUB_CLIENTSECRET, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L35" href="#L35">35</a>  		configuration.add(Pac4jFederatedRealm.GOOGLE_CLIENTID, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L36" href="#L36">36</a>  		configuration.add(Pac4jFederatedRealm.GOOGLE_CLIENTSECRET, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L37" href="#L37">37</a>  		configuration.add(Pac4jFederatedRealm.LINKEDIN_CLIENTID, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L38" href="#L38">38</a>  		configuration.add(Pac4jFederatedRealm.LINKEDIN_CLIENTSECRET, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L39" href="#L39">39</a>  		configuration.add(Pac4jFederatedRealm.TWITTER_CLIENTID, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L40" href="#L40">40</a>  		configuration.add(Pac4jFederatedRealm.TWITTER_CLIENTSECRET, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L41" href="#L41">41</a>  		configuration.add(Pac4jFederatedRealm.WINDOWSLIVE_CLIENTID, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L42" href="#L42">42</a>  		configuration.add(Pac4jFederatedRealm.WINDOWSLIVE_CLIENTSECRET, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L43" href="#L43">43</a>  		configuration.add(Pac4jFederatedRealm.WORDPRESS_CLIENTID, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L44" href="#L44">44</a>  		configuration.add(Pac4jFederatedRealm.WORDPRESS_CLIENTSECRET, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L45" href="#L45">45</a>  		configuration.add(Pac4jFederatedRealm.YAHOO_CLIENTID, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L46" href="#L46">46</a>  		configuration.add(Pac4jFederatedRealm.YAHOO_CLIENTSECRET, <span class="jxr_string">""</span>);
+<a class="jxr_linenumber" name="L47" href="#L47">47</a>  	}
+<a class="jxr_linenumber" name="L48" href="#L48">48</a>  
+<a class="jxr_linenumber" name="L49" href="#L49">49</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> contributeComponentClassResolver(Configuration&lt;LibraryMapping&gt; configuration) {
+<a class="jxr_linenumber" name="L50" href="#L50">50</a>  		configuration.add(<strong class="jxr_keyword">new</strong> LibraryMapping(FederatedAccountsModule.PATH_PREFIX,
+<a class="jxr_linenumber" name="L51" href="#L51">51</a>  			<span class="jxr_string">"org.tynamo.security.federatedaccounts.pac4j"</span>));
+<a class="jxr_linenumber" name="L52" href="#L52">52</a>  	}
+<a class="jxr_linenumber" name="L53" href="#L53">53</a>  
+<a class="jxr_linenumber" name="L54" href="#L54">54</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> contributeClasspathAssetAliasManager(MappedConfiguration&lt;String, String&gt; configuration) {
+<a class="jxr_linenumber" name="L55" href="#L55">55</a>  		configuration.add(PATH_PREFIX + <span class="jxr_string">"-"</span> + version, <span class="jxr_string">"org/tynamo/security/federatedaccounts/pac4j"</span>);
+<a class="jxr_linenumber" name="L56" href="#L56">56</a>  	}
+<a class="jxr_linenumber" name="L57" href="#L57">57</a>  
+<a class="jxr_linenumber" name="L58" href="#L58">58</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> contributeWebSecurityManager(Configuration&lt;Realm&gt; configuration,
+<a class="jxr_linenumber" name="L59" href="#L59">59</a>  		@InjectService(<span class="jxr_string">"Pac4jFederatedRealm"</span>) AuthenticatingRealm pac4jRealm) {
+<a class="jxr_linenumber" name="L60" href="#L60">60</a>  		configuration.add(pac4jRealm);
+<a class="jxr_linenumber" name="L61" href="#L61">61</a>  	}
+<a class="jxr_linenumber" name="L62" href="#L62">62</a>  
+<a class="jxr_linenumber" name="L63" href="#L63">63</a>  	@Contribute(FederatedSignInComponentBlockSource.<strong class="jxr_keyword">class</strong>)
+<a class="jxr_linenumber" name="L64" href="#L64">64</a>  	<strong class="jxr_keyword">public</strong> <strong class="jxr_keyword">static</strong> <strong class="jxr_keyword">void</strong> addSignInComponentBlocks(Configuration&lt;FederatedSignInComponentContribution&gt; configuration) {
+<a class="jxr_linenumber" name="L65" href="#L65">65</a>  		configuration.add(<strong class="jxr_keyword">new</strong> <a href="../../../../../org/tynamo/security/federatedaccounts/services/FederatedSignInComponentContribution.html">FederatedSignInComponentContribution</a>(FederatedAccountType.pac4j_.name()
+<a class="jxr_linenumber" name="L66" href="#L66">66</a>  			+ Pac4jOauthClientLocator.SupportedClient.facebook, <span class="jxr_string">"federated/pac4jSignInComponentBlocks"</span>));
+<a class="jxr_linenumber" name="L67" href="#L67">67</a>  		configuration.add(<strong class="jxr_keyword">new</strong> <a href="../../../../../org/tynamo/security/federatedaccounts/services/FederatedSignInComponentContribution.html">FederatedSignInComponentContribution</a>(FederatedAccountType.pac4j_.name()
+<a class="jxr_linenumber" name="L68" href="#L68">68</a>  			+ Pac4jOauthClientLocator.SupportedClient.dropbox, <span class="jxr_string">"federated/pac4jSignInComponentBlocks"</span>));
+<a class="jxr_linenumber" name="L69" href="#L69">69</a>  		configuration.add(<strong class="jxr_keyword">new</strong> <a href="../../../../../org/tynamo/security/federatedaccounts/services/FederatedSignInComponentContribution.html">FederatedSignInComponentContribution</a>(FederatedAccountType.pac4j_.name()
+<a class="jxr_linenumber" name="L70" href="#L70">70</a>  			+ Pac4jOauthClientLocator.SupportedClient.github, <span class="jxr_string">"federated/pac4jSignInComponentBlocks"</span>));
+<a class="jxr_linenumber" name="L71" href="#L71">71</a>  		configuration.add(<strong class="jxr_keyword">new</strong> <a href="../../../../../org/tynamo/security/federatedaccounts/services/FederatedSignInComponentContribution.html">FederatedSignInComponentContribution</a>(FederatedAccountType.pac4j_.name()
+<a class="jxr_linenumber" name="L72" href="#L72">72</a>  			+ Pac4jOauthClientLocator.SupportedClient.google2, <span class="jxr_string">"federated/pac4jSignInComponentBlocks"</span>));
+<a class="jxr_linenumber" name="L73" href="#L73">73</a>  		configuration.add(<strong class="jxr_keyword">new</strong> <a href="../../../../../org/tynamo/security/federatedaccounts/services/FederatedSignInComponentContribution.html">FederatedSignInComponentContribution</a>(FederatedAccountType.pac4j_.name()
+<a class="jxr_linenumber" name="L74" href="#L74">74</a>  			+ Pac4jOauthClientLocator.SupportedClient.linkedin2, <span class="jxr_string">"federated/pac4jSignInComponentBlocks"</span>));
+<a class="jxr_linenumber" name="L75" href="#L75">75</a>  		configuration.add(<strong class="jxr_keyword">new</strong> <a href="../../../../../org/tynamo/security/federatedaccounts/services/FederatedSignInComponentContribution.html">FederatedSignInComponentContribution</a>(FederatedAccountType.pac4j_.name()
+<a class="jxr_linenumber" name="L76" href="#L76">76</a>  			+ Pac4jOauthClientLocator.SupportedClient.twitter, <span class="jxr_string">"federated/pac4jSignInComponentBlocks"</span>));
+<a class="jxr_linenumber" name="L77" href="#L77">77</a>  		configuration.add(<strong class="jxr_keyword">new</strong> <a href="../../../../../org/tynamo/security/federatedaccounts/services/FederatedSignInComponentContribution.html">FederatedSignInComponentContribution</a>(FederatedAccountType.pac4j_.name()
+<a class="jxr_linenumber" name="L78" href="#L78">78</a>  			+ Pac4jOauthClientLocator.SupportedClient.windowslive, <span class="jxr_string">"federated/pac4jSignInComponentBlocks"</span>));
+<a class="jxr_linenumber" name="L79" href="#L79">79</a>  		configuration.add(<strong class="jxr_keyword">new</strong> <a href="../../../../../org/tynamo/security/federatedaccounts/services/FederatedSignInComponentContribution.html">FederatedSignInComponentContribution</a>(FederatedAccountType.pac4j_.name()
+<a class="jxr_linenumber" name="L80" href="#L80">80</a>  			+ Pac4jOauthClientLocator.SupportedClient.wordpress, <span class="jxr_string">"federated/pac4jSignInComponentBlocks"</span>));
+<a class="jxr_linenumber" name="L81" href="#L81">81</a>  		configuration.add(<strong class="jxr_keyword">new</strong> <a href="../../../../../org/tynamo/security/federatedaccounts/services/FederatedSignInComponentContribution.html">FederatedSignInComponentContribution</a>(FederatedAccountType.pac4j_.name()
+<a class="jxr_linenumber" name="L82" href="#L82">82</a>  			+ Pac4jOauthClientLocator.SupportedClient.yahoo, <span class="jxr_string">"federated/pac4jSignInComponentBlocks"</span>));
+<a class="jxr_linenumber" name="L83" href="#L83">83</a>  	}
+<a class="jxr_linenumber" name="L84" href="#L84">84</a>  
+<a class="jxr_linenumber" name="L85" href="#L85">85</a>  }
+</pre>
+<hr/>
+<div id="footer">Copyright &#169; 2004&#x2013;2015. All rights reserved.</div>
+</body>
+</html>
