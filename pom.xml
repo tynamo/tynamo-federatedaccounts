@@ -11,11 +11,11 @@
 	<parent>
 		<groupId>org.tynamo</groupId>
 		<artifactId>tynamo-parent</artifactId>
-		<version>0.1.1</version>
+		<version>0.2.1</version>
 	</parent>
 
 	<properties>
-		<tapestry-release-version>5.4-beta-22</tapestry-release-version>
+		<tapestry-release-version>5.4-beta-26</tapestry-release-version>
 	</properties>
 
 	<scm>
