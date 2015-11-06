@@ -15,7 +15,7 @@
 	</parent>
 
 	<properties>
-		<tapestry-release-version>5.4-beta-26</tapestry-release-version>
+		<tapestry-release-version>5.4-rc-1</tapestry-release-version>
 	</properties>
 
 	<scm>
@@ -24,14 +24,6 @@
 		<url>https://github.com/tynamo/tynamo-federatedaccounts</url>
 		<tag>HEAD</tag>
 	</scm>
-
-	<distributionManagement>
-		<site>
-			<id>tynamo-site</id>
-			<!-- Note the url. Only static files deployed in /constant/ can be decorated by Unity -->
-			<url>dav:https://dav.codehaus.org/tynamo/constant/sites/tynamo-federatedaccounts</url>
-		</site>
-	</distributionManagement>
 
 	<modules>
 		<module>tynamo-federatedaccounts-core</module>
@@ -79,4 +71,15 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-scm-publish-plugin</artifactId>
+				<configuration>
+					<pubScmUrl>scm:git:git@github.com:tynamo/tynamo-federatedaccounts.git</pubScmUrl>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
