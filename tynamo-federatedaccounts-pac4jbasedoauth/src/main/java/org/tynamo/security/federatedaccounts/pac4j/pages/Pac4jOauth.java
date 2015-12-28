@@ -57,6 +57,7 @@ public class Pac4jOauth extends AbstractOauthPage {
 
 	@Override
 	protected Object onOauthActivate(EventContext eventContext) throws Exception {
+		J2EContext context = new J2EContext(httpRequest, httpResponse);
 		clientName = eventContext.get(String.class, 1);
 		BaseOAuthClient<?> client = oauthClientLocator.getClient(clientName);
 		client.setReadTimeout(20000);
@@ -67,7 +68,7 @@ public class Pac4jOauth extends AbstractOauthPage {
 			setReturnUri(eventContext.get(String.class, 3));
 			client.setCallbackUrl(getOauthRedirectLink(getWindowMode(), clientName));
 			if ("request_token".equals(action)) {
-				String providerOauthUrl = client.getRedirectionUrl(new J2EContext(httpRequest, httpResponse), true);
+				String providerOauthUrl = client.getRedirectionUrl(context);
 				// fix an issue with pac4j dropboxClient and "direct redirection"
 				if (client instanceof DropBoxClient)
 					if (!providerOauthUrl.contains("&oauth_callback"))
@@ -90,9 +91,8 @@ public class Pac4jOauth extends AbstractOauthPage {
 		// we'll get a technical exception if callback url is not set even though it shouldn't be needed anymore
 		client.setCallbackUrl(getOauthRedirectLink(getWindowMode(), clientName));
 
-		OAuthCredentials credentials = client.getCredentials(new J2EContext(httpRequest, httpResponse));
-
-		UserProfile userProfile = client.getUserProfile(credentials);
+		OAuthCredentials credentials = client.getCredentials(context);
+		UserProfile userProfile = client.getUserProfile(credentials, context);
 		Pac4jAuthenticationToken accessToken = new Pac4jAuthenticationToken(userProfile);
 
 		// TODO just use the default rememberMe for now. We could later add support for providing rememberMe in context
