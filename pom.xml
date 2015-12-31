@@ -15,7 +15,7 @@
 	</parent>
 
 	<properties>
-		<tapestry-release-version>5.4-rc-1</tapestry-release-version>
+		<tapestry-release-version>5.4.0</tapestry-release-version>
 	</properties>
 
 	<scm>
