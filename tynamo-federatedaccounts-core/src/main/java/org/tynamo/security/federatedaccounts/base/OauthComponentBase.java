@@ -12,9 +12,6 @@ import org.tynamo.security.federatedaccounts.util.WindowMode;
 public abstract class OauthComponentBase {
 	private static final String CLIENTID = ".clientid";
 	private static final String CLIENTSECRET = ".clientsecret";
-	@Inject
-	@Symbol(FederatedAccountSymbols.COMMITAFTER_OAUTH)
-	private boolean autocommit;
 
 	@Inject
 	@Symbol(FederatedAccountSymbols.DEFAULT_REMEMBERME)
@@ -22,10 +19,6 @@ public abstract class OauthComponentBase {
 
 	@Inject
 	protected Logger logger;
-
-	public boolean isAutocommit() {
-		return autocommit;
-	}
 
 	@Inject
 	private SymbolSource symbolSource;

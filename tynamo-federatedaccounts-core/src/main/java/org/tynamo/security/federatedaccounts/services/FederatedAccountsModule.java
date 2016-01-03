@@ -20,8 +20,6 @@ public class FederatedAccountsModule {
 	}
 
 	public static void contributeFactoryDefaults(MappedConfiguration<String, String> configuration) {
-		configuration.add(FederatedAccountSymbols.COMMITAFTER_OAUTH, "true");
-		configuration.add(FederatedAccountSymbols.HTTPCLIENT_ON_GAE, "false");
 		configuration.add(FederatedAccountSymbols.DEFAULT_RETURNPAGE, "");
 		configuration.add(FederatedAccountSymbols.DEFAULT_REMEMBERME, "true");
 		configuration.add(FederatedAccountSymbols.LOCALACCOUNT_REALMNAME, "");

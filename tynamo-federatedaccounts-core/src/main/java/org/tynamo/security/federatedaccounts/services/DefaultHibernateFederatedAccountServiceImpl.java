@@ -3,8 +3,6 @@ package org.tynamo.security.federatedaccounts.services;
 import java.util.Map;
 
 import org.apache.tapestry5.ioc.annotations.Symbol;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
@@ -25,12 +23,22 @@ public class DefaultHibernateFederatedAccountServiceImpl extends AbstractFederat
 		return session;
 	}
 
+	private Transaction beginTransaction() {
+		Transaction transaction = session.beginTransaction();
+		if (!transaction.isActive()) transaction.begin();
+		return transaction;
+	}
+
 	protected void saveAccount(FederatedAccount localAccount) {
+		Transaction transaction = beginTransaction();
 		session.save(localAccount);
+		transaction.commit();
 	}
 
 	protected void updateAccount(FederatedAccount localUser) {
+		Transaction transaction = beginTransaction();
 		session.update(localUser);
+		transaction.commit();
 	}
 
 	protected FederatedAccount findLocalAccount(Class<?> entityType, String realmName, Object remotePrincipal,

@@ -7,7 +7,6 @@ import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.cache.MemoryConstrainedCacheManager;
 import org.apache.shiro.realm.AuthenticatingRealm;
-import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount;
@@ -16,6 +15,8 @@ import org.tynamo.security.federatedaccounts.services.FederatedAccountService;
 
 import com.restfb.DefaultFacebookClient;
 import com.restfb.FacebookClient;
+import com.restfb.Parameter;
+import com.restfb.Version;
 import com.restfb.exception.FacebookException;
 import com.restfb.types.User;
 
@@ -27,6 +28,7 @@ public class FacebookRealm extends AuthenticatingRealm {
 	public static final String FACEBOOK_CLIENTID = "facebook.clientid";
 	public static final String FACEBOOK_CLIENTSECRET = "facebook.clientsecret";
 	public static final String FACEBOOK_PERMISSIONS = "facebook.permissions";
+	public static final String FACEBOOK_USER_FIELDS = "facebook.user.fields";
 	public static final String FACEBOOK_PRINCIPAL = "facebook.principal";
 
 	private Logger logger;
@@ -35,17 +37,20 @@ public class FacebookRealm extends AuthenticatingRealm {
 		id, email, name
 	}
 
-	private PrincipalProperty principalProperty;
+	private final PrincipalProperty principalProperty;
 
-	private FederatedAccountService federatedAccountService;
+	private final FederatedAccountService federatedAccountService;
+	private final String requestedUserFields;
 
 	public FacebookRealm(Logger logger, FederatedAccountService federatedAccountService,
-			@Inject @Symbol(FacebookRealm.FACEBOOK_PRINCIPAL) String principalPropertyName) {
+		@Symbol(FacebookRealm.FACEBOOK_PRINCIPAL) String principalPropertyName,
+		@Symbol(FacebookRealm.FACEBOOK_USER_FIELDS) String requestedUserFields) {
 		super(new MemoryConstrainedCacheManager());
 		this.federatedAccountService = federatedAccountService;
 		this.logger = logger;
 		// Let this throw IllegalArgumentException if value is not supported
 		this.principalProperty = PrincipalProperty.valueOf(principalPropertyName);
+		this.requestedUserFields = requestedUserFields;
 		setName(FederatedAccount.FederatedAccountType.facebook.name());
 		setAuthenticationTokenClass(FacebookAccessToken.class);
 	}
@@ -54,10 +59,11 @@ public class FacebookRealm extends AuthenticatingRealm {
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
 		FacebookAccessToken token = (FacebookAccessToken) authenticationToken;
 
-		FacebookClient facebookClient = new DefaultFacebookClient(authenticationToken.getPrincipal().toString());
+		FacebookClient facebookClient = new DefaultFacebookClient(authenticationToken.getPrincipal().toString(),
+			Version.LATEST);
 		User facebookUser;
 		try {
-			facebookUser = facebookClient.fetchObject("me", User.class);
+			facebookUser = facebookClient.fetchObject("me", User.class, Parameter.with("fields", requestedUserFields));
 		} catch (FacebookException e) {
 			logger.error(e.getMessage(), e);
 			throw new IncorrectCredentialsException("Facebook security verification failed, terminating authentication request", e);

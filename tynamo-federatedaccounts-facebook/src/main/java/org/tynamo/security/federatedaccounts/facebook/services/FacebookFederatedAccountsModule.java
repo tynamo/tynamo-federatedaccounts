@@ -28,6 +28,7 @@ public class FacebookFederatedAccountsModule {
 	public static void contributeFactoryDefaults(MappedConfiguration<String, String> configuration) {
 		configuration.add(FacebookRealm.FACEBOOK_PRINCIPAL, FacebookRealm.PrincipalProperty.id.name());
 		configuration.add(FacebookRealm.FACEBOOK_PERMISSIONS, "");
+		configuration.add(FacebookRealm.FACEBOOK_USER_FIELDS, "id,name,email,first_name,last_name,birthday,age_range");
 		configuration.add(FacebookRealm.FACEBOOK_CLIENTID, "");
 		configuration.add(FacebookRealm.FACEBOOK_CLIENTSECRET, "");
 	}

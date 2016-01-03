@@ -22,11 +22,11 @@ public class FacebookOauthSignIn extends AbstractOauthSignIn {
 	@Property
 	private String facebookPermissions;
 
-	@Parameter(defaultPrefix = BindingConstants.LITERAL, value = "800")
+	@Parameter(defaultPrefix = BindingConstants.LITERAL)
 	@Property
 	private Integer width;
 
-	@Parameter(defaultPrefix = BindingConstants.LITERAL, value = "400")
+	@Parameter(defaultPrefix = BindingConstants.LITERAL)
 	@Property
 	private Integer height;
 

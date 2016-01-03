@@ -2,14 +2,13 @@ package org.tynamo.security.federatedaccounts.base;
 
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.annotations.Environmental;
-import org.apache.tapestry5.hibernate.annotations.CommitAfter;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 /**
- * 
+ *
  * The purpose of the class is to serve as a placeholder for @CommitAfter annotation and invoke it conditionally
- * 
+ *
  */
 public abstract class AbstractOauthPage extends OauthComponentBase {
 
@@ -28,11 +27,6 @@ public abstract class AbstractOauthPage extends OauthComponentBase {
 			throw new IllegalArgumentException("Explicit windowMode is required but was not specified as a context argument");
 		windowMode = WindowMode.valueOf(context.get(String.class, 0));
 
-		return isAutocommit() ? commitAfterOnActivate(context) : onOauthActivate(context);
-	}
-
-	@CommitAfter
-	protected Object commitAfterOnActivate(EventContext context) throws Exception {
 		return onOauthActivate(context);
 	}
 
