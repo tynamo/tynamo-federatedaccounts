@@ -68,21 +68,6 @@
 			<scope>provided</scope>
 		</dependency>
 
-		<!--  tapestry-hibernate modules are really optional as well
-		-->
-		<dependency>
-			<groupId>org.apache.tapestry</groupId>
-			<artifactId>tapestry-hibernate</artifactId>
-			<version>${tapestry-release-version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tapestry</groupId>
-			<artifactId>tapestry-hibernate-core</artifactId>
-			<version>${tapestry-release-version}</version>
-			<scope>provided</scope>
-		</dependency>
-
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>servlet-api</artifactId>
