@@ -7,10 +7,8 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.alerts.AlertManager;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.Request;
 import org.slf4j.Logger;
-import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthPage;
 import org.tynamo.security.federatedaccounts.twitter.TwitterAccessToken;
 
@@ -20,10 +18,6 @@ import twitter4j.auth.AccessToken;
 import twitter4j.auth.RequestToken;
 
 public class TwitterOauth extends AbstractOauthPage {
-	@Inject
-	@Symbol(FederatedAccountSymbols.HTTPCLIENT_ON_GAE)
-	private boolean httpClientOnGae;
-
 	@Inject
 	private Logger logger;
 
