@@ -3,6 +3,13 @@ package org.tynamo.security.federatedaccounts.services;
 import java.util.List;
 import java.util.Map;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+
 import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount;

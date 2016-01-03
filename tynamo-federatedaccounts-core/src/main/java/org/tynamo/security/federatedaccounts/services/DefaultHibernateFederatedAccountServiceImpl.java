@@ -3,6 +3,9 @@ package org.tynamo.security.federatedaccounts.services;
 import java.util.Map;
 
 import org.apache.tapestry5.ioc.annotations.Symbol;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount;
 import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;

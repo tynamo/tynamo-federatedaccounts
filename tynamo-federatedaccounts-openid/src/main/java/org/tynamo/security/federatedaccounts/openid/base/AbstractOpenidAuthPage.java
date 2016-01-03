@@ -7,7 +7,6 @@ import org.apache.shiro.SecurityUtils;
 import org.apache.tapestry5.ComponentResources;
 import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.PageRenderLinkSource;
 import org.apache.tapestry5.services.Request;
 import org.apache.tapestry5.services.RequestGlobals;
@@ -16,17 +15,12 @@ import org.apache.tapestry5.services.URLEncoder;
 import org.openid4java.consumer.VerificationResult;
 import org.openid4java.discovery.Identifier;
 import org.slf4j.Logger;
-import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthSignIn;
 import org.tynamo.security.federatedaccounts.openid.OpenidAccessToken;
 import org.tynamo.security.federatedaccounts.openid.services.OpenidLoginManager;
 import org.tynamo.security.federatedaccounts.util.WindowMode;
 
 public abstract class AbstractOpenidAuthPage extends AbstractOauthSignIn {
-	@Inject
-	@Symbol(FederatedAccountSymbols.HTTPCLIENT_ON_GAE)
-	private boolean httpClientOnGae;
-
 	@Inject
 	private Logger logger;
 

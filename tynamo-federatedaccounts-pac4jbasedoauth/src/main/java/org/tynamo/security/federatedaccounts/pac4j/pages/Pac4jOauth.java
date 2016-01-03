@@ -10,7 +10,6 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.tapestry5.EventContext;
 import org.apache.tapestry5.alerts.AlertManager;
 import org.apache.tapestry5.ioc.annotations.Inject;
-import org.apache.tapestry5.ioc.annotations.Symbol;
 import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.Request;
 import org.pac4j.core.context.J2EContext;
@@ -20,16 +19,11 @@ import org.pac4j.oauth.client.DropBoxClient;
 import org.pac4j.oauth.credentials.OAuthCredentials;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount.FederatedAccountType;
-import org.tynamo.security.federatedaccounts.FederatedAccountSymbols;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthPage;
 import org.tynamo.security.federatedaccounts.pac4j.Pac4jAuthenticationToken;
 import org.tynamo.security.federatedaccounts.pac4j.services.Pac4jOauthClientLocator;
 
 public class Pac4jOauth extends AbstractOauthPage {
-	@Inject
-	@Symbol(FederatedAccountSymbols.HTTPCLIENT_ON_GAE)
-	private boolean httpClientOnGae;
-
 	@Inject
 	private Logger logger;
 
