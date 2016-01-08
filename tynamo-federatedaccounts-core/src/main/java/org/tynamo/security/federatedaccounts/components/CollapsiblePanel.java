@@ -8,7 +8,7 @@ import org.apache.tapestry5.annotations.Property;
 import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.javascript.JavaScriptSupport;
 
-@Import(module = "federatedAccounts/CollapsiblePanel", stylesheet = "CollapsiblePanel.css")
+@Import(module = "federatedaccounts/CollapsiblePanel", stylesheet = "CollapsiblePanel.css")
 public class CollapsiblePanel {
 
 	@Inject

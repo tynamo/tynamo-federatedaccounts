@@ -42,18 +42,6 @@
 			<artifactId>tapestry-security</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.tynamo.gae</groupId>
-			<artifactId>esxx-httpclient-gae</artifactId>
-			<version>0.0.1</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.tynamo</groupId>
-			<artifactId>tapestry-hibernate-seedentity</artifactId>
-			<version>0.1.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.tynamo.security</groupId>
 			<artifactId>tynamo-federatedaccounts-core</artifactId>
 		</dependency>
@@ -68,21 +56,6 @@
 		<dependency>
 			<groupId>org.apache.tapestry</groupId>
 			<artifactId>tapestry-ioc</artifactId>
-			<version>${tapestry-release-version}</version>
-			<scope>provided</scope>
-		</dependency>
-
-		<!--  tapestry-hibernate modules are really optional as well
-		-->
-		<dependency>
-			<groupId>org.apache.tapestry</groupId>
-			<artifactId>tapestry-hibernate</artifactId>
-			<version>${tapestry-release-version}</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.tapestry</groupId>
-			<artifactId>tapestry-hibernate-core</artifactId>
 			<version>${tapestry-release-version}</version>
 			<scope>provided</scope>
 		</dependency>
