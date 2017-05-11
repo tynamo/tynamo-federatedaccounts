@@ -53,6 +53,8 @@ public class Pac4jOauth extends AbstractOauthPage {
 		J2EContext context = new J2EContext(httpRequest, httpResponse);
 		clientName = eventContext.get(String.class, 1);
 		Pac4jOauthClient client = oauthClientLocator.getClient(clientName);
+		client.setReadTimeout(20000);
+		client.setConnectTimeout(20000);	
 		if (eventContext.getCount() > 3) {
 			String action = eventContext.get(String.class, 2);
 			// pass along this redirectUrl

@@ -9,7 +9,7 @@ import org.pac4j.oauth.credentials.OAuth20Credentials;
 import org.pac4j.oauth.credentials.OAuth10Credentials;
 import org.pac4j.core.context.WebContext;
 import org.pac4j.core.exception.HttpAction;
-
+import org.pac4j.oauth.config.OAuth20Configuration;
 
 /**
  * Wrapper class for different versions of oauth client instances.
@@ -44,7 +44,23 @@ public class Pac4jOauthClient {
          }
          return client10.getName();
      }
- 
+
+     public void setReadTimeout(final int timeout) {
+         if (client20 != null) {
+             client20.getConfiguration().setReadTimeout(timeout);
+         } else {
+             client10.getConfiguration().setReadTimeout(timeout);;
+         }
+     }
+
+     public void setConnectTimeout(final int timeout) {
+         if (client20 != null) {
+             client20.getConfiguration().setConnectTimeout(timeout);
+         } else {
+             client10.getConfiguration().setConnectTimeout(timeout);;
+         }
+     }
+
      public void setCallbackUrl(final String callbackUrl) {
         if (client20 != null) {
              client20.setCallbackUrl(callbackUrl);
