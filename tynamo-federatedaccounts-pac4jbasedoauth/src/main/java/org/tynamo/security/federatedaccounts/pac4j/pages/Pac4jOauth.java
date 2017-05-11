@@ -13,15 +13,14 @@ import org.apache.tapestry5.ioc.annotations.Inject;
 import org.apache.tapestry5.services.Cookies;
 import org.apache.tapestry5.services.Request;
 import org.pac4j.core.context.J2EContext;
-import org.pac4j.core.profile.UserProfile;
-import org.pac4j.oauth.client.BaseOAuthClient;
+import org.pac4j.core.profile.CommonProfile;
 import org.pac4j.oauth.client.DropBoxClient;
-import org.pac4j.oauth.credentials.OAuthCredentials;
 import org.slf4j.Logger;
 import org.tynamo.security.federatedaccounts.FederatedAccount.FederatedAccountType;
 import org.tynamo.security.federatedaccounts.base.AbstractOauthPage;
 import org.tynamo.security.federatedaccounts.pac4j.Pac4jAuthenticationToken;
 import org.tynamo.security.federatedaccounts.pac4j.services.Pac4jOauthClientLocator;
+import org.tynamo.security.federatedaccounts.pac4j.services.Pac4jOauthClient;
 
 public class Pac4jOauth extends AbstractOauthPage {
 	@Inject
@@ -53,9 +52,7 @@ public class Pac4jOauth extends AbstractOauthPage {
 	protected Object onOauthActivate(EventContext eventContext) throws Exception {
 		J2EContext context = new J2EContext(httpRequest, httpResponse);
 		clientName = eventContext.get(String.class, 1);
-		BaseOAuthClient<?> client = oauthClientLocator.getClient(clientName);
-		client.setReadTimeout(20000);
-		client.setConnectTimeout(20000);
+		Pac4jOauthClient client = oauthClientLocator.getClient(clientName);
 		if (eventContext.getCount() > 3) {
 			String action = eventContext.get(String.class, 2);
 			// pass along this redirectUrl
@@ -64,7 +61,8 @@ public class Pac4jOauth extends AbstractOauthPage {
 			if ("request_token".equals(action)) {
 				String providerOauthUrl = client.getRedirectionUrl(context);
 				// fix an issue with pac4j dropboxClient and "direct redirection"
-				if (client instanceof DropBoxClient)
+				// TODO: Check, maybe already fixed in latest versions of pac4j?
+				if (client.instance() instanceof DropBoxClient)
 					if (!providerOauthUrl.contains("&oauth_callback"))
 						providerOauthUrl += "&oauth_callback=" + client.getCallbackUrl();
 				// Because Google requires the callback uri to match *exactly* (including query parameters) with the configuration,
@@ -85,8 +83,7 @@ public class Pac4jOauth extends AbstractOauthPage {
 		// we'll get a technical exception if callback url is not set even though it shouldn't be needed anymore
 		client.setCallbackUrl(getOauthRedirectLink(getWindowMode(), clientName));
 
-		OAuthCredentials credentials = client.getCredentials(context);
-		UserProfile userProfile = client.getUserProfile(credentials, context);
+		CommonProfile userProfile = client.getUserProfile(context);
 		Pac4jAuthenticationToken accessToken = new Pac4jAuthenticationToken(userProfile);
 
 		// TODO just use the default rememberMe for now. We could later add support for providing rememberMe in context
@@ -99,11 +96,11 @@ public class Pac4jOauth extends AbstractOauthPage {
 		} catch (AuthenticationException e) {
 			logger.error(
 				"Using access token " + accessToken
-					+ String.format("\nCould not sign in a %s federated user because of: ", credentials.getClientName()), e);
+					+ String.format("\nCould not sign in a %s federated user because of: ", client.getName(), e));
 			// FIXME Deal with other account exception types like expired and
 			// locked
 			alertManager.error(String.format("A %s federated user cannot be signed in, report this to support.\n %s",
-				credentials.getClientName(), e.getMessage()));
+				client.getName(), e.getMessage()));
 		}
 		client = null;
 		return null;
@@ -112,4 +109,5 @@ public class Pac4jOauth extends AbstractOauthPage {
 	public String getProviderPrefix() {
 		return FederatedAccountType.pac4j_ + clientName;
 	}
+
 }

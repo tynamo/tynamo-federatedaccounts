@@ -1,7 +1,6 @@
 package org.tynamo.security.federatedaccounts.pac4j.services;
 
 import org.apache.tapestry5.ioc.annotations.Symbol;
-import org.pac4j.oauth.client.BaseOAuthClient;
 import org.pac4j.oauth.client.DropBoxClient;
 import org.pac4j.oauth.client.FacebookClient;
 import org.pac4j.oauth.client.GitHubClient;
@@ -72,27 +71,27 @@ public class Pac4jOauthClientLocatorImpl implements Pac4jOauthClientLocator {
 	}
 
 	@Override
-	public BaseOAuthClient<?> getClient(String clientName) {
+	public Pac4jOauthClient getClient(String clientName) {
 		SupportedClient client = SupportedClient.valueOf(clientName);
 		switch (client) {
 		case dropbox:
-			return new DropBoxClient(dropboxClientId, dropboxClientSecret);
+			return new Pac4jOauthClient(new DropBoxClient(dropboxClientId, dropboxClientSecret));
 		case facebook:
-			return new FacebookClient(facebookClientId, facebookClientSecret);
+			return new Pac4jOauthClient(new FacebookClient(facebookClientId, facebookClientSecret));
 		case github:
-			return new GitHubClient(githubClientId, githubClientSecret);
+			return new Pac4jOauthClient(new GitHubClient(githubClientId, githubClientSecret));
 		case google2:
-			return new Google2Client(googleClientId, googleClientSecret);
+			return new Pac4jOauthClient(new Google2Client(googleClientId, googleClientSecret));
 		case linkedin2:
-			return new LinkedIn2Client(linkedinClientId, linkedinClientSecret);
+			return new Pac4jOauthClient(new LinkedIn2Client(linkedinClientId, linkedinClientSecret));
 		case twitter:
-			return new TwitterClient(twitterClientId, twitterClientSecret);
+			return new Pac4jOauthClient(new TwitterClient(twitterClientId, twitterClientSecret));
 		case windowslive:
-			return new WindowsLiveClient(windowsliveClientId, windowsliveClientSecret);
+			return new Pac4jOauthClient(new WindowsLiveClient(windowsliveClientId, windowsliveClientSecret));
 		case wordpress:
-			return new WordPressClient(wordpressClientId, wordpressClientSecret);
+			return new Pac4jOauthClient(new WordPressClient(wordpressClientId, wordpressClientSecret));
 		case yahoo:
-			return new YahooClient(yahooClientId, yahooClientSecret);
+			return new Pac4jOauthClient(new YahooClient(yahooClientId, yahooClientSecret));
 		default:
 			throw new IllegalArgumentException("Client " + clientName + " is not one of the supported clients "
 				+ SupportedClient.values());
