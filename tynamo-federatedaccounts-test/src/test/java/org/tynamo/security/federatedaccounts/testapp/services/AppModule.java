@@ -68,14 +68,15 @@ public class AppModule {
 //		configuration.add(Pac4jFederatedRealm.YAHOO_CLIENTSECRET, "just to test yahoo login icon");
 	}
 
-	public static void contributeSecurityConfiguration(Configuration<SecurityFilterChain> configuration,
+	public static void contributeSecurityConfiguration(OrderedConfiguration<SecurityFilterChain> configuration,
 			SecurityFilterChainFactory factory) {
-		configuration.add(factory.createChain("/assets/**").add(factory.anon()).build());
-		configuration.add(factory.createChain("/login.loginform.tynamologinform").add(factory.anon()).build());
-		configuration.add(factory.createChain("/federated/**").add(factory.anon()).build());
-		configuration.add(factory.createChain("/modules/**").add(factory.anon()).build());
-		configuration.add(factory.createChain("/modules.gz/**").add(factory.anon()).build());
-		configuration.add(factory.createChain("/**").add(factory.authc()).build());
+		configuration.add("assets", factory.createChain("/assets/**").add(factory.anon()).build());
+		configuration.add("loginform-anon",
+			factory.createChain("/login.loginform.tynamologinform").add(factory.anon()).build());
+		configuration.add("federated-anon", factory.createChain("/federated/**").add(factory.anon()).build());
+		configuration.add("modules-anon", factory.createChain("/modules/**").add(factory.anon()).build());
+		configuration.add("modules.gz-anon", factory.createChain("/modules.gz/**").add(factory.anon()).build());
+		configuration.add("authc", factory.createChain("/**").add(factory.authc()).build());
 	}
 
 	public static void contributeWebSecurityManager(Configuration<Realm> configuration, @InjectService("UserRealm") AuthorizingRealm userRealm) {

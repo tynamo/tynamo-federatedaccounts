@@ -4,6 +4,7 @@ import org.apache.shiro.realm.AuthenticatingRealm;
 import org.apache.shiro.realm.Realm;
 import org.apache.tapestry5.ioc.Configuration;
 import org.apache.tapestry5.ioc.MappedConfiguration;
+import org.apache.tapestry5.ioc.OrderedConfiguration;
 import org.apache.tapestry5.ioc.ServiceBinder;
 import org.apache.tapestry5.ioc.annotations.Contribute;
 import org.apache.tapestry5.ioc.annotations.InjectService;
@@ -47,9 +48,9 @@ public class FacebookFederatedAccountsModule {
 		configuration.add(facebookRealm);
 	}
 
-	public static void contributeSecurityConfiguration(Configuration<SecurityFilterChain> configuration,
+	public static void contributeSecurityConfiguration(OrderedConfiguration<SecurityFilterChain> configuration,
 			SecurityFilterChainFactory factory) {
-		configuration.add(factory
+		configuration.add("facebook-oauth-anon", factory
 			.createChain("/" + FederatedAccountsModule.PATH_PREFIX + "/"
 				+ FacebookOauth.class.getSimpleName().toLowerCase()).add(factory.anon()).build());
 	}

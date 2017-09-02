@@ -42,9 +42,9 @@ public class OpenidFederatedAccountsModule {
 		configuration.add(openidRealm);
 	}
 
-	public static void contributeSecurityConfiguration(Configuration<SecurityFilterChain> configuration,
+	public static void contributeSecurityConfiguration(OrderedConfiguration<SecurityFilterChain> configuration,
 		SecurityFilterChainFactory factory) {
-		configuration.add(factory.createChain("/" + PATH_PREFIX + "/" + OpenIdAuth.class.getSimpleName().toLowerCase())
+		configuration.add("openid-oauth-anon", factory.createChain("/" + PATH_PREFIX + "/" + OpenIdAuth.class.getSimpleName().toLowerCase())
 			.add(factory.anon()).build());
 	}
 }

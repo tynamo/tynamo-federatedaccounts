@@ -40,7 +40,7 @@ public class FederatedAccountsIntegrationTest extends AbstractContainerTest {
 		openBase();
 
 		if (STATUS_AUTH.equals(getText("status"))) {
-			clickOnBasePage("tynamoLogout");
+			clickOnBasePage("logout");
 		}
 	}
 
@@ -68,8 +68,8 @@ public class FederatedAccountsIntegrationTest extends AbstractContainerTest {
 	// }
 
 	protected void assertLoginPage(HtmlPage page) {
-		assertNotNull(page.getElementById("tynamoLogin"), "Page doesn't contain login field. Not a login page.");
-		assertEquals("password", getAttribute("tynamoPassword", "type"),
+		assertNotNull(page.getElementById("login"), "Page doesn't contain login field. Not a login page.");
+		assertEquals("password", getAttribute("password", "type"),
 			"Page doesn't contain password field. Not a login page.");
 		assertEquals("checkbox", getAttribute("tynamoRememberMe", "type"),
 			"Page doesn't contain rememberMe field. Not a login page.");
@@ -114,8 +114,8 @@ public class FederatedAccountsIntegrationTest extends AbstractContainerTest {
 	}
 
 	protected void signIn(String username, String password) throws IOException {
-		type("tynamoLogin", username);
-		type("tynamoPassword", password);
+		type("login", username);
+		type("password", password);
 		page = click("tynamoEnter");
 	}
 
